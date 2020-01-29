@@ -1,18 +1,18 @@
-# sec1_Numja.json ตʕ•ᴥ•ʔต ᕕ( ᐛ )ᕗ
-// Hi I'm B
+# sec1_Numja
+
+This is the project for Software Engineering course (2019/2).
+
+## Members
  
-const MEMBERS = {
- 
-&nbsp;&nbsp;&nbsp;&nbsp;นนท์ธนัต ธีรธนาพัทธ์กุล 6031019821, 
- 
-&nbsp;&nbsp;&nbsp;&nbsp;ธนวิชญ์ กฤตวงศ์วิมาน 6031021021, 
- 
-&nbsp;&nbsp;&nbsp;&nbsp;ชวิน ช่วงชัยชัชวาล 6030124821, 
- 
-&nbsp;&nbsp;&nbsp;&nbsp;ภูชิต ชฎาศิลป์ 6031317821, 
- 
-&nbsp;&nbsp;&nbsp;&nbsp;ธนดล รุ่งจิตวรานนท์	6031018121,
- 
-&nbsp;&nbsp;&nbsp;&nbsp;ณัชพล ศรีสังข์
- 
-}
+- ธนดล รุ่งจิตวรานนท์ 6031018121 
+- นนท์ธนัต ธีรธนาพัทธ์กุล 6031019821
+- ธนวิชญ์ กฤตวงศ์วิมาน 6031021021 
+- ชวิน ช่วงชัยชัชวาล 6030124821
+- ณัชพล ศรีสังข์ 6031308121
+- ภูชิต ชฎาศิลป์ 6031317821
+
+## Contributing
+
+Please read [CONTRIBUTING.md](../CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
+
+See also the list of [contributors](https://github.com/2110423-2019-2/sec1_Numja/graphs/contributors) who participated in this project.
