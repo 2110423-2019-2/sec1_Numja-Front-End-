@@ -13,6 +13,6 @@ const MEMBERS = {
  
 &nbsp;&nbsp;&nbsp;&nbsp;ธนดล รุ่งจิตวรานนท์	6031018121,
  
-&nbsp;&nbsp;&nbsp;&nbsp;beam
+&nbsp;&nbsp;&nbsp;&nbsp;ณัชพล ศรีสังข์
  
 }
