@@ -15,4 +15,4 @@ This is the project for Software Engineering course (2019/2).
 
 Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
 
-See also the list of [contributors](https://github.com/2110423-2019-2/sec1_Numja/graphs/contributors) who participated in this project.
+See also the list of [contributors](https://github.com/2110423-2019-2/sec1_Numja-Front-End-/graphs/contributors) who participated in this project.
