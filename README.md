@@ -1,4 +1,4 @@
-# sec1_Numja
+# sec1_Numja_Front-End
 
 This is the project for Software Engineering course (2019/2).
 
