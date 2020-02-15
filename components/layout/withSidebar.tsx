@@ -1,5 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
+import Router from 'next/router'
 
 const links = [
   { href: '/', label: 'HOME' },
@@ -12,26 +13,28 @@ const links = [
   key: `nav-link-${link.href}-${link.label}`,
 }))
 
-const WithSidebar = props => (
-  <div className="with-sidebar-wrapper">
-    <div className="sidebar">
-      <ul>
-        {links.map(({ href, label, key }, index) => (
-          <li key={key} className={index === props.current ? 'current' : ''}>
-            <Link href={href}>
-              <a>
-                {index === props.current ? '>>>' : ''}
-                {label}
-              </a>
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </div>
-    <div className="sidebar-child">{props.children}</div>
+const WithSidebar = props => {
+  const { pathname } = Router
+  return (
+    <div className="with-sidebar-wrapper">
+      <div className="sidebar">
+        <ul>
+          {links.map(({ href, label, key }) => (
+            <li key={key} className={href === pathname ? 'current' : ''}>
+              <Link href={href}>
+                <a>
+                  {href === pathname ? '>>>' : ''}
+                  {label}
+                </a>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div className="sidebar-child">{props.children}</div>
 
-    <style jsx>
-      {`
+      <style jsx>
+        {`
         .with-sidebar-wrapper {
           box-sizing: border-box;
           padding: 0 60px 55px 60px;
@@ -39,7 +42,7 @@ const WithSidebar = props => (
           height: 78vh;
         }
         .sidebar {
-          width: 156px;
+          min-width: 156px;
           position: relative;
           background: #f0f0f0;
           border-radius: 8px;
@@ -82,8 +85,9 @@ const WithSidebar = props => (
             box-sizing: border-box;
         }
       `}
-    </style>
-  </div>
-)
+      </style>
+    </div>
+  )
+}
 
 export default WithSidebar

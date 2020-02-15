@@ -7,7 +7,7 @@ const links = [
   { href: '/help', label: 'Help', type: 'item' },
   { href: '/about-us', label: 'About Us', type: 'item' },
   { href: '/sign-up', label: 'Sign Up', type: 'button', subclass: 'black' },
-  { href: '/log-in', label: 'Log In', type: 'button' },
+  { href: '/login', label: 'Log In', type: 'button' },
 ].map(link => ({
   ...link,
   key: `nav-link-${link.href}-${link.label}`,
@@ -25,15 +25,20 @@ const WithNav = props => (
         <ul>
           {links.map(({ href, key, label, type, subclass }) => (
             <li key={key}>
-              <Link href={href}>
-                {type === 'item' ? (
+              {type === 'item' ? (
+                <Link href={href}>
                   <a className="nav-right-item">{label}</a>
-                ) : (
-                  <Button subclass={subclass} width="100px" height="40px">
-                    {label}
-                  </Button>
-                )}
-              </Link>
+                </Link>
+              ) : (
+                <Button
+                  subclass={subclass}
+                  href={href}
+                  width="100px"
+                  height="40px"
+                >
+                  {label}
+                </Button>
+              )}
             </li>
           ))}
         </ul>
