@@ -1,16 +1,23 @@
 import React from 'react'
 import Link from 'next/link'
 
-const Button = props => (
-  <Link href={props.href}>
-    <a className={`button ${props.subclass}`}>
-      {props.children}
+const Button = ({
+  href = '',
+  subclass = null,
+  children,
+  width,
+  height,
+  ...otherProps
+}) => (
+  <Link href={href}>
+    <a className={`button ${subclass}`} {...otherProps}>
+      {children}
 
       <style jsx>{`
         .button {
           display: inline-block;
-          width: ${props.width};
-          height: ${props.height};
+          width: ${width};
+          height: ${height};
           background-color: white;
           border: 1px solid #c4c4c4;
           border-radius: 5px;
