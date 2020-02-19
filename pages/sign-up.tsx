@@ -5,125 +5,124 @@ import InputTextbox from '../components/input-textbox'
 import registrationValidator from '../utils/validator'
 
 const SignUp = () => {
-  const [data, setData] = useState({
-    username: '',
-    password: '',
-    rePassword: '',
-    type: 0,
-    gender: 0,
-    firstName: '',
-    lastName: '',
-    email: '',
-    ssn: '',
-    address: '',
-    birthDate: new Date().toDateString(),
-  })
-  const [validation, setValidation] = useState({
-    username: { error: false, message: '' },
-    password: { error: false, message: '' },
-    rePassword: { error: false, message: '' },
-    type: { error: false, message: '' },
-    gender: { error: false, message: '' },
-    firstName: { error: false, message: '' },
-    lastName: { error: false, message: '' },
-    email: { error: false, message: '' },
-    ssn: { error: false, message: '' },
-    address: { error: false, message: '' },
-    birthDate: { error: false, message: '' },
+  const [formState, setFormState] = useState({
+    data: {
+      username: '',
+      password: '',
+      rePassword: '',
+      type: 0,
+      gender: 0,
+      firstName: '',
+      lastName: '',
+      email: '',
+      ssn: '',
+      address: '',
+      birthDate: new Date().toDateString(),
+    },
+    validation: {
+      username: { error: false, message: '' },
+      password: { error: false, message: '' },
+      rePassword: { error: false, message: '' },
+      type: { error: false, message: '' },
+      gender: { error: false, message: '' },
+      firstName: { error: false, message: '' },
+      lastName: { error: false, message: '' },
+      email: { error: false, message: '' },
+      ssn: { error: false, message: '' },
+      address: { error: false, message: '' },
+      birthDate: { error: false, message: '' },
+    },
   })
 
-  // TODO : use cloned state to reduce render
-  //        (this is quick implementation)
   const updateData = e => {
-    console.log(e.target.value)
-    setData({
-      ...data,
-      [e.target.name]: e.target.value,
+    // deep clone object so react rerender at setFormState
+    const clonedState = JSON.parse(JSON.stringify(formState))
+
+    clonedState.data[e.target.name] = e.target.value
+    clonedState.validation[e.target.name] = registrationValidator({
+      field: e.target.name,
+      input: clonedState.data[e.target.name],
+      data: clonedState.data,
     })
-    // setValidation({
-    //   ...validation,
-    //   [e.target.name]: registrationValidator({
-    //     field: e.target.name,
-    //     input: data[e.target.name],
-    //     data: data,
-    //   }),
-    // })
+    console.log(clonedState)
+    setFormState(clonedState)
   }
 
+  console.log(formState)
   return (
     <div className="sign-up">
       <WithNav>
         <InputTextbox
-          value={data.username}
+          value={formState.data.username}
           name="username"
           onChange={updateData}
           placeholder="Username"
-          error={validation.username.error}
-          errorMessage={validation.username.message}
+          error={formState.validation.username.error}
+          errorMessage={formState.validation.username.message}
           required
         />
         <InputTextbox
-          value={data.password}
+          value={formState.data.password}
           name="password"
           onChange={updateData}
           placeholder="Password"
-          error={validation.password.error}
-          errorMessage={validation.password.message}
+          error={formState.validation.password.error}
+          errorMessage={formState.validation.password.message}
           usingPassword
           required
         />
         <InputTextbox
-          value={data.rePassword}
+          value={formState.data.rePassword}
           name="rePassword"
           onChange={updateData}
           placeholder="Re-Password"
-          error={validation.rePassword.error}
-          errorMessage={validation.rePassword.message}
+          error={formState.validation.rePassword.error}
+          errorMessage={formState.validation.rePassword.message}
           usingPassword
           required
         />
         <InputTextbox
-          value={data.firstName}
+          value={formState.data.firstName}
           name="firstName"
           onChange={updateData}
           placeholder="First Name"
-          error={validation.firstName.error}
-          errorMessage={validation.firstName.message}
+          error={formState.validation.firstName.error}
+          errorMessage={formState.validation.firstName.message}
           required
         />
         <InputTextbox
-          value={data.lastName}
+          value={formState.data.lastName}
           name="lastName"
           onChange={updateData}
           placeholder="Last Name"
-          error={validation.lastName.error}
-          errorMessage={validation.lastName.message}
+          error={formState.validation.lastName.error}
+          errorMessage={formState.validation.lastName.message}
           required
         />
         <InputTextbox
-          value={data.email}
+          value={formState.data.email}
           name="email"
           onChange={updateData}
           placeholder="E-mail"
-          error={validation.email.error}
-          errorMessage={validation.email.message}
+          error={formState.validation.email.error}
+          errorMessage={formState.validation.email.message}
           required
         />
         <InputTextbox
-          value={data.ssn}
+          value={formState.data.ssn}
           name="ssn"
           onChange={updateData}
           placeholder="Id no."
-          error={validation.ssn.error}
-          errorMessage={validation.ssn.message}
+          error={formState.validation.ssn.error}
+          errorMessage={formState.validation.ssn.message}
           required
         />
         <InputTextbox
-          value={data.birthDate}
+          value={formState.data.birthDate}
           name="birthDate"
           onChange={updateData}
-          error={validation.birthDate.error}
-          errorMessage={validation.birthDate.message}
+          error={formState.validation.birthDate.error}
+          errorMessage={formState.validation.birthDate.message}
           type="date"
         />
       </WithNav>
