@@ -21,7 +21,7 @@ const Home = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <WithNav>
-        <WithSidebar>Home</WithSidebar>
+        <WithSidebar current={0}>Home</WithSidebar>
       </WithNav>
     </>
   )

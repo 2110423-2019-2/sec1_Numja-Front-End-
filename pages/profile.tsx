@@ -6,7 +6,7 @@ const Profile = () => {
   return (
     <div className="profile">
       <WithNav>
-        <WithSidebar>profile</WithSidebar>
+        <WithSidebar current={2}>profile</WithSidebar>
       </WithNav>
     </div>
   )
