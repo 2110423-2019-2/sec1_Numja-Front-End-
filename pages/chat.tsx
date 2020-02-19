@@ -6,7 +6,7 @@ const Chat = () => {
   return (
     <div className="chat">
       <WithNav>
-        <WithSidebar>chat</WithSidebar>
+        <WithSidebar current={3}>chat</WithSidebar>
       </WithNav>
     </div>
   )

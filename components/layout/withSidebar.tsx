@@ -1,6 +1,5 @@
 import React from 'react'
 import Link from 'next/link'
-import Router from 'next/router'
 
 const links = [
   { href: '/', label: 'HOME' },
@@ -14,16 +13,15 @@ const links = [
 }))
 
 const WithSidebar = props => {
-  const { pathname } = Router
   return (
     <div className="with-sidebar-wrapper">
       <div className="sidebar">
         <ul>
-          {links.map(({ href, label, key }) => (
-            <li key={key} className={href === pathname ? 'current' : ''}>
+          {links.map(({ href, label, key }, index) => (
+            <li key={key} className={index === props.current ? 'current' : ''}>
               <Link href={href}>
                 <a>
-                  {href === pathname ? '>>>' : ''}
+                  {index === props.current ? '>>>' : ''}
                   {label}
                 </a>
               </Link>

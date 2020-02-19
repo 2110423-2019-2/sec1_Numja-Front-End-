@@ -6,7 +6,7 @@ const Schedule = () => {
   return (
     <div className="schedule">
       <WithNav>
-        <WithSidebar>schedule</WithSidebar>
+        <WithSidebar current={4}>schedule</WithSidebar>
       </WithNav>
     </div>
   )
