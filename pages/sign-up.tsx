@@ -1,8 +1,12 @@
 import React, { useState } from 'react'
+import Link from 'next/link'
+import Router from 'next/router'
 
 import WithNav from '../components/layout/withNav'
 import InputTextbox from '../components/input-textbox'
+import InputRadio from '../components/input-radio'
 import registrationValidator from '../utils/validator'
+import Button from '../components/button'
 
 const SignUp = () => {
   const [formState, setFormState] = useState({
@@ -38,17 +42,47 @@ const SignUp = () => {
     // deep clone object so react rerender at setFormState
     const clonedState = JSON.parse(JSON.stringify(formState))
 
-    clonedState.data[e.target.name] = e.target.value
+    if (e.target.type === 'radio') {
+      clonedState.data[e.target.name] = parseInt(e.target.value)
+    } else {
+      clonedState.data[e.target.name] = e.target.value
+    }
     clonedState.validation[e.target.name] = registrationValidator({
       field: e.target.name,
       input: clonedState.data[e.target.name],
       data: clonedState.data,
     })
-    console.log(clonedState)
     setFormState(clonedState)
   }
 
-  console.log(formState)
+  const invokeUnfilledRequired = () => {
+    const clonedState = JSON.parse(JSON.stringify(formState))
+    Object.keys(formState.data).forEach(key => {
+      if (formState.data[key] === '') {
+        formState.validation[key] = {
+          error: true,
+          message: 'field is required',
+        }
+      }
+    })
+    setFormState(clonedState)
+  }
+
+  const isValidated = (validation, current) => validation.error && current
+
+  const handleSignUp = async () => {
+    invokeUnfilledRequired()
+    if (isValidated(formState.validation, true)) {
+      // ***TODO : registration api
+      await console.log(formState.data)
+      Router.push('/')
+    } else {
+      window.scrollBy(0, 0)
+      console.log('not validated')
+      console.log(formState)
+    }
+  }
+
   return (
     <div className="sign-up">
       <WithNav>
@@ -118,6 +152,33 @@ const SignUp = () => {
           required
         />
         <InputTextbox
+          value={formState.data.address}
+          name="address"
+          onChange={updateData}
+          placeholder="address"
+          error={formState.validation.address.error}
+          errorMessage={formState.validation.address.message}
+          required
+        />
+        <InputRadio
+          name="gender"
+          current={formState.data.gender}
+          onChange={updateData}
+          choices={[
+            { label: 'Male', value: 0 },
+            { label: 'Female', value: 1 },
+          ]}
+        />
+        <InputRadio
+          name="type"
+          current={formState.data.type}
+          onChange={updateData}
+          choices={[
+            { label: 'Student', value: 0 },
+            { label: 'Tutor', value: 1 },
+          ]}
+        />
+        <InputTextbox
           value={formState.data.birthDate}
           name="birthDate"
           onChange={updateData}
@@ -125,6 +186,12 @@ const SignUp = () => {
           errorMessage={formState.validation.birthDate.message}
           type="date"
         />
+        <Button width={'170px'} height={'65px'} onClick={handleSignUp}>
+          Sign Up
+        </Button>
+        <Link href="/login">
+          <a>already have an account? login here</a>
+        </Link>
       </WithNav>
     </div>
   )
