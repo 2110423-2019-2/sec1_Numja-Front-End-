@@ -9,6 +9,7 @@
     "format": "prettier --write \"./**/*.tsx\""
   },
   "dependencies": {
+    "date-fns": "^2.9.0",
     "isomorphic-unfetch": "^3.0.0",
     "next": "9.2.1",
     "react": "16.12.0",
