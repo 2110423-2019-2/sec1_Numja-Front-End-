@@ -77,10 +77,13 @@ const WithSidebar = props => {
             position: relative:
             height: 100%;
             width: 100%;
-            padding: 30px;
             background: #F0F0F0;
             border-radius: 8px;
             box-sizing: border-box;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
         }
       `}
       </style>
