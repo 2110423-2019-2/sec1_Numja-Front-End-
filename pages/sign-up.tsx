@@ -19,7 +19,7 @@ const SignUp = () => {
       firstName: '',
       lastName: '',
       email: '',
-      ssn: '',
+      ssin: '',
       address: '',
       birthDate: new Date().toDateString(),
     },
@@ -32,11 +32,12 @@ const SignUp = () => {
       firstName: { error: false, message: '' },
       lastName: { error: false, message: '' },
       email: { error: false, message: '' },
-      ssn: { error: false, message: '' },
+      ssin: { error: false, message: '' },
       address: { error: false, message: '' },
       birthDate: { error: false, message: '' },
     },
   })
+  const [submitting, setSubmitting] = useState(false)
 
   const updateData = e => {
     // deep clone object so react rerender at setFormState
@@ -143,12 +144,12 @@ const SignUp = () => {
           required
         />
         <InputTextbox
-          value={formState.data.ssn}
-          name="ssn"
+          value={formState.data.ssin}
+          name="ssin"
           onChange={updateData}
           placeholder="Id no."
-          error={formState.validation.ssn.error}
-          errorMessage={formState.validation.ssn.message}
+          error={formState.validation.ssin.error}
+          errorMessage={formState.validation.ssin.message}
           required
         />
         <InputTextbox
@@ -165,8 +166,8 @@ const SignUp = () => {
           current={formState.data.gender}
           onChange={updateData}
           choices={[
-            { label: 'Male', value: 0 },
-            { label: 'Female', value: 1 },
+            { label: 'Male', value: 'male' },
+            { label: 'Female', value: 'female' },
           ]}
         />
         <InputRadio
@@ -174,8 +175,8 @@ const SignUp = () => {
           current={formState.data.type}
           onChange={updateData}
           choices={[
-            { label: 'Student', value: 0 },
-            { label: 'Tutor', value: 1 },
+            { label: 'Student', value: 'student' },
+            { label: 'Tutor', value: 'teacher' },
           ]}
         />
         <InputTextbox
@@ -186,7 +187,12 @@ const SignUp = () => {
           errorMessage={formState.validation.birthDate.message}
           type="date"
         />
-        <Button width={'170px'} height={'65px'} onClick={handleSignUp}>
+        <Button
+          width={'170px'}
+          height={'65px'}
+          onClick={handleSignUp}
+          disabled={submitting}
+        >
           Sign Up
         </Button>
         <Link href="/login">

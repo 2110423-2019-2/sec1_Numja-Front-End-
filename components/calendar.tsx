@@ -15,9 +15,17 @@ import {
   getDate,
 } from 'date-fns'
 
-const Calendar = () => {
+const Calendar = ({ event = [] }) => {
   const [currentMonth, setCurrentMonth] = useState(new Date())
-  const [selectedDate, setSelectedDate] = useState(new Date())
+
+  //test
+  // console.log(startOfWeek(currentMonth))
+  // console.log(
+  //   isSameDay(
+  //     Date.parse('2020-02-23T08:25:03.408Z'),
+  //     startOfWeek(currentMonth),
+  //   ),
+  // )
 
   // header
   const headerDateFormat = 'MMMM yyyy'
@@ -100,13 +108,13 @@ const Calendar = () => {
       <div className="body">
         {rows.map((row, index) => (
           <div className="row" key={`calendar-body-row-${index}`}>
-            {row.map((item, index) => (
+            {row.map(item => (
               <div
                 className={`col cell ${
                   isSameMonth(item.day, monthStart) ? '' : 'disabled'
                 }`}
               >
-                <span className="number">{item.formattedDate}</span>
+                <div className="number">{item.formattedDate}</div>
               </div>
             ))}
           </div>
@@ -207,10 +215,12 @@ const Calendar = () => {
           .calendar .body .cell {
             position: relative;
             height: 65px;
-            border-right: 1px solid #888;
+            border-right: 1px solid #dfdfe6;
             overflow: hidden;
             cursor: pointer;
             background: white;
+            display: flex;
+            justify-content: center;
           }
 
           .calendar .body .cell:hover {
@@ -225,7 +235,7 @@ const Calendar = () => {
           }
 
           .calendar .body .row {
-            border-bottom: 1px solid #888;
+            border-bottom: 1px solid #dfdfe6;
           }
 
           .calendar .body .row:last-child {
@@ -237,16 +247,14 @@ const Calendar = () => {
           }
 
           .calendar .body .cell .number {
-            position: absolute;
             font-size: 82.5%;
             line-height: 1;
-            top: 0.75em;
-            right: 0.75em;
             font-weight: 700;
+            margin-top: 10px;
           }
 
           .calendar .body .disabled {
-            background-color: #ccc;
+            background-color: #dfdfe6;
             // color: whitesmoke;
             pointer-events: none;
           }
