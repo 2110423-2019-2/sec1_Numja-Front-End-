@@ -101,10 +101,6 @@ const WithNav = props => (
         align-items: center;
         color: black;
       }
-      .button-black {
-        background-color: #100f0f;
-        color: white;
-      }
     `}</style>
   </>
 )
