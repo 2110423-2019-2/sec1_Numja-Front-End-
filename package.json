@@ -9,6 +9,8 @@
     "format": "prettier --write \"./**/*.tsx\""
   },
   "dependencies": {
+    "@material-ui/core": "^4.9.5",
+    "@material-ui/icons": "^4.9.1",
     "date-fns": "^2.9.0",
     "isomorphic-unfetch": "^3.0.0",
     "next": "9.2.1",
@@ -16,6 +18,7 @@
     "react-dom": "16.12.0"
   },
   "devDependencies": {
+    "@types/material-ui": "^0.21.7",
     "@types/node": "^13.7.1",
     "@types/react": "^16.9.19",
     "prettier": "^1.19.1",

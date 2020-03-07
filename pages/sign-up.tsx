@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
 import Router from 'next/router'
+import Button from '@material-ui/core/Button'
 
 import WithNav from '../components/layout/withNav'
 import InputTextbox from '../components/input-textbox'
 import InputRadio from '../components/input-radio'
 import registrationValidator from '../utils/validator'
-import Button from '../components/button'
 
 const SignUp = () => {
   const [formState, setFormState] = useState({
@@ -188,8 +188,9 @@ const SignUp = () => {
           type="date"
         />
         <Button
-          width={'170px'}
-          height={'65px'}
+          size="medium"
+          color="primary"
+          variant="contained"
           onClick={handleSignUp}
           disabled={submitting}
         >

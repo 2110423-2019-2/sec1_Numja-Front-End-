@@ -1,12 +1,13 @@
 import React from 'react'
 import Link from 'next/link'
+import Button from '@material-ui/core/Button'
 
-import Button from '../button'
+import WithLink from './withLink'
 
 const links = [
   { href: '/help', label: 'Help', type: 'item' },
   { href: '/about-us', label: 'About Us', type: 'item' },
-  { href: '/sign-up', label: 'Sign Up', type: 'button', subclass: 'black' },
+  { href: '/sign-up', label: 'Sign Up', type: 'button', variant: 'contained' },
   { href: '/login', label: 'Log In', type: 'button' },
 ].map(link => ({
   ...link,
@@ -23,21 +24,22 @@ const WithNav = props => (
       </div>
       <div className="nav-right">
         <ul>
-          {links.map(({ href, key, label, type, subclass }) => (
+          {links.map(({ href, key, label, type, variant }) => (
             <li key={key}>
               {type === 'item' ? (
                 <Link href={href}>
                   <a className="nav-right-item">{label}</a>
                 </Link>
               ) : (
-                <Button
-                  subclass={subclass}
-                  href={href}
-                  width="100px"
-                  height="40px"
-                >
-                  {label}
-                </Button>
+                <WithLink href={href}>
+                  <Button
+                    // type issue
+                    variant={variant === 'contained' ? 'contained' : 'outlined'}
+                    disableElevation
+                  >
+                    {label}
+                  </Button>
+                </WithLink>
               )}
             </li>
           ))}
@@ -48,7 +50,7 @@ const WithNav = props => (
 
     <style jsx>{`
       nav {
-        box-sizing: border-box;
+        box-sizing: border-div;
         text-align: center;
         display: flex;
         justify-content: space-between;
@@ -64,7 +66,6 @@ const WithNav = props => (
         text-decoration: none;
       }
       .nav-logo {
-        font-family: Lobster;
         font-style: normal;
         font-weight: normal;
         font-size: 36px;
@@ -80,7 +81,6 @@ const WithNav = props => (
       }
       .nav-right ul > * {
         margin-left: 25px;
-        font-family: Montserrat;
         font-style: normal;
         font-weight: normal;
         font-size: 14px;

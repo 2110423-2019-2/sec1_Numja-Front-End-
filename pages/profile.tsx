@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import fetch from 'isomorphic-unfetch'
+import Button from '@material-ui/core/Button'
 
 import WithNav from '../components/layout/withNav'
 import WithSidebar from '../components/layout/withSidebar'
-import Button from '../components/button'
 import InputTextbox from '../components/input-textbox'
 import registrationValidator from '../utils/validator'
 
@@ -108,20 +108,14 @@ const Profile = props => {
                 type="date"
               />
               <Button
-                width={'100px'}
-                height={'40px'}
+                size="medium"
                 onClick={() => {
                   window.location.reload()
                 }}
               >
                 Cancel
               </Button>
-              <Button
-                width={'135px'}
-                height={'40px'}
-                subclass="black"
-                onClick={handlePatch}
-              >
+              <Button size="medium" variant="contained" onClick={handlePatch}>
                 Save Change
               </Button>
             </>

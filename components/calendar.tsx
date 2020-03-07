@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+
 import {
   format,
   addMonths,
@@ -131,7 +132,7 @@ const Calendar = ({ event = [] }) => {
             --neutral-color: #fff;
           }
           * {
-            box-sizing: border-box;
+            box-sizing: border-div;
           }
 
           // GRID

@@ -1,5 +1,10 @@
 import React, { useState } from 'react'
-import { Eye, EyeSlashed } from '../assets/svg'
+
+import InputAdornment from '@material-ui/core/InputAdornment'
+import OutlinedInput from '@material-ui/core/OutlinedInput'
+import FormHelperText from '@material-ui/core/FormHelperText'
+import Visibility from '@material-ui/icons/Visibility'
+import VisibilityOff from '@material-ui/icons/VisibilityOff'
 
 const InputTextbox = ({
   usingPassword = false,
@@ -13,29 +18,40 @@ const InputTextbox = ({
   const [hidePassword, setHidePassword] = useState(true)
 
   return (
-    <div className={`input-textbox-wrapper ${error ? 'error' : ''}`}>
+    <div className="input-textbox-wrapper">
       <div className="required-wrapper">{required ? '*' : ''}</div>
       <div className="input-wrapper">
-        <input
+        <OutlinedInput
+          error={error}
           spellCheck={false}
-          autoComplete={'off'}
+          autoComplete="off"
           type={usingPassword && hidePassword ? 'password' : 'text'}
           value={value}
+          endAdornment={
+            <InputAdornment
+              position="end"
+              onClick={() => {
+                setHidePassword(!hidePassword)
+              }}
+            >
+              {usingPassword ? (
+                hidePassword ? (
+                  <Visibility />
+                ) : (
+                  <VisibilityOff />
+                )
+              ) : null}
+            </InputAdornment>
+          }
           {...otherProps}
         />
-        <div
-          className="eye-wrapper"
-          onClick={() => {
-            setHidePassword(!hidePassword)
-          }}
-        >
-          {usingPassword ? hidePassword ? <Eye /> : <EyeSlashed /> : null}
-        </div>
       </div>
-      <div className="footnote-wrapper">
+      <FormHelperText error>{errorMessage}</FormHelperText>
+      <FormHelperText>{children}</FormHelperText>
+      {/* <div className="footnote-wrapper">
         <div className="error-message">{errorMessage}</div>
         <div className="footnote">{children}</div>
-      </div>
+      </div> */}
       <style jsx>
         {`
           .input-wrapper {

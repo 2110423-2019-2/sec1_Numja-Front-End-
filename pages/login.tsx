@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import Router from 'next/router'
 import Link from 'next/link'
-import Button from '../components/button'
+import Button from '@material-ui/core/Button'
 
 import WithNav from '../components/layout/withNav'
+import WithLink from '../components/layout/withLink'
 import InputTextbox from '../components/input-textbox'
 
 const Login = () => {
@@ -43,12 +44,14 @@ const Login = () => {
             placeholder="password"
             usingPassword
           />
-          <Button width={'170px'} height={'65px'} onClick={handleLogin}>
+          <Button variant="outlined" size="medium">
             Log In
           </Button>
-          <Link href="/sign-up">
-            <a>Don't have an account? Sign Up</a>
-          </Link>
+          <WithLink href={'/sign-up'}>
+            <Button variant="contained" size="medium">
+              Log In
+            </Button>
+          </WithLink>
         </form>
       </WithNav>
     </div>

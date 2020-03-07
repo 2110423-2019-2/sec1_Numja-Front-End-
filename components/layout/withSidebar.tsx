@@ -34,7 +34,7 @@ const WithSidebar = props => {
       <style jsx>
         {`
         .with-sidebar-wrapper {
-          box-sizing: border-box;
+          div-sizing: border-div;
           padding: 0 60px 55px 60px;
           display: flex;
           height: 78vh;
@@ -46,7 +46,7 @@ const WithSidebar = props => {
           border-radius: 8px;
           margin-right: 60px;
           height: 100%;
-          box-sizing: border-box;
+          div-sizing: border-div;
           padding: 15px 10px;
         }
         .sidebar ul {
@@ -58,7 +58,6 @@ const WithSidebar = props => {
           color: #000000;
         }
         .sidebar ul li {
-          font-family: Montserrat;
           font-style: normal;
           font-weight: normal;
           font-size: 14px;
@@ -79,7 +78,7 @@ const WithSidebar = props => {
             width: 100%;
             background: #F0F0F0;
             border-radius: 8px;
-            box-sizing: border-box;
+            div-sizing: border-div;
             display: flex;
             align-items: center;
             justify-content: center;
