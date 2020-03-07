@@ -1,8 +1,8 @@
 import { DOMAIN_NAME } from '../utils/constants'
-import { postData } from './index'
+import axios from 'axios'
 
 const userLogin = async (username, password) => {
-  const response = await fetch(`${DOMAIN_NAME}/auth/login`)
+  const response = await axios.get(`${DOMAIN_NAME}/auth/login`)
 }
 
 export { userLogin }
