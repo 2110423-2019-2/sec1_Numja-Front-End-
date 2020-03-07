@@ -19,25 +19,15 @@ import {
 const Calendar = ({ event = [] }) => {
   const [currentMonth, setCurrentMonth] = useState(new Date())
 
-  //test
-  // console.log(startOfWeek(currentMonth))
-  // console.log(
-  //   isSameDay(
-  //     Date.parse('2020-02-23T08:25:03.408Z'),
-  //     startOfWeek(currentMonth),
-  //   ),
-  // )
-
-  // header
   const headerDateFormat = 'MMMM yyyy'
-  // days
+
   const daysDateFormat = 'EEEEEE'
   const dayStartDate = startOfWeek(currentMonth)
   const dayDays = []
   for (let i = 0; i < 7; i++) {
     dayDays.push(format(addDays(dayStartDate, i), daysDateFormat))
   }
-  // cells
+
   const monthStart = startOfMonth(currentMonth)
   const monthEnd = endOfMonth(monthStart)
   const startDate = startOfWeek(monthStart)
@@ -256,7 +246,6 @@ const Calendar = ({ event = [] }) => {
 
           .calendar .body .disabled {
             background-color: #dfdfe6;
-            // color: whitesmoke;
             pointer-events: none;
           }
 

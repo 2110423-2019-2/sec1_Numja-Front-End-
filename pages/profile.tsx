@@ -12,7 +12,6 @@ const Profile = props => {
   const [editMode, setEditMode] = useState(false)
 
   const updateData = e => {
-    // deep clone object so react rerender at setFormState
     const clonedState = JSON.parse(JSON.stringify(formState))
 
     if (e.target.type === 'radio') {
@@ -140,8 +139,6 @@ const Profile = props => {
 }
 
 Profile.getInitialProps = async function() {
-  // ***TODO : fetch to get user profile
-
   const data = {
     username: 'dummy_user_0',
     firstName: 'dummyFn',

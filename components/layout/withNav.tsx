@@ -33,7 +33,6 @@ const WithNav = props => (
               ) : (
                 <WithLink href={href}>
                   <Button
-                    // type issue
                     variant={variant === 'contained' ? 'contained' : 'outlined'}
                     disableElevation
                   >

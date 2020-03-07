@@ -13,9 +13,6 @@ const Schedule = () => {
 }
 
 Schedule.getInitialProps = async function() {
-  // ***TODO : fetch to get user profile
-
-  // status : pending, rejected, approved, cancelled, finished
   const data = [
     {
       startTime: '2020-02-26T23:38:35.169Z',

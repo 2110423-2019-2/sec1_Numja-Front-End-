@@ -14,7 +14,6 @@ const Login = () => {
   })
 
   const handleLogin = async () => {
-    // temporary
     await console.log(data)
     Router.push('/')
   }

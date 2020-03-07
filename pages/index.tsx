@@ -1,19 +1,9 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import Head from 'next/head'
-import Router from 'next/router'
 import WithNav from '../components/layout/withNav'
 import WithSidebar from '../components/layout/withSidebar'
 
 const Home = () => {
-  useEffect(() => {
-    const { pathname } = Router
-    // if auth -> redirect to user home
-    // else -> redirect to login
-    // if (pathname == '/') {
-    //   Router.push('/login')
-    // }
-  })
-
   return (
     <>
       <Head>

@@ -40,7 +40,6 @@ const SignUp = () => {
   const [submitting, setSubmitting] = useState(false)
 
   const updateData = e => {
-    // deep clone object so react rerender at setFormState
     const clonedState = JSON.parse(JSON.stringify(formState))
 
     if (e.target.type === 'radio') {
@@ -74,7 +73,6 @@ const SignUp = () => {
   const handleSignUp = async () => {
     invokeUnfilledRequired()
     if (isValidated(formState.validation, true)) {
-      // ***TODO : registration api
       await console.log(formState.data)
       Router.push('/')
     } else {
