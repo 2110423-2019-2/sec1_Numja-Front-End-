@@ -1,5 +1,4 @@
 import React from 'react'
-import Head from 'next/head'
 
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles'
 import Drawer from '@material-ui/core/Drawer'
@@ -11,6 +10,7 @@ import ListItemText from '@material-ui/core/ListItemText'
 
 import WithLink from './withLink'
 import NavItems from './nav-items'
+import AppHead from '../../utils/head'
 
 const drawerWidth = 240
 
@@ -59,13 +59,7 @@ export default function WithSidebar({ children, ...otherProps }) {
 
   return (
     <>
-      <Head>
-        <link rel="icon" href="/favicon.ico" />
-        <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
-        />
-      </Head>
+      <AppHead />
       <div className={classes.root}>
         <CssBaseline />
         <AppBar position="fixed" className={classes.appBar}>

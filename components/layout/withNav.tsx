@@ -6,6 +6,7 @@ import { createStyles, Theme, makeStyles } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
 
 import NavItems from './nav-items'
+import AppHead from '../../utils/head'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -33,13 +34,7 @@ const WithNav = ({ children }) => {
 
   return (
     <>
-      <Head>
-        <link rel="icon" href="/favicon.ico" />
-        <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
-        />
-      </Head>
+      <AppHead />
       <div className={classes.root}>
         <CssBaseline />
         <AppBar position="fixed" className={classes.appBar}>
