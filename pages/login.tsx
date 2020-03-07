@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import Router from 'next/router'
-import Link from 'next/link'
 import Button from '@material-ui/core/Button'
 
 import WithNav from '../components/layout/withNav'
@@ -48,7 +47,7 @@ const Login = () => {
           </Button>
           <WithLink href={'/sign-up'}>
             <Button variant="contained" size="medium">
-              Log In
+              Sign Up
             </Button>
           </WithLink>
         </form>
