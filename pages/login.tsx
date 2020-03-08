@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import Router from 'next/router'
 import Button from '@material-ui/core/Button'
 
@@ -6,11 +6,16 @@ import WithNav from '../components/layout/withNav'
 import WithLink from '../components/layout/withLink'
 import InputTextbox from '../components/input-textbox'
 
+import { AuthContext } from '../context/AuthState'
+
 const Login = () => {
   const [data, setData] = useState({
     username: '',
     password: '',
   })
+
+  const context = useContext(AuthContext)
+  console.log(context)
 
   const handleLogin = async () => {
     await console.log(data)

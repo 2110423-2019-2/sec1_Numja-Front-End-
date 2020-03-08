@@ -34,7 +34,6 @@ const WithNav = ({ children }) => {
 
   return (
     <>
-      <AppHead />
       <div className={classes.root}>
         <CssBaseline />
         <AppBar position="fixed" className={classes.appBar}>
