@@ -1,12 +1,10 @@
 import React from 'react'
-import Head from 'next/head'
 
 import AppBar from '@material-ui/core/AppBar'
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
 
 import NavItems from './nav-items'
-import AppHead from '../../utils/head'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -16,6 +14,11 @@ const useStyles = makeStyles((theme: Theme) =>
     appBar: {
       zIndex: theme.zIndex.drawer + 1,
     },
+    content: {
+      flexGrow: 1,
+      padding: theme.spacing(3),
+    },
+    toolbar: theme.mixins.toolbar,
   }),
 )
 
@@ -40,7 +43,10 @@ const WithNav = ({ children }) => {
           <NavItems items={links} />
         </AppBar>
       </div>
-      <div className="below-nav">{children}</div>
+      <div className={classes.content}>
+        <div className={classes.toolbar} />
+        {children}
+      </div>
 
       <style jsx>{`
         * {

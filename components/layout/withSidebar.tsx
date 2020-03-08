@@ -10,7 +10,6 @@ import ListItemText from '@material-ui/core/ListItemText'
 
 import WithLink from './withLink'
 import NavItems from './nav-items'
-import AppHead from '../../utils/head'
 
 const drawerWidth = 240
 
