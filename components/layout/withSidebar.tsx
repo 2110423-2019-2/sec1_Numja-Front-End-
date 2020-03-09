@@ -1,93 +1,91 @@
 import React from 'react'
-import Link from 'next/link'
+
+import { createStyles, Theme, makeStyles } from '@material-ui/core/styles'
+import Drawer from '@material-ui/core/Drawer'
+import AppBar from '@material-ui/core/AppBar'
+import CssBaseline from '@material-ui/core/CssBaseline'
+import List from '@material-ui/core/List'
+import ListItem from '@material-ui/core/ListItem'
+import ListItemText from '@material-ui/core/ListItemText'
+
+import WithLink from './withLink'
+import NavItems from './nav-items'
+
+const drawerWidth = 240
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      display: 'flex',
+    },
+    appBar: {
+      zIndex: theme.zIndex.drawer + 1,
+    },
+    drawer: {
+      width: drawerWidth,
+      flexShrink: 0,
+    },
+    drawerPaper: {
+      width: drawerWidth,
+    },
+    content: {
+      flexGrow: 1,
+      padding: theme.spacing(3),
+    },
+    toolbar: theme.mixins.toolbar,
+  }),
+)
 
 const links = [
-  { href: '/', label: 'HOME' },
-  { href: '/appointment', label: 'APPOINTMENT' },
-  { href: '/profile', label: 'PROFILE' },
-  { href: '/chat', label: 'CHAT' },
-  { href: '/schedule', label: 'SCHEDULE' },
+  { href: '/help', label: 'Help', type: 'item' },
+  { href: '/about-us', label: 'About Us', type: 'item' },
+  { href: '/sign-up', label: 'Sign Up', type: 'button', variant: 'contained' },
+  { href: '/login', label: 'Log In', type: 'button', variant: 'contained' },
 ].map(link => ({
   ...link,
   key: `nav-link-${link.href}-${link.label}`,
 }))
 
-const WithSidebar = props => {
-  return (
-    <div className="with-sidebar-wrapper">
-      <div className="sidebar">
-        <ul>
-          {links.map(({ href, label, key }, index) => (
-            <li key={key} className={index === props.current ? 'current' : ''}>
-              <Link href={href}>
-                <a>
-                  {index === props.current ? '>>>' : ''}
-                  {label}
-                </a>
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </div>
-      <div className="sidebar-child">{props.children}</div>
+const sidebarItems = [
+  { label: 'HOME', href: '/' },
+  { label: 'APPOINTMENT', href: '/appointment' },
+  { label: 'PROFILE', href: '/profile' },
+  { label: 'CHAT', href: '/chat' },
+]
 
-      <style jsx>
-        {`
-        .with-sidebar-wrapper {
-          div-sizing: border-div;
-          padding: 0 60px 55px 60px;
-          display: flex;
-          height: 78vh;
-        }
-        .sidebar {
-          min-width: 156px;
-          position: relative;
-          background: #f0f0f0;
-          border-radius: 8px;
-          margin-right: 60px;
-          height: 100%;
-          div-sizing: border-div;
-          padding: 15px 10px;
-        }
-        .sidebar ul {
-          display: flex;
-          flex-direction: column;
-          list-style: none;
-          margin: 0;
-          padding: 0;
-          color: #000000;
-        }
-        .sidebar ul li {
-          font-style: normal;
-          font-weight: normal;
-          font-size: 14px;
-          line-height: 17px;
-          margin-bottom: 26px;
-        }
-        .sidebar ul li.current {
-          text-align: right;
-          font-weight: bold;
-        }
-        .sidebar ul li a {
-          text-decoration: none;
-          color: black;
-        }
-        .sidebar-child {
-            position: relative:
-            height: 100%;
-            width: 100%;
-            background: #F0F0F0;
-            border-radius: 8px;
-            div-sizing: border-div;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-      `}
-      </style>
-    </div>
+export default function WithSidebar({ children, ...otherProps }) {
+  const classes = useStyles()
+
+  return (
+    <>
+      <div className={classes.root}>
+        <CssBaseline />
+        <AppBar position="fixed" className={classes.appBar}>
+          <NavItems items={links} />
+        </AppBar>
+        <Drawer
+          className={classes.drawer}
+          variant="permanent"
+          classes={{
+            paper: classes.drawerPaper,
+          }}
+        >
+          <div className={classes.toolbar} />
+          <List>
+            {sidebarItems.map(({ label = '', href = '' }, index) => (
+              <ListItem button key={label}>
+                <WithLink href={href}>
+                  <ListItemText primary={label} />
+                </WithLink>
+              </ListItem>
+            ))}
+          </List>
+        </Drawer>
+        <main className={classes.content}>
+          <div className={classes.toolbar} />
+          {children}
+        </main>
+      </div>
+    </>
   )
 }
-
-export default WithSidebar

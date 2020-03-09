@@ -7,6 +7,8 @@ import WithNav from '../components/layout/withNav'
 import InputTextbox from '../components/input-textbox'
 import InputRadio from '../components/input-radio'
 import registrationValidator from '../utils/validator'
+import InputDate from '../components/input-date'
+import { formatTodayDate } from '../utils/date'
 
 const SignUp = () => {
   const [formState, setFormState] = useState({
@@ -14,14 +16,14 @@ const SignUp = () => {
       username: '',
       password: '',
       rePassword: '',
-      type: 0,
-      gender: 0,
+      type: 'student',
+      gender: 'male',
       firstName: '',
       lastName: '',
       email: '',
       ssin: '',
       address: '',
-      birthDate: new Date().toDateString(),
+      birthDate: formatTodayDate(),
     },
     validation: {
       username: { error: false, message: '' },
@@ -42,11 +44,12 @@ const SignUp = () => {
   const updateData = e => {
     const clonedState = JSON.parse(JSON.stringify(formState))
 
-    if (e.target.type === 'radio') {
-      clonedState.data[e.target.name] = parseInt(e.target.value)
-    } else {
-      clonedState.data[e.target.name] = e.target.value
-    }
+    // if (e.target.type === 'radio') {
+    console.log(e.target.value)
+    clonedState.data[e.target.name] = e.target.value
+    // } else {
+    //   clonedState.data[e.target.name] = e.target.value
+    // }
     clonedState.validation[e.target.name] = registrationValidator({
       field: e.target.name,
       input: clonedState.data[e.target.name],
@@ -177,13 +180,10 @@ const SignUp = () => {
             { label: 'Tutor', value: 'teacher' },
           ]}
         />
-        <InputTextbox
+        <InputDate
           value={formState.data.birthDate}
           name="birthDate"
           onChange={updateData}
-          error={formState.validation.birthDate.error}
-          errorMessage={formState.validation.birthDate.message}
-          type="date"
         />
         <Button
           size="medium"

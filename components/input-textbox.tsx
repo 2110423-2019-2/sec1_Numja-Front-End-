@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 
+import FormControl from '@material-ui/core/FormControl'
+import InputLabel from '@material-ui/core/InputLabel'
 import InputAdornment from '@material-ui/core/InputAdornment'
 import OutlinedInput from '@material-ui/core/OutlinedInput'
 import FormHelperText from '@material-ui/core/FormHelperText'
@@ -13,20 +15,25 @@ const InputTextbox = ({
   errorMessage = '',
   children = <></>,
   required = false,
+  placeholder = 'label',
   ...otherProps
 }) => {
   const [hidePassword, setHidePassword] = useState(true)
 
   return (
     <div className="input-textbox-wrapper">
-      <div className="required-wrapper">{required ? '*' : ''}</div>
-      <div className="input-wrapper">
+      <FormControl variant="outlined">
+        <InputLabel htmlFor={`text-input-${placeholder}`}>
+          {placeholder}
+        </InputLabel>
         <OutlinedInput
+          id={`text-input-${placeholder}`}
           error={error}
           spellCheck={false}
           autoComplete="off"
           type={usingPassword && hidePassword ? 'password' : 'text'}
           value={value}
+          label={placeholder}
           endAdornment={
             <InputAdornment
               position="end"
@@ -45,23 +52,14 @@ const InputTextbox = ({
           }
           {...otherProps}
         />
-      </div>
+      </FormControl>
       <FormHelperText error>{errorMessage}</FormHelperText>
       <FormHelperText>{children}</FormHelperText>
-      {/* <div className="footnote-wrapper">
-        <div className="error-message">{errorMessage}</div>
-        <div className="footnote">{children}</div>
-      </div> */}
-      <style jsx>
-        {`
-          .input-wrapper {
-            display: flex;
-          }
-          .error input {
-            border-color: red;
-          }
-        `}
-      </style>
+      <style jsx>{`
+        .input-textbox-wrapper {
+          margin-bottom: 1rem;
+        }
+      `}</style>
     </div>
   )
 }
