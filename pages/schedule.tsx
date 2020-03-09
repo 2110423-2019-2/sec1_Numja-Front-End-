@@ -5,9 +5,7 @@ import WithSidebar from '../components/layout/withSidebar'
 const Schedule = () => {
   return (
     <div className="schedule">
-      <WithNav>
-        <WithSidebar current={4}>schedule</WithSidebar>
-      </WithNav>
+      <WithSidebar current={4}>schedule</WithSidebar>
     </div>
   )
 }

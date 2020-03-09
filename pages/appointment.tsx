@@ -7,11 +7,9 @@ import Calendar from '../components/calendar'
 const Appointment = () => {
   return (
     <div className="appointment">
-      <WithNav>
-        <WithSidebar current={1}>
-          <Calendar />
-        </WithSidebar>
-      </WithNav>
+      <WithSidebar current={1}>
+        <Calendar />
+      </WithSidebar>
     </div>
   )
 }
