@@ -8,7 +8,10 @@
 
     <v-navigation-drawer id="drawer" v-model="drawer" absolute temporary>
       <v-list nav>
-        <v-list-item-group v-model="group" active-class="primary--text text--accent-4">
+        <v-list-item-group
+          v-model="group"
+          active-class="primary--text text--accent-4"
+        >
           <v-list-item v-for="(menu, i) of menus" :key="i" link :to="menu.link">
             <v-list-item-icon>
               <v-icon>{{ menu.icon }}</v-icon>
@@ -26,7 +29,7 @@ import { Vue, Component, Model } from "vue-property-decorator";
 
 @Component
 export default class Navbar extends Vue {
-  @Model() private drawer: boolean = false;
+  @Model() private drawer = false;
 
   private menus = [
     {
