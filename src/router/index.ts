@@ -1,7 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
-import Verify from "../views/Verify.vue"
+import Verify from "../views/Verify.vue";
 
 Vue.use(VueRouter);
 

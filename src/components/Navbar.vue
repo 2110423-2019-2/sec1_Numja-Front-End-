@@ -22,7 +22,8 @@ import { Getter, Action } from "vuex-class";
 
 @Component({
   components: {
-    Sidebar: () => import(/* webpackChunkName: "sidebar" */ '@/components/Sidebar.vue')
+    Sidebar: () =>
+      import(/* webpackChunkName: "sidebar" */ "@/components/Sidebar.vue")
   }
 })
 export default class Navbar extends Vue {

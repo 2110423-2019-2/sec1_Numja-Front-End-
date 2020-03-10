@@ -29,7 +29,7 @@ const store: StoreOptions<LoginState> = {
       state.fetching = payload;
     },
     [LoginMutations.setError]: (state, payload: boolean) => {
-      state.error = payload
+      state.error = payload;
     },
     [LoginMutations.setUser]: (state, payload: User) => {
       state.user = payload;
