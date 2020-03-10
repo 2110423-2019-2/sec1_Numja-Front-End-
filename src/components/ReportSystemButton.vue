@@ -47,12 +47,15 @@
 
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
-import { Getter } from "vuex-class";
+import { Action, Getter } from 'vuex-class'
 import { LoginGetters } from "@/types";
+import { SnackbarActions, SnackbarMutations } from '@/types/snackbar'
 
 @Component
-export default class FormModal extends Vue {
+export default class ReportSystemButton extends Vue {
   @Getter(LoginGetters.isLogin) isLogin!: boolean;
+  @Action(SnackbarActions.push) pushNewNotification!: Function
+  @Action(SnackbarActions.reset) resetNotification!: Function
   private dialog = false;
   private title = "";
   private description = "";
@@ -62,12 +65,23 @@ export default class FormModal extends Vue {
     Vue.axios
       .post("/report/system", reportData)
       .then(res => {
-        //alert user create report success
+        this.pushNewNotification({ color: 'success', message: 'Report Submitted'})
+        this.dismissAndClearInput()
+        setTimeout(() => this.resetNotification(), 3000)
       })
       .catch(err => {
-        //alert user report fail
+        this.pushNewNotification({ color: 'error', message: 'Report Submission Failed'})
+        this.dismissAndClearInput()
+        setTimeout(() => this.resetNotification(), 3000)
       });
   }
+
+  dismissAndClearInput() {
+    this.title = ''
+    this.description = ''
+    this.dialog = false
+  }
+
 }
 </script>
 
