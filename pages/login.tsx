@@ -7,6 +7,7 @@ import WithLink from '../components/layout/withLink'
 import InputTextbox from '../components/input-textbox'
 
 import { AuthContext } from '../context/AuthState'
+import { userLogin } from '../api/user'
 
 const Login = () => {
   const [data, setData] = useState({
@@ -18,7 +19,7 @@ const Login = () => {
   console.log(context)
 
   const handleLogin = async () => {
-    await console.log(data)
+    await userLogin(data)
     Router.push('/')
   }
 
@@ -47,7 +48,7 @@ const Login = () => {
             placeholder="password"
             usingPassword
           />
-          <Button variant="outlined" size="medium">
+          <Button variant="outlined" size="medium" onClick={handleLogin}>
             Log In
           </Button>
           <WithLink href={'/sign-up'}>

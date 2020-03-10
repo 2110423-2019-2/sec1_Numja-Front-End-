@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
-import Router from 'next/router'
 import Button from '@material-ui/core/Button'
 
 import WithNav from '../components/layout/withNav'
@@ -9,6 +8,7 @@ import InputRadio from '../components/input-radio'
 import registrationValidator from '../utils/validator'
 import InputDate from '../components/input-date'
 import { formatTodayDate } from '../utils/date'
+import { userSignUp } from '../api/user'
 
 const SignUp = () => {
   const [formState, setFormState] = useState({
@@ -16,7 +16,7 @@ const SignUp = () => {
       username: '',
       password: '',
       rePassword: '',
-      type: 'student',
+      role: 'student',
       gender: 'male',
       firstName: '',
       lastName: '',
@@ -29,7 +29,7 @@ const SignUp = () => {
       username: { error: false, message: '' },
       password: { error: false, message: '' },
       rePassword: { error: false, message: '' },
-      type: { error: false, message: '' },
+      role: { error: false, message: '' },
       gender: { error: false, message: '' },
       firstName: { error: false, message: '' },
       lastName: { error: false, message: '' },
@@ -44,12 +44,9 @@ const SignUp = () => {
   const updateData = e => {
     const clonedState = JSON.parse(JSON.stringify(formState))
 
-    // if (e.target.type === 'radio') {
     console.log(e.target.value)
     clonedState.data[e.target.name] = e.target.value
-    // } else {
-    //   clonedState.data[e.target.name] = e.target.value
-    // }
+
     clonedState.validation[e.target.name] = registrationValidator({
       field: e.target.name,
       input: clonedState.data[e.target.name],
@@ -71,15 +68,23 @@ const SignUp = () => {
     setFormState(clonedState)
   }
 
-  const isValidated = (validation, current) => validation.error && current
+  const isValidated = (validation, current) => {
+    let ans = false
+    Object.keys(validation).forEach(key => {
+      ans = ans || validation[key].error
+    })
+    console.log(!ans)
+    return !ans
+  }
 
   const handleSignUp = async () => {
     invokeUnfilledRequired()
-    if (isValidated(formState.validation, true)) {
-      await console.log(formState.data)
-      Router.push('/')
+    if (isValidated(formState.validation, false)) {
+      await userSignUp(formState.data)
+      console.log(formState.data)
+      // Router.push('/')
     } else {
-      window.scrollBy(0, 0)
+      window.scrollTo(0, 0)
       console.log('not validated')
       console.log(formState)
     }
@@ -172,8 +177,8 @@ const SignUp = () => {
           ]}
         />
         <InputRadio
-          name="type"
-          current={formState.data.type}
+          name="role"
+          current={formState.data.role}
           onChange={updateData}
           choices={[
             { label: 'Student', value: 'student' },

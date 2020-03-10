@@ -12,7 +12,7 @@ const NavItems = ({ items = [] }) => (
     </Link>
     <div className="nav-right">
       <ul>
-        {items.map(({ href, key, label, type, variant }) => (
+        {items.map(({ href, key, label, type, variant, ...otherProps }) => (
           <li key={key}>
             {type === 'item' ? (
               <Link href={href}>
@@ -23,6 +23,7 @@ const NavItems = ({ items = [] }) => (
                 <Button
                   variant={variant === 'contained' ? 'contained' : 'outlined'}
                   disableElevation
+                  {...otherProps}
                 >
                   {label}
                 </Button>
