@@ -12,12 +12,14 @@
               v-model="username"
               type="text"
               label="Username"
+              prepend-icon="mdi-account"
               required
             />
             <v-text-field
               v-model="password"
               type="password"
               label="Password"
+              prepend-icon="mdi-lock"
               required
             />
             <p class="text-right primary--text" text>
@@ -38,16 +40,19 @@
 
 <script lang="ts">
 import { Vue, Component, Model } from "vue-property-decorator";
-import { LoginActions } from "../types";
+import { Action } from "vuex-class";
+import { LoginActions, LoginCredentials } from "../types";
 
 @Component
 export default class Login extends Vue {
   @Model() private username!: string;
   @Model() private password!: string;
+  @Action(LoginActions.login) private login!: (
+    credentials: LoginCredentials
+  ) => void;
 
-  async submit() {
-    console.log(this.username, this.password);
-    await this.$store.dispatch(LoginActions.login, {
+  submit() {
+    this.login({
       username: this.username,
       password: this.password
     });
