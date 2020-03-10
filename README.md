@@ -1,82 +1,24 @@
-# sec1_Numja_Front-End-
+# sec1_numja-front-end-
 
-This project is frontend project for Software Engineering course (2019/2). Here are guidelines we would like you to follow:
-- [Member](#members)
-- [Contributing](#contributing)
-- [Build with](@build-with)
-- [Getting Started](#getting-start)
-- [Adding dependencies](#adding-dependencies)
-- [Running tests](#running-tests)
-- [Formatting Code](#formatting-code)
-
-## Members
- 
-- ธนดล รุ่งจิตวรานนท์ 6031018121 
-- นนท์ธนัต ธีรธนาพัทธ์กุล 6031019821
-- ธนวิชญ์ กฤตวงศ์วิมาน 6031021021 
-- ชวิน ช่วงชัยชัชวาล 6030124821
-- ณัชพล ศรีสังข์ 6031308121
-- ภูชิต ชฎาศิลป์ 6031317821
-
-## Contributing
-
-Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
-
-See also the list of [contributors](https://github.com/2110423-2019-2/sec1_Numja-Front-End-/graphs/contributors) who participated in this project.
-
-## Build with
-
-This project is built with:
-* [NextJS](https://nextjs.org/) - The React framework for server-side rendering and more
-
-## Getting Started
-
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
-
-### Prerequisites
-
-You need the following softwares to run this project:
-* [Node.js](https://nodejs.org/en/) - Running javascript locally
-* [`yarn`](https://yarnpkg.com/en/) - Node.js package manager
-
-### Installing
-
-A step by step series of examples that tell you how to get a development env running
-
-1. Fork this repository
-
-2. Clone forked repository to your machine
-
+## Project setup
 ```
-git clone https://github.com/<your-github-user>/sec1_Numja-Front-End-.git
+yarn install
 ```
 
-3. Install dependencies
-
+### Compiles and hot-reloads for development
 ```
-yarn
-```
-
-4. Run the project
-
-```
-yarn dev
+yarn serve
 ```
 
-## Adding dependencies
-
-To add dependencies, run the following command:
+### Compiles and minifies for production
 ```
-yarn add <package-name>
-```
-Some dependencies should be added in devDependencies. To do that, run the following command:
-```
-yarn add -D <package-name>
+yarn build
 ```
 
-## Formatting code
+### Lints and fixes files
+```
+yarn lint
+```
 
-To format codes, run:
-```
-yarn format
-```
+### Customize configuration
+See [Configuration Reference](https://cli.vuejs.org/config/).
