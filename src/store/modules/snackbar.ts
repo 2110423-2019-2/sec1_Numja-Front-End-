@@ -22,6 +22,7 @@ const store: StoreOptions<SnackbarState> = {
   actions: {
     [SnackbarActions.push]: ({ commit }, payload: SnackbarPayload) => {
       commit(SnackbarMutations.set, payload)
+      setTimeout(() => commit(SnackbarMutations.reset), 3000)
     },
     [SnackbarActions.reset]: ({ commit }) => {
       commit(SnackbarMutations.reset)
