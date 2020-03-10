@@ -67,12 +67,10 @@ export default class ReportSystemButton extends Vue {
       .then(res => {
         this.pushNewNotification({ color: 'success', message: 'Report Submitted'})
         this.dismissAndClearInput()
-        setTimeout(() => this.resetNotification(), 3000)
       })
       .catch(err => {
         this.pushNewNotification({ color: 'error', message: 'Report Submission Failed'})
         this.dismissAndClearInput()
-        setTimeout(() => this.resetNotification(), 3000)
       });
   }
 
