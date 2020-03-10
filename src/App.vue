@@ -3,19 +3,25 @@
     <Navbar />
     <v-content>
       <v-container fill-height fluid>
+        <SnackbarNotification/>
         <router-view />
       </v-container>
     </v-content>
+    <ReportSystemButton/>
   </v-app>
 </template>
 
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
+import ReportSystemButton from "@/components/ReportSystemButton.vue";
+import SnackbarNotification from '@/components/SnackbarNotification.vue'
 
 @Component({
   components: {
     Navbar: () =>
-      import(/* webpackChunkName: "navbar" */ "@/components/Navbar.vue")
+      import(/* webpackChunkName: "navbar" */ "@/components/Navbar.vue"),
+    ReportSystemButton,
+    SnackbarNotification
   }
 })
 export default class App extends Vue {}
