@@ -4,6 +4,8 @@
       <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
 
       <v-toolbar-title>Indemand</v-toolbar-title>
+      <v-spacer />
+      <v-btn v-if="!isLogin" to="/login" outlined>Login / Sign Up</v-btn>
     </v-app-bar>
 
     <v-navigation-drawer id="drawer" v-model="drawer" absolute temporary>
@@ -26,8 +28,14 @@
 
 <script lang="ts">
 import { Vue, Component, Model } from "vue-property-decorator";
+import { LoginGetters } from "../types";
+import { mapGetters } from "vuex";
 
-@Component
+@Component({
+  ...mapGetters({
+    isLogin: LoginGetters.isLogin
+  })
+})
 export default class Navbar extends Vue {
   @Model() private drawer = false;
 
@@ -35,7 +43,8 @@ export default class Navbar extends Vue {
     {
       icon: "mdi-home",
       title: "Home",
-      link: "/"
+      link: "/",
+      public: true
     },
     {
       icon: "mdi-calendar-month",
@@ -47,7 +56,7 @@ export default class Navbar extends Vue {
       title: "Chat",
       link: "/chat"
     }
-  ];
+  ].filter(menu => menu.public || this.$store.getters[LoginGetters.isLogin]);
 }
 </script>
 
