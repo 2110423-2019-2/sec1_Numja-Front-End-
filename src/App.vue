@@ -6,19 +6,19 @@
         <router-view />
       </v-container>
     </v-content>
-    <FormModal />
+    <ReportSystemButton/>
   </v-app>
 </template>
 
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
-import FormModal from "@/components/FormModal.vue";
+import ReportSystemButton from "@/components/ReportSystemButton.vue";
 
 @Component({
   components: {
     Navbar: () =>
       import(/* webpackChunkName: "navbar" */ "@/components/Navbar.vue"),
-    FormModal
+    ReportSystemButton: ReportSystemButton
   }
 })
 export default class App extends Vue {}

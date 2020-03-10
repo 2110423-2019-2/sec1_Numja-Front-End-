@@ -5,7 +5,6 @@
 
       <v-toolbar-title>Indemand</v-toolbar-title>
       <v-spacer />
-      <FormModal/>
       <v-btn v-if="!isLogin" to="/login" outlined>Login / Sign Up</v-btn>
       <v-btn v-else icon @click.prevent="logout">
         <v-icon large>mdi-account-circle</v-icon>

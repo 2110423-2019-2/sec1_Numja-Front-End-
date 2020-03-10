@@ -51,7 +51,7 @@ import { Getter } from "vuex-class";
 import { LoginGetters } from "@/types";
 
 @Component
-export default class FormModal extends Vue {
+export default class ReportSystemButton extends Vue {
   @Getter(LoginGetters.isLogin) isLogin!: boolean;
   private dialog = false;
   private title = "";
