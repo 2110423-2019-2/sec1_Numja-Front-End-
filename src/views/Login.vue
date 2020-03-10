@@ -8,8 +8,18 @@
 
         <v-form @submit.prevent="submit">
           <v-card-text class="px-6">
-            <v-text-field v-model="username" type="text" label="Username" required />
-            <v-text-field v-model="password" type="password" label="Password" required />
+            <v-text-field
+              v-model="username"
+              type="text"
+              label="Username"
+              required
+            />
+            <v-text-field
+              v-model="password"
+              type="password"
+              label="Password"
+              required
+            />
             <p class="text-right primary--text" text>
               <a href="#">Forgot password?</a>
             </p>
@@ -27,15 +37,20 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop, Model } from "vue-property-decorator";
+import { Vue, Component, Model } from "vue-property-decorator";
+import { LoginActions } from "../types";
 
 @Component
 export default class Login extends Vue {
   @Model() private username!: string;
   @Model() private password!: string;
 
-  submit() {
-    // TODO: connect to API
+  async submit() {
+    console.log(this.username, this.password);
+    await this.$store.dispatch(LoginActions.login, {
+      username: this.username,
+      password: this.password
+    });
   }
 }
 </script>
