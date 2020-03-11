@@ -9,7 +9,7 @@
   >
     <template v-slot:top>
       <v-toolbar flat color="white">
-        <v-toolbar-title> Verify Teacher </v-toolbar-title>
+        <v-toolbar-title> <h2> Verify Teacher </h2></v-toolbar-title>
         <v-divider class="mx-4" inset vertical></v-divider>
         <v-spacer></v-spacer>
       </v-toolbar>
@@ -68,8 +68,10 @@
 
 <script>
 import Vue from "vue";
-const token =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZTY2ZDk0YWFhM2ZjODAwM2U4NjljMTYiLCJpYXQiOjE1ODM5NDg4MTB9.CM7rXY9IzbZ7GuzGExTvAloq2LcBV_sWviskfZeB1nA";
+import { mapActions } from "vuex";
+
+// const token =
+//   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZTY2ZDk0YWFhM2ZjODAwM2U4NjljMTYiLCJpYXQiOjE1ODM5NDg4MTB9.CM7rXY9IzbZ7GuzGExTvAloq2LcBV_sWviskfZeB1nA";
 export default {
   data: () => ({
     search: "",
@@ -101,33 +103,36 @@ export default {
     }
   },
   methods: {
+    ...mapActions(["pushNewNotification"]),
     async verifyTeacher(item) {
       this.loading = true;
-      try {
-        const response = await Vue.axios.post(`admin/verifyTutor/${item._id}`);
+      const response = await Vue.axios.post(`admin/verifyTutor/${item._id}`);
+      if (response.status === 201) {
         if (response.data.verified) {
           item.verified = true;
           this.pushNotification("success", "Verify Succeeded");
           this.save(item);
+        } else {
+          this.pushNotification("error", "could not verify right now");
         }
-      } catch {
-        this.pushNotification("error", "Verify Error");
+      } else {
+        this.pushNotification("error", "error occured");
       }
       this.loading = false;
     },
     async unverifyTeacher(item) {
-      try {
-        this.loading = true;
-        const response = await Vue.axios.post(
-          `admin/unverifyTutor/${item._id}`
-        );
+      this.loading = true;
+      const response = await Vue.axios.post(`admin/unverifyTutor/${item._id}`);
+      if (response.status === 201) {
         if (!response.data.verified) {
           item.verified = false;
           this.pushNotification("success", "Unverify Succeeded");
           this.save(item);
+        } else {
+          this.pushNotification("error", "could not unverify right now");
         }
-      } catch {
-        this.pushNotification("error", "Unverify Error");
+      } else {
+        this.pushNotification("error", "error occured");
       }
       this.loading = false;
     },
@@ -141,13 +146,28 @@ export default {
       this.pushNewNotification({ color: color, message: messages });
       this.dismissAndClearInput();
     },
+    forceFileDownload(response, item) {
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", item.evidenceInfo); //or any other extension
+      document.body.appendChild(link);
+      link.click();
+    },
     download(item) {
       // TODO: ...
+      this.$http({
+        method: "get",
+        url: this.url,
+        responseType: "arraybuffer"
+      }).then(response => {
+        this.forceFileDownload(response, item);
+      });
     }
   },
   async mounted() {
     this.loading = true;
-    Vue.axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    // Vue.axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
     const response = await Vue.axios.get("/admin/allTutor");
     this.teachers = response.data;
     this.loading = false;
@@ -159,6 +179,7 @@ export default {
   animation: loader 1s infinite;
   display: flex;
 }
+
 @-moz-keyframes loader {
   from {
     transform: rotate(0);
