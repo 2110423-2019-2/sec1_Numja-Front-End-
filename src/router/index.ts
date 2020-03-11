@@ -2,7 +2,6 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import { maintenanceRouter } from "@/router/maintenance-router";
-import Verify from "@/views/maintenance";
 
 Vue.use(VueRouter);
 
@@ -28,11 +27,6 @@ const routes = [
     name: "Profile",
     component: () =>
       import(/* webpackChunkName: "login" */ "@/views/Profile.vue")
-  },
-  {
-    path: "/verify",
-    name: "Verify",
-    component: Verify
   },
   maintenanceRouter
 ];
