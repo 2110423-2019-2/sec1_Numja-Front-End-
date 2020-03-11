@@ -47,15 +47,15 @@
 
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
-import { Action, Getter } from 'vuex-class'
+import { Action, Getter } from "vuex-class";
 import { LoginGetters } from "@/types";
-import { SnackbarActions, SnackbarMutations } from '@/types/snackbar'
+import { SnackbarActions, SnackbarMutations } from "@/types/snackbar";
 
 @Component
 export default class ReportSystemButton extends Vue {
   @Getter(LoginGetters.isLogin) isLogin!: boolean;
-  @Action(SnackbarActions.push) pushNewNotification!: Function
-  @Action(SnackbarActions.reset) resetNotification!: Function
+  @Action(SnackbarActions.push) pushNewNotification!: Function;
+  @Action(SnackbarActions.reset) resetNotification!: Function;
   private dialog = false;
   private title = "";
   private description = "";
@@ -65,21 +65,26 @@ export default class ReportSystemButton extends Vue {
     Vue.axios
       .post("/report/system", reportData)
       .then(res => {
-        this.pushNewNotification({ color: 'success', message: 'Report Submitted'})
-        this.dismissAndClearInput()
+        this.pushNewNotification({
+          color: "success",
+          message: "Report Submitted"
+        });
+        this.dismissAndClearInput();
       })
       .catch(err => {
-        this.pushNewNotification({ color: 'error', message: 'Report Submission Failed'})
-        this.dismissAndClearInput()
+        this.pushNewNotification({
+          color: "error",
+          message: "Report Submission Failed"
+        });
+        this.dismissAndClearInput();
       });
   }
 
   dismissAndClearInput() {
-    this.title = ''
-    this.description = ''
-    this.dialog = false
+    this.title = "";
+    this.description = "";
+    this.dialog = false;
   }
-
 }
 </script>
 

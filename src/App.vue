@@ -3,18 +3,18 @@
     <Navbar />
     <v-content>
       <v-container fill-height fluid>
-        <SnackbarNotification/>
+        <SnackbarNotification />
         <router-view />
       </v-container>
     </v-content>
-    <ReportSystemButton/>
+    <ReportSystemButton />
   </v-app>
 </template>
 
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
 import ReportSystemButton from "@/components/ReportSystemButton.vue";
-import SnackbarNotification from '@/components/SnackbarNotification.vue'
+import SnackbarNotification from "@/components/SnackbarNotification.vue";
 
 @Component({
   components: {

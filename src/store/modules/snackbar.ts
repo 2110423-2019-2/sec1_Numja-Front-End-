@@ -1,33 +1,38 @@
-import { StoreOptions } from 'vuex'
-import { SnackbarState, SnackbarActions, SnackbarMutations, SnackbarPayload } from '@/types/snackbar'
+import { StoreOptions } from "vuex";
+import {
+  SnackbarState,
+  SnackbarActions,
+  SnackbarMutations,
+  SnackbarPayload
+} from "@/types/snackbar";
 
 const store: StoreOptions<SnackbarState> = {
   state: {
     isOpen: false,
-    color: '',
-    message: '',
+    color: "",
+    message: ""
   },
   mutations: {
     [SnackbarMutations.set]: (state, payload: SnackbarPayload) => {
-      state.isOpen = true
-      state.message = payload.message
-      state.color = payload.color
+      state.isOpen = true;
+      state.message = payload.message;
+      state.color = payload.color;
     },
-    [SnackbarMutations.reset]: (state) => {
-      state.isOpen = false
-      state.message = ''
-      state.color = ''
-    },
+    [SnackbarMutations.reset]: state => {
+      state.isOpen = false;
+      state.message = "";
+      state.color = "";
+    }
   },
   actions: {
     [SnackbarActions.push]: ({ commit }, payload: SnackbarPayload) => {
-      commit(SnackbarMutations.set, payload)
-      setTimeout(() => commit(SnackbarMutations.reset), 3000)
+      commit(SnackbarMutations.set, payload);
+      setTimeout(() => commit(SnackbarMutations.reset), 3000);
     },
     [SnackbarActions.reset]: ({ commit }) => {
-      commit(SnackbarMutations.reset)
-    },
-  },
-}
+      commit(SnackbarMutations.reset);
+    }
+  }
+};
 
-export default store
+export default store;

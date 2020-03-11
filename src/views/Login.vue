@@ -50,8 +50,8 @@ export default class Login extends Vue {
   @Action(LoginActions.login) private login!: (
     credentials: LoginCredentials
   ) => void;
-yarn 
-  submit()
+
+  submit() {
     this.login({
       username: this.username,
       password: this.password

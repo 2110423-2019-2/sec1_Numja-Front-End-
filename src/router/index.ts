@@ -1,7 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
-import Verify from "../views/Verify.vue";
+import Verify from "../views/maintenance/Verify.vue";
 
 Vue.use(VueRouter);
 
@@ -17,7 +17,7 @@ const routes = [
     component: () => import(/* webpackChunkName: "login" */ "@/views/Login.vue")
   },
   {
-    path: "/verify",
+    path: "/maintenance/verify",
     name: "Verify",
     component: Verify
   }
