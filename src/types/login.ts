@@ -5,11 +5,11 @@ export interface LoginCredentials {
 
 export interface SignUpCredentials {
   username: string;
+  password: string;
   firstName: string;
   lastName: string;
   birthDate: string;
   email: string;
-  password: string;
   address: string;
   gender: Gender;
   ssin: string;

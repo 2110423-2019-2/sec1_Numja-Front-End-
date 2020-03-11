@@ -6,12 +6,13 @@
           <v-toolbar-title class="px-2">Sign Up</v-toolbar-title>
         </v-toolbar>
 
-        <v-form @submit.prevent="submit">
+        <v-form @submit.prevent="submit" ref="form" v-model="isValid">
           <v-card-text class="px-6">
             <v-text-field
               v-model="username"
               type="text"
               label="Username"
+              :rules="[rules.required]"
               prepend-icon="mdi-account"
               required
             />
@@ -20,6 +21,7 @@
               type="password"
               label="Password"
               prepend-icon="mdi-lock"
+              :rules="[rules.required, rules.length8]"
               required
             />
             <v-text-field
@@ -27,6 +29,7 @@
               type="email"
               label="Email"
               prepend-icon="mdi-email"
+              :rules="[rules.email, rules.required]"
               required
             />
             <v-text-field
@@ -34,6 +37,7 @@
               type="text"
               label="First Name"
               prepend-icon="mdi-account"
+              :rules="[rules.required, rules.name]"
               required
             />
             <v-text-field
@@ -41,6 +45,7 @@
               type="text"
               label="Last Name"
               prepend-icon="mdi-account"
+              :rules="[rules.required, rules.name]"
               required
             />
             <v-label class="mt-0">Birthdate</v-label>
@@ -52,6 +57,7 @@
               type="text"
               label="Address"
               prepend-icon="mdi-home"
+              :rules="[rules.required]"
               required
             />
             <v-text-field
@@ -59,6 +65,8 @@
               type="text"
               label="Ssn"
               prepend-icon="mdi-card-account-details"
+              :rules="[rules.number, rules.length13]"
+              :counter="13"
               required
             />
             <v-label>Gender</v-label>
@@ -88,38 +96,57 @@
 import { Vue, Component, Model } from "vue-property-decorator";
 import { Action } from "vuex-class";
 import { LoginActions, SignUpCredentials, Gender, UserRole } from "../types";
+import { loginRules as rules, Rule } from "../rules";
+import vuetify from "../plugins/vuetify";
 
 const todayDate = new Date().toISOString().substr(0, 10);
 
 @Component
 export default class SignUp extends Vue {
-  @Model() private username!: string;
-  @Model() private firstName!: string;
-  @Model() private lastName!: string;
-  @Model() private birthDate: string = todayDate;
-  @Model() private email!: string;
-  @Model() private password!: string;
-  @Model() private address!: string;
-  @Model() private gender: Gender = Gender.Male;
-  @Model() private ssin!: string;
-  @Model() private role: UserRole = UserRole.Student;
+  private isValid: boolean = true;
+  private username: string = "";
+  private password: string = "";
+  private email: string = "";
+  private firstName: string = "";
+  private lastName: string = "";
+  private birthDate: string = todayDate;
+  private address: string = "";
+  private ssin: string = "";
+  private gender: Gender = Gender.Male;
+  private role: UserRole = UserRole.Student;
+
+  private rules: any = rules;
   @Action(LoginActions.signUp) private signUp!: (
     credentials: SignUpCredentials
   ) => void;
 
   submit() {
-    this.signUp({
-      username: this.username,
-      firstName: this.firstName,
-      lastName: this.lastName,
-      birthDate: this.birthDate,
-      email: this.email,
-      password: this.password,
-      address: this.address,
-      gender: this.gender,
-      ssin: this.ssin,
-      role: this.role
-    });
+    this.validate();
+    if (this.isValid) {
+      this.signUp({
+        username: this.username,
+        password: this.password,
+        firstName: this.firstName,
+        lastName: this.lastName,
+        birthDate: this.birthDate,
+        email: this.email,
+        address: this.address,
+        gender: this.gender,
+        ssin: this.ssin,
+        role: this.role
+      });
+    } else {
+      console.log("invalid");
+      this.$vuetify.goTo(0, {
+        duration: 500,
+        offset: 0,
+        easing: "easeOutQuad"
+      });
+    }
+  }
+
+  validate() {
+    (this.$refs.form as any).validate();
   }
 }
 </script>
