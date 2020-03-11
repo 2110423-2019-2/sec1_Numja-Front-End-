@@ -3,6 +3,19 @@ export interface LoginCredentials {
   password: string;
 }
 
+export interface SignUpCredentials {
+  username: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+  birthDate: string;
+  email: string;
+  address: string;
+  gender: Gender;
+  ssin: string;
+  role: UserRole;
+}
+
 export interface LoginState {
   fetching: boolean;
   error: boolean;
@@ -46,7 +59,8 @@ export enum UserGender {
 
 export enum LoginGetters {
   isLogin = "isLogin",
-  isFetching = "isFetching"
+  isFetching = "isFetching",
+  getUser = "getUser"
 }
 
 export enum LoginMutations {
@@ -60,5 +74,6 @@ export enum LoginActions {
   login = "login",
   logout = "logout",
   signUp = "signUp",
-  redirect = "redirect"
+  redirect = "redirect",
+  protectedRedirect = "protectedRedirect"
 }
