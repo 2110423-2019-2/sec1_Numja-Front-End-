@@ -146,7 +146,7 @@ export default class SignUp extends Vue {
   }
 
   validate() {
-    (this.$refs.form as any).validate();
+    (this.$refs.form as Vue & { validate: () => boolean }).validate();
   }
 }
 </script>
