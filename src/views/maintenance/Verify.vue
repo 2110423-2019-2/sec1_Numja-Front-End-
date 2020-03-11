@@ -5,11 +5,9 @@
     class="elevation-1"
     item-key="name"
     :search="search"
-    loading
     dense
-    loading-text="Loading... Please wait"
   >
-    >
+    
     <template v-slot:top>
       <v-toolbar flat color="white">
         <v-toolbar-title> Verify Teacher </v-toolbar-title>
@@ -66,7 +64,6 @@
       </v-btn>
     </template>
     <template v-slot:no-data>
-      <v-btn color="primary" @click="initialize">Reset</v-btn>
     </template>
   </v-data-table>
 </template>
@@ -96,42 +93,44 @@ export default {
     editedItem: undefined
   }),
   created() {
-    this.initialize();
+    //this.initialize();
   },
   computed: {
-    isloading :()=>{
-      return this.teachers.length === 0 || this.loading
+    isloading: () => {
+      return this.teachers.length === 0 || this.loading;
     }
   },
   methods: {
     async verifyTeacher(item) {
-      this.loading = true
+      this.loading = true;
       try {
-        const response = await Vue.axios.post(`admin/verifyTutor/${item._id}`)
+        const response = await Vue.axios.post(`admin/verifyTutor/${item._id}`);
         if (response.data.verified) {
-              item.verified = true;
-              this.pushNotification("success", "Verify Succeeded");
-              this.save(item);
-            }
-      } catch {
-          this.pushNotification("error", "Verify Error");
-      }
-      this.loading = false
-    },
-   async unverifyTeacher(item) {
-     try {
-        this.loading = true
-        const response = await Vue.axios.post(`admin/unverifyTutor/${item._id}`)
-        if (!response.data.verified) {
-            item.verified = false;
-            this.pushNotification("success", "Unverify Succeeded");
-            save(item);
+          item.verified = true;
+          this.pushNotification("success", "Verify Succeeded");
+          this.save(item);
         }
-     } catch  {
+      } catch {
+        this.pushNotification("error", "Verify Error");
+      }
+      this.loading = false;
+    },
+    async unverifyTeacher(item) {
+      try {
+        this.loading = true;
+        const response = await Vue.axios.post(
+          `admin/unverifyTutor/${item._id}`
+        );
+        if (!response.data.verified) {
+          item.verified = false;
+          this.pushNotification("success", "Unverify Succeeded");
+          this.save(item);
+        }
+      } catch {
         this.pushNotification("error", "Unverify Error");
-     }
-    this.loading = false
-   },
+      }
+      this.loading = false;
+    },
     save(item) {
       this.editedIndex = this.teachers.indexOf(item);
       if (this.editedIndex > -1) {
@@ -146,11 +145,11 @@ export default {
       // TODO: ...
     }
   },
-  mounted() {
-    Vue.axios.get("http://localhost:3000/admin/allTutor", config).then(res => {
-      this.teachers = res.data;
-      console.log(this.teachers);
-    });
+  async mounted() {
+    this.loading = true
+    const response = await Vue.axios.get("http://localhost:3000/admin/allTutor")
+    this.teachers = response.data;
+    this.loading = false
   }
 };
 </script>
