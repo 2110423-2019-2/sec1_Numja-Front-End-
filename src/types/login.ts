@@ -24,8 +24,21 @@ export interface LoginState {
 }
 
 export interface User {
-  username: string;
+  _id: string;
+  username?: string;
+  firstName: string;
+  lastName: string;
   role: UserRole;
+  status: UserStatus;
+  verified: boolean;
+  gender: UserGender;
+  birthDate: Date;
+  credit: number;
+  email: string;
+  address: string;
+  ssin: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export enum UserRole {
@@ -34,7 +47,12 @@ export enum UserRole {
   Admin = "admin"
 }
 
-export enum Gender {
+export enum UserStatus {
+  Active = "active",
+  Suspended = "suspended"
+}
+
+export enum UserGender {
   Male = "male",
   Female = "female"
 }
