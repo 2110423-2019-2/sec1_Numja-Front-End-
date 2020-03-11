@@ -49,7 +49,7 @@
 import { Vue, Component } from "vue-property-decorator";
 import { Action, Getter } from "vuex-class";
 import { LoginGetters } from "@/types";
-import { SnackbarActions, SnackbarMutations } from "@/types/snackbar";
+import { SnackbarActions } from "@/types/snackbar";
 
 @Component
 export default class ReportSystemButton extends Vue {
@@ -60,24 +60,21 @@ export default class ReportSystemButton extends Vue {
   private title = "";
   private description = "";
 
-  submitReport() {
+  async submitReport() {
     const reportData = { title: this.title, description: this.description };
-    Vue.axios
-      .post("/report/system", reportData)
-      .then(res => {
-        this.pushNewNotification({
-          color: "success",
-          message: "Report Submitted"
-        });
-        this.dismissAndClearInput();
-      })
-      .catch(err => {
-        this.pushNewNotification({
-          color: "error",
-          message: "Report Submission Failed"
-        });
-        this.dismissAndClearInput();
+    try {
+      await Vue.axios.post("/report/system", reportData);
+      this.pushNewNotification({
+        color: "success",
+        message: "Report Submitted"
       });
+    } catch {
+      this.pushNewNotification({
+        color: "error",
+        message: "Report Submission Failed"
+      });
+    }
+    this.dismissAndClearInput();
   }
 
   dismissAndClearInput() {

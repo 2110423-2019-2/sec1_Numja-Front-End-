@@ -5,7 +5,7 @@
     class="elevation-1"
     item-key="name"
     :search="search"
-    loading="true"
+    loading
     dense
     loading-text="Loading... Please wait"
   >
@@ -60,7 +60,7 @@
         color="blue-grey"
         class="ma-2 white--text"
         fab
-        @click="loader = 'loading5'"
+        @click="download(item)"
       >
         <v-icon dark>mdi-cloud-download</v-icon>
       </v-btn>
@@ -73,16 +73,10 @@
 
 <script>
 import Vue from "vue";
-const token =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZTY2ZDk0YWFhM2ZjODAwM2U4NjljMTYiLCJpYXQiOjE1ODM4NjUzNTB9.OYPPKY5x0WHe880t0JUiKNsCcBa-4rknPjHU_4MDkqo";
-const config = {
-  headers: {
-    Authorization: `Bearer ${token}`
-  }
-};
 export default {
   data: () => ({
     search: "",
+    loading: false,
     headers: [
       {
         text: "Status",
@@ -104,48 +98,42 @@ export default {
   created() {
     this.initialize();
   },
-
+  computed: {
+    isloading :()=>{
+      return this.teachers.length === 0 || this.loading
+    }
+  },
   methods: {
-    verifyTeacher(item) {
-      console.log(item);
-      Vue.axios
-        .post(
-          `http://localhost:3000/admin/verifyTutor/${item._id}`,
-          null,
-          config
-        )
-        .then(res => {
-          if (res.data.verified) {
-            item.verified = true;
-            this.pushNotification("success", "Verify Succeeded");
-            this.save(item);
-          }
-        })
-        .catch(err => {
-          this.pushNotification("error", "Verify Not Suceeded");
-        });
+    async verifyTeacher(item) {
+      this.loading = true
+      try {
+        const response = await Vue.axios.post(`admin/verifyTutor/${item._id}`)
+        if (response.data.verified) {
+              item.verified = true;
+              this.pushNotification("success", "Verify Succeeded");
+              this.save(item);
+            }
+      } catch {
+          this.pushNotification("error", "Verify Error");
+      }
+      this.loading = false
     },
-    unverifyTeacher(item) {
-      Vue.axios
-        .post(
-          `http://localhost:3000/admin/unverifyTutor/${item._id}`,
-          null,
-          config
-        )
-        .then(res => {
-          if (!res.data.verified) {
+   async unverifyTeacher(item) {
+     try {
+        this.loading = true
+        const response = await Vue.axios.post(`admin/unverifyTutor/${item._id}`)
+        if (!response.data.verified) {
             item.verified = false;
             this.pushNotification("success", "Unverify Succeeded");
             save(item);
-          }
-        })
-        .catch(err => {
-          this.pushNotification("error", "Verify Not Suceeded");
-        });
-    },
+        }
+     } catch  {
+        this.pushNotification("error", "Unverify Error");
+     }
+    this.loading = false
+   },
     save(item) {
       this.editedIndex = this.teachers.indexOf(item);
-      //this.editedItem = Object.assign({}, item)
       if (this.editedIndex > -1) {
         Object.assign(this.teachers[this.editedIndex], item);
       }
@@ -155,7 +143,7 @@ export default {
       this.dismissAndClearInput();
     },
     download(item) {
-      alert("got evidence file of ",);
+      // TODO: ...
     }
   },
   mounted() {
@@ -203,11 +191,4 @@ export default {
     transform: rotate(360deg);
   }
 }
-.mytable .v-table tbody tr {
-  background-color: black;
-  border-bottom: none !important;
-}
-// .mytable .v-table tbody tr:not(:last-child) {
-//     border-bottom: none;
-// }
 </style>
