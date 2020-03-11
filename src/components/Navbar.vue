@@ -6,9 +6,10 @@
       <v-toolbar-title>Indemand</v-toolbar-title>
       <v-spacer />
       <v-btn v-if="!isLogin" to="/login" outlined>Login / Sign Up</v-btn>
-      <v-btn v-else icon @click.prevent="logout">
+      <v-btn v-if="isLogin" icon to="/profile">
         <v-icon large>mdi-account-circle</v-icon>
       </v-btn>
+      <v-btn v-if="isLogin" @click="logout" outlined>Log Out</v-btn>
     </v-app-bar>
 
     <Sidebar :drawer="drawer" />
@@ -22,10 +23,13 @@ import { Getter, Action } from "vuex-class";
 
 @Component({
   components: {
-    Sidebar: () => import(/* webpackChunkName: "sidebar" */ '@/components/Sidebar.vue')
+    Sidebar: () =>
+      import(/* webpackChunkName: "sidebar" */ "@/components/Sidebar.vue")
   }
 })
 export default class Navbar extends Vue {
   @Prop() private drawer = false;
+  @Getter(LoginGetters.isLogin) private isLogin!: boolean;
+  @Action(LoginActions.logout) private logout!: () => void;
 }
 </script>
