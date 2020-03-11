@@ -60,24 +60,21 @@ export default class ReportSystemButton extends Vue {
   private title = "";
   private description = "";
 
-  submitReport() {
+  async submitReport() {
     const reportData = { title: this.title, description: this.description };
-    Vue.axios
-      .post("/report/system", reportData)
-      .then(() => {
-        this.pushNewNotification({
-          color: "success",
-          message: "Report Submitted"
-        });
-        this.dismissAndClearInput();
-      })
-      .catch(() => {
-        this.pushNewNotification({
-          color: "error",
-          message: "Report Submission Failed"
-        });
-        this.dismissAndClearInput();
+    try {
+      await Vue.axios.post("/report/system", reportData);
+      this.pushNewNotification({
+        color: "success",
+        message: "Report Submitted"
       });
+    } catch {
+      this.pushNewNotification({
+        color: "error",
+        message: "Report Submission Failed"
+      });
+    }
+    this.dismissAndClearInput();
   }
 
   dismissAndClearInput() {
