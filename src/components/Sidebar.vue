@@ -48,6 +48,11 @@ export default class Sidebar extends Vue {
       icon: "mdi-chat",
       title: "Chat",
       link: "/chat"
+    },
+    {
+      icon: "mdi-wrench",
+      title: "Suspend",
+      link: "/maintenance/suspend"
     }
   ];
 
