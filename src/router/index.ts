@@ -1,6 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
+import { maintenanceRouter } from "@/views/maintenance/maintenance-router";
 
 Vue.use(VueRouter);
 
@@ -14,7 +15,8 @@ const routes = [
     path: "/login",
     name: "Login",
     component: () => import(/* webpackChunkName: "login" */ "@/views/Login.vue")
-  }
+  },
+  maintenanceRouter
 ];
 
 const router = new VueRouter({
