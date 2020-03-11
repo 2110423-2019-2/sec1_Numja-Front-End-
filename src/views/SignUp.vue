@@ -103,15 +103,15 @@ const todayDate = new Date().toISOString().substr(0, 10);
 
 @Component
 export default class SignUp extends Vue {
-  private isValid: boolean = true;
-  private username: string = "";
-  private password: string = "";
-  private email: string = "";
-  private firstName: string = "";
-  private lastName: string = "";
+  private isValid = true;
+  private username = "";
+  private password = "";
+  private email = "";
+  private firstName = "";
+  private lastName = "";
   private birthDate: string = todayDate;
-  private address: string = "";
-  private ssin: string = "";
+  private address = "";
+  private ssin = "";
   private gender: Gender = Gender.Male;
   private role: UserRole = UserRole.Student;
 

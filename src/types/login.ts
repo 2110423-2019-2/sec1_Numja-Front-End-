@@ -29,31 +29,31 @@ export interface User {
 }
 
 export enum UserRole {
-  Student = 'student',
-  Tutor = 'tutor',
-  Admin = 'admin'
+  Student = "student",
+  Tutor = "tutor",
+  Admin = "admin"
 }
 
 export enum Gender {
-  Male = 'male',
-  Female = 'female'
+  Male = "male",
+  Female = "female"
 }
 
 export enum LoginGetters {
-  isLogin = 'isLogin',
-  isFetching = 'isFetching'
+  isLogin = "isLogin",
+  isFetching = "isFetching"
 }
 
 export enum LoginMutations {
-  setToken = 'setToken',
-  setFetching = 'setFetching',
-  setError = 'setError',
-  setUser = 'setUser'
+  setToken = "setToken",
+  setFetching = "setFetching",
+  setError = "setError",
+  setUser = "setUser"
 }
 
 export enum LoginActions {
-  login = 'login',
-  logout = 'logout',
-  signUp = 'signUp',
-  redirect = 'redirect'
+  login = "login",
+  logout = "logout",
+  signUp = "signUp",
+  redirect = "redirect"
 }

@@ -1,4 +1,4 @@
-import { StoreOptions } from 'vuex';
+import { StoreOptions } from "vuex";
 import {
   LoginState,
   LoginGetters,
@@ -7,9 +7,9 @@ import {
   LoginCredentials,
   SignUpCredentials,
   User
-} from '@/types';
-import Vue from 'vue';
-import router from '../../router';
+} from "@/types";
+import Vue from "vue";
+import router from "../../router";
 
 const store: StoreOptions<LoginState> = {
   state: {
@@ -42,10 +42,10 @@ const store: StoreOptions<LoginState> = {
       payload: LoginCredentials
     ) => {
       commit(LoginMutations.setFetching, true);
-      const response = await Vue.axios.post<string>('/auth/login', payload);
+      const response = await Vue.axios.post<string>("/auth/login", payload);
       if (response.status === 201) {
         Vue.axios.defaults.headers.common[
-          'Authorization'
+          "Authorization"
         ] = `Bearer ${response.data}`;
         commit(LoginMutations.setToken, response.data);
         commit(LoginMutations.setError, false);
@@ -60,11 +60,11 @@ const store: StoreOptions<LoginState> = {
       payload: SignUpCredentials
     ) => {
       commit(LoginMutations.setFetching, true);
-      const response = await Vue.axios.post<string>('/auth/register', payload);
+      const response = await Vue.axios.post<string>("/auth/register", payload);
 
       if (response.status === 201) {
         Vue.axios.defaults.headers.common[
-          'Authorization'
+          "Authorization"
         ] = `Bearer ${response.data}`;
         commit(LoginMutations.setToken, response.data);
         commit(LoginMutations.setError, false);
@@ -77,13 +77,13 @@ const store: StoreOptions<LoginState> = {
     [LoginActions.logout]: async ({ commit }) => {
       commit(LoginMutations.setUser, null);
       commit(LoginMutations.setToken, null);
-      router.push('/');
+      router.push("/");
     },
     [LoginActions.redirect]: async ({ commit, state }) => {
-      const response = await Vue.axios.get<User>('/user/me');
+      const response = await Vue.axios.get<User>("/user/me");
       if (response.status === 200) {
         commit(LoginMutations.setUser, response.data);
-        router.push('/');
+        router.push("/");
       }
       commit(LoginMutations.setFetching, false);
     }
