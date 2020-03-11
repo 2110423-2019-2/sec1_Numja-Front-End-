@@ -1,5 +1,6 @@
 import Maintenance from "@/views/maintenance/index.vue";
 import AdminSuspendUser from "@/views/maintenance/suspend/AdminSuspendUser.vue";
+import Verify from "@/views/maintenance/Verify.vue";
 
 export const maintenanceRouter = {
   path: "/maintenance",
@@ -9,6 +10,11 @@ export const maintenanceRouter = {
     {
       path: "suspend",
       component: AdminSuspendUser
+    },
+    {
+      path: "/verify",
+      name: "Verify",
+      component: Verify
     },
     {
       path: "*",

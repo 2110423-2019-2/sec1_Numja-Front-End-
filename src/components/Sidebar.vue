@@ -53,6 +53,11 @@ export default class Sidebar extends Vue {
       icon: "mdi-wrench",
       title: "Suspend",
       link: "/maintenance/suspend"
+    },
+    {
+      icon: "mdi-file-document-edit",
+      title: "Verify",
+      link: "/maintenance/verify"
     }
   ];
 

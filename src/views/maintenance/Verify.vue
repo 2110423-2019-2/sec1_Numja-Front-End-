@@ -48,7 +48,8 @@
         >Verify</v-btn
       >
       <v-btn v-else color="secondary" small @click="unverifyTeacher(item)"
-        >Unverify</v-btn>
+        >Unverify</v-btn
+      >
       <v-btn
         small
         :loading="loading5"
@@ -67,7 +68,8 @@
 
 <script>
 import Vue from "vue";
-const token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZTY2ZDk0YWFhM2ZjODAwM2U4NjljMTYiLCJpYXQiOjE1ODM5NDg4MTB9.CM7rXY9IzbZ7GuzGExTvAloq2LcBV_sWviskfZeB1nA"
+const token =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZTY2ZDk0YWFhM2ZjODAwM2U4NjljMTYiLCJpYXQiOjE1ODM5NDg4MTB9.CM7rXY9IzbZ7GuzGExTvAloq2LcBV_sWviskfZeB1nA";
 export default {
   data: () => ({
     search: "",
@@ -143,14 +145,11 @@ export default {
       // TODO: ...
     }
   },
-  mounted() {
+  async mounted() {
     this.loading = true;
-    Vue.axios.defaults.headers.common[
-          "Authorization"
-        ] = `Bearer ${token}`;
-    const response = Vue.axios.get("/admin/allTutor").then((response)=> {
-          this.teachers = response.data;
-    })
+    Vue.axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    const response = await Vue.axios.get("/admin/allTutor");
+    this.teachers = response.data;
     this.loading = false;
   }
 };
