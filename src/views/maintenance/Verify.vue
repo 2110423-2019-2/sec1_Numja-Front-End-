@@ -7,7 +7,6 @@
     :search="search"
     dense
   >
-    
     <template v-slot:top>
       <v-toolbar flat color="white">
         <v-toolbar-title> Verify Teacher </v-toolbar-title>
@@ -49,8 +48,7 @@
         >Verify</v-btn
       >
       <v-btn v-else color="secondary" small @click="unverifyTeacher(item)"
-        >Unverify</v-btn
-      >
+        >Unverify</v-btn>
       <v-btn
         small
         :loading="loading5"
@@ -63,13 +61,13 @@
         <v-icon dark>mdi-cloud-download</v-icon>
       </v-btn>
     </template>
-    <template v-slot:no-data>
-    </template>
+    <template v-slot:no-data> </template>
   </v-data-table>
 </template>
 
 <script>
 import Vue from "vue";
+const token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZTY2ZDk0YWFhM2ZjODAwM2U4NjljMTYiLCJpYXQiOjE1ODM5NDg4MTB9.CM7rXY9IzbZ7GuzGExTvAloq2LcBV_sWviskfZeB1nA"
 export default {
   data: () => ({
     search: "",
@@ -145,11 +143,15 @@ export default {
       // TODO: ...
     }
   },
-  async mounted() {
-    this.loading = true
-    const response = await Vue.axios.get("http://localhost:3000/admin/allTutor")
-    this.teachers = response.data;
-    this.loading = false
+  mounted() {
+    this.loading = true;
+    Vue.axios.defaults.headers.common[
+          "Authorization"
+        ] = `Bearer ${token}`;
+    const response = Vue.axios.get("/admin/allTutor").then((response)=> {
+          this.teachers = response.data;
+    })
+    this.loading = false;
   }
 };
 </script>

@@ -43,6 +43,9 @@ const store: StoreOptions<LoginState> = {
       commit(LoginMutations.setFetching, true);
       const response = await Vue.axios.post<string>("/auth/login", payload);
       if (response.status === 201) {
+        Vue.axios.defaults.headers.common[
+          "Authorization"
+        ] = `Bearer ${response.data}`;
         commit(LoginMutations.setToken, response.data);
         commit(LoginMutations.setError, false);
         dispatch(LoginActions.redirect);
@@ -56,9 +59,7 @@ const store: StoreOptions<LoginState> = {
       router.push("/");
     },
     [LoginActions.redirect]: async ({ commit, state }) => {
-      const response = await Vue.axios.get<User>("/user/me", {
-        headers: { authorization: `Bearer ${state.token}` }
-      });
+      const response = await Vue.axios.get<User>("/user/me");
       if (response.status === 200) {
         commit(LoginMutations.setUser, response.data);
         router.push("/");
