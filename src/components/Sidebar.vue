@@ -1,8 +1,16 @@
 <template>
   <v-navigation-drawer id="drawer" v-model="drawer" absolute temporary>
     <v-list nav dense>
-      <v-list-item-group v-model="group" active-class="primary--text text--accent-4">
-        <v-list-item v-for="(menu, i) of menuList" :key="i" link :to="menu.link">
+      <v-list-item-group
+        v-model="group"
+        active-class="primary--text text--accent-4"
+      >
+        <v-list-item
+          v-for="(menu, i) of menuList"
+          :key="i"
+          link
+          :to="menu.link"
+        >
           <v-list-item-icon>
             <v-icon>{{ menu.icon }}</v-icon>
           </v-list-item-icon>
@@ -15,12 +23,11 @@
 
 <script lang="ts">
 import { Vue, Component, Model } from "vue-property-decorator";
-import { Getter, Action } from 'vuex-class';
-import { LoginGetters, LoginActions } from '@/types';
+import { Getter, Action } from "vuex-class";
+import { LoginGetters, LoginActions } from "@/types";
 
 @Component
 export default class Sidebar extends Vue {
-  
   @Model() private drawer = false;
   @Getter(LoginGetters.isLogin) private isLogin!: boolean;
   @Action(LoginActions.logout) private logout!: () => void;
@@ -41,6 +48,11 @@ export default class Sidebar extends Vue {
       icon: "mdi-chat",
       title: "Chat",
       link: "/chat"
+    },
+    {
+      icon: "mdi-wrench",
+      title: "Suspend",
+      link: "/maintenance/suspend"
     }
   ];
 
