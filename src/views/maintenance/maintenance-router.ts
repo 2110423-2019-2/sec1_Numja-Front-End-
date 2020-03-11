@@ -6,7 +6,7 @@ export const maintenanceRouter = {
   component: Maintenance,
   children: [
     {
-      path: "/",
+      path: "",
       component: MaintenanceHome
     },
     {
