@@ -5,6 +5,7 @@ import {
   LoginMutations,
   LoginActions,
   LoginCredentials,
+  SignUpCredentials,
   User
 } from "@/types";
 import Vue from "vue";
@@ -19,7 +20,8 @@ const store: StoreOptions<LoginState> = {
   },
   getters: {
     [LoginGetters.isLogin]: state => !!state.token,
-    [LoginGetters.isFetching]: state => state.fetching
+    [LoginGetters.isFetching]: state => state.fetching,
+    [LoginGetters.getUser]: state => state.user
   },
   mutations: {
     [LoginMutations.setToken]: (state, payload: string) => {
@@ -51,6 +53,26 @@ const store: StoreOptions<LoginState> = {
         dispatch(LoginActions.redirect);
       } else {
         commit(LoginMutations.setError, true);
+        commit(LoginMutations.setFetching, false);
+      }
+    },
+    [LoginActions.signUp]: async (
+      { commit, dispatch },
+      payload: SignUpCredentials
+    ) => {
+      commit(LoginMutations.setFetching, true);
+      const response = await Vue.axios.post<string>("/auth/register", payload);
+
+      if (response.status === 201) {
+        Vue.axios.defaults.headers.common[
+          "Authorization"
+        ] = `Bearer ${response.data}`;
+        commit(LoginMutations.setToken, response.data);
+        commit(LoginMutations.setError, false);
+        dispatch(LoginActions.redirect);
+      } else {
+        commit(LoginMutations.setError, true);
+        commit(LoginMutations.setFetching, false);
       }
     },
     [LoginActions.logout]: async ({ commit }) => {
@@ -65,6 +87,11 @@ const store: StoreOptions<LoginState> = {
         router.push("/");
       }
       commit(LoginMutations.setFetching, false);
+    },
+    [LoginActions.protectedRedirect]: async ({ state }) => {
+      if (!state.token) {
+        router.push("/login");
+      }
     }
   }
 };

@@ -3,6 +3,19 @@ export interface LoginCredentials {
   password: string;
 }
 
+export interface SignUpCredentials {
+  username: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+  birthDate: string;
+  email: string;
+  address: string;
+  gender: Gender;
+  ssin: string;
+  role: UserRole;
+}
+
 export interface LoginState {
   fetching: boolean;
   error: boolean;
@@ -11,8 +24,21 @@ export interface LoginState {
 }
 
 export interface User {
-  username: string;
+  _id: string;
+  username?: string;
+  firstName: string;
+  lastName: string;
   role: UserRole;
+  status: UserStatus;
+  verified: boolean;
+  gender: UserGender;
+  birthDate: Date;
+  credit: number;
+  email: string;
+  address: string;
+  ssin: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export enum UserRole {
@@ -21,9 +47,20 @@ export enum UserRole {
   Admin = "admin"
 }
 
+export enum UserStatus {
+  Active = "active",
+  Suspended = "suspended"
+}
+
+export enum UserGender {
+  Male = "male",
+  Female = "female"
+}
+
 export enum LoginGetters {
   isLogin = "isLogin",
-  isFetching = "isFetching"
+  isFetching = "isFetching",
+  getUser = "getUser"
 }
 
 export enum LoginMutations {
@@ -37,5 +74,6 @@ export enum LoginActions {
   login = "login",
   logout = "logout",
   signUp = "signUp",
-  redirect = "redirect"
+  redirect = "redirect",
+  protectedRedirect = "protectedRedirect"
 }
