@@ -12,11 +12,6 @@ export const maintenanceRouter = {
       component: AdminSuspendUser
     },
     {
-      path: "/verify",
-      name: "Verify",
-      component: Verify
-    },
-    {
       path: "*",
       redirect: "/"
     }
