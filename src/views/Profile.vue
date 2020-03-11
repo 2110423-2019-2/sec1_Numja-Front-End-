@@ -49,7 +49,10 @@
             />
             <v-label class="mt-0">Birthdate</v-label>
             <v-row align="center" justify="center" class="ma-1 mb-5">
-              <v-date-picker v-model="birthDate" :disabled="!editMode"></v-date-picker>
+              <v-date-picker
+                v-model="birthDate"
+                :disabled="!editMode"
+              ></v-date-picker>
             </v-row>
             <v-text-field
               v-model="address"
@@ -101,13 +104,13 @@ const todayDate = new Date().toISOString().substr(0, 10);
 export default class SignUp extends Vue {
   private isValid = true;
   private editMode = false;
-  private username: string = "";
-  private email: string = "";
-  private firstName: string = "";
-  private lastName: string = "";
+  private username = "";
+  private email = "";
+  private firstName = "";
+  private lastName = "";
   private birthDate: string = todayDate;
-  private address: string = "";
-  private ssin: string = "";
+  private address = "";
+  private ssin = "";
   private gender: Gender = Gender.Male;
   private rules: {} = rules;
 
