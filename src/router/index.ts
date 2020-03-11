@@ -16,7 +16,18 @@ const routes = [
     name: "Login",
     component: () => import(/* webpackChunkName: "login" */ "@/views/Login.vue")
   },
-  maintenanceRouter
+  {
+    path: "/sign-up",
+    name: "SignUp",
+    component: () =>
+      import(/* webpackChunkName: "login" */ "@/views/SignUp.vue")
+  },
+  {
+    path: "/profile",
+    name: "Profile",
+    component: () =>
+      import(/* webpackChunkName: "login" */ "@/views/Profile.vue")
+  }
 ];
 
 const router = new VueRouter({
