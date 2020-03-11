@@ -8,5 +8,3 @@
 import { Vue } from "vue-property-decorator";
 export default class MaintenanceHome extends Vue {}
 </script>
-
-<style scoped></style>
