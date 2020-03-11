@@ -3,16 +3,16 @@ export interface SnackbarPayload {
   message: string;
 }
 
-export interface SnackbarState extends SnackbarPayload{
+export interface SnackbarState extends SnackbarPayload {
   isOpen: boolean;
 }
 
 export enum SnackbarActions {
-  push = 'pushNewNotification',
-  reset = 'resetOpenState'
+  push = "pushNewNotification",
+  reset = "resetOpenState"
 }
 
 export enum SnackbarMutations {
-  set = 'setSnackbarState',
-  reset = 'resetSnackbarState'
+  set = "setSnackbarState",
+  reset = "resetSnackbarState"
 }
