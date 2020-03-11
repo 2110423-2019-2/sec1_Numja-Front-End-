@@ -11,7 +11,7 @@ export interface SignUpCredentials {
   birthDate: string;
   email: string;
   address: string;
-  gender: Gender;
+  gender: UserGender;
   ssin: string;
   role: UserRole;
 }

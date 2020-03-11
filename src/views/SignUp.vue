@@ -95,7 +95,7 @@
 <script lang="ts">
 import { Vue, Component, Model } from "vue-property-decorator";
 import { Action } from "vuex-class";
-import { LoginActions, SignUpCredentials, Gender, UserRole } from "../types";
+import { LoginActions, SignUpCredentials, UserGender, UserRole } from "@/types";
 import { loginRules as rules, Rule } from "../rules";
 import vuetify from "../plugins/vuetify";
 
@@ -112,7 +112,7 @@ export default class SignUp extends Vue {
   private birthDate: string = todayDate;
   private address = "";
   private ssin = "";
-  private gender: Gender = Gender.Male;
+  private gender: UserGender = UserGender.Male;
   private role: UserRole = UserRole.Student;
 
   private rules: any = rules;

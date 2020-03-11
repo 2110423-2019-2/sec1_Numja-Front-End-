@@ -91,7 +91,7 @@ import { Action, Getter } from "vuex-class";
 import {
   LoginActions,
   SignUpCredentials,
-  Gender,
+  UserGender,
   UserRole,
   LoginGetters
 } from "../types";
@@ -111,7 +111,7 @@ export default class SignUp extends Vue {
   private birthDate: string = todayDate;
   private address = "";
   private ssin = "";
-  private gender: Gender = Gender.Male;
+  private gender: UserGender = UserGender.Male;
   private rules: {} = rules;
 
   @Getter(LoginGetters.getUser) private user!: any;

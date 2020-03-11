@@ -27,7 +27,8 @@ const routes = [
     name: "Profile",
     component: () =>
       import(/* webpackChunkName: "login" */ "@/views/Profile.vue")
-  }
+  },
+  maintenanceRouter
 ];
 
 const router = new VueRouter({
