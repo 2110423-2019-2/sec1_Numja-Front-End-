@@ -114,7 +114,7 @@ export default class SignUp extends Vue {
   private gender: UserGender = UserGender.Male;
   private rules: {} = rules;
 
-  @Getter(LoginGetters.getUser) private user!: any;
+  @Getter(LoginGetters.user) private user!: any;
   @Action(LoginActions.signUp)
   private signUp!: (credentials: SignUpCredentials) => void;
 

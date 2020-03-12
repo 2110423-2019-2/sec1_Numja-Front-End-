@@ -13,22 +13,22 @@ import router from "../../router";
 
 const store: StoreOptions<LoginState> = {
   state: {
-    fetching: false,
+    fetchingLogin: false,
     error: false,
     token: null,
     user: null
   },
   getters: {
     [LoginGetters.isLogin]: state => !!state.token,
-    [LoginGetters.isFetching]: state => state.fetching,
-    [LoginGetters.getUser]: state => state.user
+    [LoginGetters.isFetchingLogin]: state => state.fetchingLogin,
+    [LoginGetters.user]: state => state.user
   },
   mutations: {
     [LoginMutations.setToken]: (state, payload: string) => {
       state.token = payload;
     },
-    [LoginMutations.setFetching]: (state, payload: boolean) => {
-      state.fetching = payload;
+    [LoginMutations.setFetchingLogin]: (state, payload: boolean) => {
+      state.fetchingLogin = payload;
     },
     [LoginMutations.setError]: (state, payload: boolean) => {
       state.error = payload;
@@ -42,7 +42,7 @@ const store: StoreOptions<LoginState> = {
       { commit, dispatch },
       payload: LoginCredentials
     ) => {
-      commit(LoginMutations.setFetching, true);
+      commit(LoginMutations.setFetchingLogin, true);
       const response = await Vue.axios.post<string>("/auth/login", payload);
       if (response.status === 201) {
         Vue.axios.defaults.headers.common[
@@ -53,14 +53,14 @@ const store: StoreOptions<LoginState> = {
         dispatch(LoginActions.redirect);
       } else {
         commit(LoginMutations.setError, true);
-        commit(LoginMutations.setFetching, false);
+        commit(LoginMutations.setFetchingLogin, false);
       }
     },
     [LoginActions.signUp]: async (
       { commit, dispatch },
       payload: SignUpCredentials
     ) => {
-      commit(LoginMutations.setFetching, true);
+      commit(LoginMutations.setFetchingLogin, true);
       const response = await Vue.axios.post<string>("/auth/register", payload);
 
       if (response.status === 201) {
@@ -72,7 +72,7 @@ const store: StoreOptions<LoginState> = {
         dispatch(LoginActions.redirect);
       } else {
         commit(LoginMutations.setError, true);
-        commit(LoginMutations.setFetching, false);
+        commit(LoginMutations.setFetchingLogin, false);
       }
     },
     [LoginActions.logout]: async ({ commit }) => {
@@ -86,7 +86,7 @@ const store: StoreOptions<LoginState> = {
         commit(LoginMutations.setUser, response.data);
         router.push("/");
       }
-      commit(LoginMutations.setFetching, false);
+      commit(LoginMutations.setFetchingLogin, false);
     },
     [LoginActions.protectedRedirect]: async ({ state }) => {
       if (!state.token) {
