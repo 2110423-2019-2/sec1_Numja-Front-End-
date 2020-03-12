@@ -53,14 +53,14 @@ const store: StoreOptions<LoginState> = {
         dispatch(LoginActions.redirect);
       } else {
         commit(LoginMutations.setError, true);
-        commit(LoginMutations.setFetching, false);
+        commit(LoginMutations.setFetchingLogin, false);
       }
     },
     [LoginActions.signUp]: async (
       { commit, dispatch },
       payload: SignUpCredentials
     ) => {
-      commit(LoginMutations.setFetching, true);
+      commit(LoginMutations.setFetchingLogin, true);
       const response = await Vue.axios.post<string>("/auth/register", payload);
 
       if (response.status === 201) {
@@ -72,7 +72,7 @@ const store: StoreOptions<LoginState> = {
         dispatch(LoginActions.redirect);
       } else {
         commit(LoginMutations.setError, true);
-        commit(LoginMutations.setFetching, false);
+        commit(LoginMutations.setFetchingLogin, false);
       }
     },
     [LoginActions.logout]: async ({ commit }) => {
