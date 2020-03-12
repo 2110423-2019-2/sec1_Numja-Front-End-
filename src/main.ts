@@ -7,7 +7,7 @@ import VueAxios from "vue-axios";
 import vuetify from "./plugins/vuetify";
 import firebase from "firebase/app";
 import "firebase/analytics";
-import 'vuetify/dist/vuetify.min.css'
+import "vuetify/dist/vuetify.min.css";
 
 Vue.config.productionTip = false;
 
