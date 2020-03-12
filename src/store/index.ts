@@ -5,7 +5,7 @@ import chat from "@/store/modules/chat";
 import login from "@/store/modules/login";
 import snackbar from "@/store/modules/snackbar";
 import suspendUser from "@/store/modules/maintenance/suspend";
-import { State, LoginState } from "@/types";
+import { LoginState } from "@/types";
 
 Vue.use(Vuex);
 
