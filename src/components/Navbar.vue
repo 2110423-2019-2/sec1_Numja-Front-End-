@@ -14,8 +14,16 @@
 
     <v-navigation-drawer id="drawer" v-model="drawer" absolute temporary>
       <v-list nav dense>
-        <v-list-item-group v-model="group" active-class="primary--text text--accent-4">
-          <v-list-item v-for="(menu, i) of menuList" :key="i" link :to="menu.link">
+        <v-list-item-group
+          v-model="group"
+          active-class="primary--text text--accent-4"
+        >
+          <v-list-item
+            v-for="(menu, i) of menuList"
+            :key="i"
+            link
+            :to="menu.link"
+          >
             <v-list-item-icon>
               <v-icon>{{ menu.icon }}</v-icon>
             </v-list-item-icon>
