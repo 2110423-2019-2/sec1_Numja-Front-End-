@@ -1,3 +1,3 @@
 export * from "./login";
-export * from "./store";
+export * from "./chat";
 export * from "./maintenance/suspend";
