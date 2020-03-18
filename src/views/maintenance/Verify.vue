@@ -82,8 +82,6 @@ export default class Verify extends Vue {
   @State(state => state.verify.tutors) tutors!: Partial<User>[];
 
   @Action(VerifyActions.fetchTutors) fetchTutors!: Function;
-  @Action(VerifyActions.verify) verifyAction!: Function;
-  @Action(VerifyActions.unverify) unverifyAction!: Function;
   @Action(SnackbarActions.push) pushNewNotification!: Function;
 
   private search = "";
@@ -109,7 +107,7 @@ export default class Verify extends Vue {
     this.fetchTutors();
   }
 
-  async verifyTutorr(item: VerifyRowItem) {
+  async verifyTutor(item: VerifyRowItem) {
     this.isloading = true;
     const response = await Vue.axios.post(`admin/verifyTutor/${item._id}`);
     if (response.status === 201) {
