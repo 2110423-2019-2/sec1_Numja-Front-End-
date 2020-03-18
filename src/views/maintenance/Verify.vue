@@ -1,7 +1,7 @@
 <template>
   <v-data-table
     :headers="headers"
-    :items="teachers"
+    :items="tutors"
     class="elevation-1"
     item-key="name"
     :search="search"
@@ -9,7 +9,7 @@
   >
     <template v-slot:top>
       <v-toolbar flat color="white">
-        <v-toolbar-title> <h2>Verify Teacher</h2></v-toolbar-title>
+        <v-toolbar-title> <h2>Verify Tutor</h2></v-toolbar-title>
         <v-divider class="mx-4" inset vertical></v-divider>
         <v-spacer></v-spacer>
       </v-toolbar>
@@ -44,16 +44,16 @@
         color="primary"
         small
         dark
-        @click="verifyTeacher(item)"
+        @click="verifyTutor(item)"
         >Verify</v-btn
       >
-      <v-btn v-else color="secondary" small @click="unverifyTeacher(item)"
+      <v-btn v-else color="secondary" small @click="unverifyTutor(item)"
         >Unverify</v-btn
       >
       <v-btn
         small
-        :loading="loading5"
-        :disabled="loading5"
+        :loading="false"
+        :disabled="false"
         color="blue-grey"
         class="ma-2 white--text"
         fab
@@ -66,149 +66,112 @@
   </v-data-table>
 </template>
 
-<script>
-import Vue from "vue";
-import { mapActions } from "vuex";
+<script lang="ts">
+import { Vue, Component } from "vue-property-decorator";
+import { Action, Getter, State } from "vuex-class";
+import { VerifyActions, User } from "@/types";
+import { VerifiedStatus, VerifyRowItem } from "@/types";
+import { SnackbarActions } from "@/types/snackbar";
+import { AxiosResponse } from "axios";
 
-// const token =
-//   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZTY2ZDk0YWFhM2ZjODAwM2U4NjljMTYiLCJpYXQiOjE1ODM5NDg4MTB9.CM7rXY9IzbZ7GuzGExTvAloq2LcBV_sWviskfZeB1nA";
-export default {
-  data: () => ({
-    search: "",
-    loading: false,
-    headers: [
-      {
-        text: "Status",
-        value: "verified",
-        align: "center",
-        class: "success--text title"
-      },
-      { text: "Username", value: "username" },
-      { text: "Firstname", value: "firstName" },
-      { text: "Surname", value: "lastName" },
-      { text: "TimeStampSent", value: "evidenceSentDate" },
-      { text: "Link", value: "evidenceInfo", align: "center" },
-      { text: "Actions", value: "action", align: "center", sortable: false }
-    ],
-    teachers: [],
-    editedIndex: -1,
-    editedItem: undefined
-  }),
-  created() {
-    //this.initialize();
-  },
-  computed: {
-    isloading: () => {
-      return this.teachers.length === 0 || this.loading;
-    }
-  },
-  methods: {
-    ...mapActions(["pushNewNotification"]),
-    async verifyTeacher(item) {
-      this.loading = true;
-      const response = await Vue.axios.post(`admin/verifyTutor/${item._id}`);
-      if (response.status === 201) {
-        if (response.data.verified) {
-          item.verified = true;
-          this.pushNotification("success", "Verify Succeeded");
-          this.save(item);
-        } else {
-          this.pushNotification("error", "could not verify right now");
-        }
-      } else {
-        this.pushNotification("error", "error occured");
-      }
-      this.loading = false;
+@Component
+export default class Verify extends Vue {
+  @State(state => state.verify.isFetching) isFetching!: boolean;
+  @State(state => state.verify.isSuccess) isSuccess!: boolean;
+  @State(state => state.verify.isError) isError!: boolean;
+  @State(state => state.verify.tutors) tutors!: Partial<User>[];
+
+  @Action(VerifyActions.fetchTutors) fetchTutors!: Function;
+  @Action(VerifyActions.verify) verifyAction!: Function;
+  @Action(VerifyActions.unverify) unverifyAction!: Function;
+  @Action(SnackbarActions.push) pushNewNotification!: Function;
+
+  private search = "";
+  private isloading = false;
+  private editedIndex = -1;
+  private editedItem = null;
+  private headers = [
+    {
+      text: "Status",
+      value: "verified",
+      align: "center",
+      class: "success--text title"
     },
-    async unverifyTeacher(item) {
-      this.loading = true;
-      const response = await Vue.axios.post(`admin/unverifyTutor/${item._id}`);
-      if (response.status === 201) {
-        if (!response.data.verified) {
-          item.verified = false;
-          this.pushNotification("success", "Unverify Succeeded");
-          this.save(item);
-        } else {
-          this.pushNotification("error", "could not unverify right now");
-        }
-      } else {
-        this.pushNotification("error", "error occured");
-      }
-      this.loading = false;
-    },
-    save(item) {
-      this.editedIndex = this.teachers.indexOf(item);
-      if (this.editedIndex > -1) {
-        Object.assign(this.teachers[this.editedIndex], item);
-      }
-    },
-    pushNotification(color, messages) {
-      this.pushNewNotification({ color: color, message: messages });
-      this.dismissAndClearInput();
-    },
-    forceFileDownload(response, item) {
-      const url = window.URL.createObjectURL(new Blob([response.data]));
-      const link = document.createElement("a");
-      link.href = url;
-      link.setAttribute("download", item.evidenceInfo); //or any other extension
-      document.body.appendChild(link);
-      link.click();
-    },
-    download(item) {
-      // TODO: ...
-      this.$http({
-        method: "get",
-        url: this.url,
-        responseType: "arraybuffer"
-      }).then(response => {
-        this.forceFileDownload(response, item);
-      });
-    }
-  },
-  async mounted() {
-    this.loading = true;
-    const response = await Vue.axios.get("/admin/allTutor");
-    this.teachers = response.data;
-    this.loading = false;
+    { text: "Username", value: "username" },
+    { text: "Firstname", value: "firstName" },
+    { text: "Surname", value: "lastName" },
+    { text: "TimeStampSent", value: "evidenceSentDate" },
+    { text: "Link", value: "evidenceInfo", align: "center" },
+    { text: "Actions", value: "action", align: "center", sortable: false }
+  ];
+
+  mounted() {
+    this.fetchTutors();
   }
-};
+
+  async verifyTutorr(item: VerifyRowItem) {
+    this.isloading = true;
+    const response = await Vue.axios.post(`admin/verifyTutor/${item._id}`);
+    if (response.status === 201) {
+      if (response.data.verified) {
+        item.verified = true;
+        this.pushNotification("success", "Verify Succeeded");
+        this.save(item);
+      } else {
+        this.pushNotification("error", "could not verify right now");
+      }
+    } else {
+      this.pushNotification("error", "error occured");
+    }
+    this.isloading = false;
+  }
+
+  async unverifyTutor(item: VerifyRowItem) {
+    this.isloading = true;
+    const response = await Vue.axios.post(`admin/unverifyTutor/${item._id}`);
+    if (response.status === 201) {
+      if (!response.data.verified) {
+        item.verified = false;
+        this.pushNotification("success", "Unverify Succeeded");
+        this.save(item);
+      } else {
+        this.pushNotification("error", "could not unverify right now");
+      }
+    } else {
+      this.pushNotification("error", "error occured");
+    }
+    this.isloading = false;
+  }
+
+  save(item: VerifyRowItem) {
+    this.editedIndex = this.tutors.indexOf(item);
+    if (this.editedIndex > -1) {
+      Object.assign(this.tutors[this.editedIndex], item);
+    }
+  }
+
+  pushNotification(color: string, messages: string) {
+    this.pushNewNotification({ color: color, message: messages });
+  }
+
+  forceFileDownload(response: AxiosResponse<any>, item: VerifyRowItem) {
+    const url = window.URL.createObjectURL(new Blob([response.data]));
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", item.evidenceInfo); //or any other extension
+    document.body.appendChild(link);
+    link.click();
+  }
+
+  download(item: VerifyRowItem) {
+    // TODO: ...
+    this.$http({
+      method: "get",
+      url: "",
+      responseType: "arraybuffer"
+    }).then(response => {
+      this.forceFileDownload(response, item);
+    });
+  }
+}
 </script>
-<style scoped lang="scss">
-.custom-loader {
-  animation: loader 1s infinite;
-  display: flex;
-}
-
-@-moz-keyframes loader {
-  from {
-    transform: rotate(0);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-@-webkit-keyframes loader {
-  from {
-    transform: rotate(0);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-@-o-keyframes loader {
-  from {
-    transform: rotate(0);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-@keyframes loader {
-  from {
-    transform: rotate(0);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-</style>

@@ -76,8 +76,8 @@ const store: StoreOptions<ChatState> = {
     },
     [ChatAction.unsubscribe]: ({ commit }) => {
       commit(ChatMutation.setMessages, []);
-      const unsub = messageCol.onSnapshot(() => { 
-        return {}
+      const unsub = messageCol.onSnapshot(() => {
+        return {};
       });
       unsub();
     }

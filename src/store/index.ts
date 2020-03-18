@@ -5,6 +5,8 @@ import chat from "@/store/modules/chat";
 import login from "@/store/modules/login";
 import snackbar from "@/store/modules/snackbar";
 import suspendUser from "@/store/modules/maintenance/suspend";
+import verify from "@/store/modules/maintenance/verify";
+
 import { LoginState } from "@/types";
 
 Vue.use(Vuex);
@@ -19,7 +21,8 @@ export default new Vuex.Store<any>({
     chat,
     login,
     snackbar,
-    suspendUser
+    suspendUser,
+    verify
   },
   plugins: [vuexLocal.plugin]
 });

@@ -52,6 +52,11 @@ export enum UserStatus {
   Suspended = "suspended"
 }
 
+export enum VerifiedStatus {
+  Verified = "verified",
+  Unverified = "unverified"
+}
+
 export enum UserGender {
   Male = "male",
   Female = "female"

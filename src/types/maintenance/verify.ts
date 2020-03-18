@@ -11,10 +11,6 @@ export interface VerifyTutorPayload {
   id: string;
 }
 
-export enum VerifyGetters {
-  getTutor = "getTutors"
-}
-
 export enum VerifyActions {
   fetchTutors = "fetchAllTutor",
   verify = "verify",
@@ -27,4 +23,15 @@ export enum VerifyMutations {
   fetching = "fetching",
   success = "success",
   error = "error"
+}
+
+export interface VerifyRowItem {
+  _id: string;
+  verified: boolean;
+  username: string;
+  firstName: string;
+  lastName: string;
+  evidenceSentDate: Date;
+  evidenceInfo: string;
+  action: undefined;
 }
