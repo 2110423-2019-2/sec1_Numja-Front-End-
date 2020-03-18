@@ -61,6 +61,11 @@ export default class Navbar extends Vue {
       icon: "mdi-chat",
       title: "Chat",
       link: "/chat"
+    },
+    {
+      icon: "mdi-wrench",
+      title: "Activate/Suspend",
+      link: "/maintenance/suspend"
     }
   ];
 
