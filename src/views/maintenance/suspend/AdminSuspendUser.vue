@@ -108,9 +108,3 @@ export default class AdminSuspendUser extends Vue {
   }
 }
 </script>
-
-<style scoped>
-p {
-  font-size: 12px;
-}
-</style>
