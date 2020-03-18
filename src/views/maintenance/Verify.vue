@@ -68,9 +68,9 @@
 
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
-import { Action, Getter, State } from "vuex-class";
+import { Action, State } from "vuex-class";
 import { VerifyActions, User } from "@/types";
-import { VerifiedStatus, VerifyRowItem } from "@/types";
+import { VerifyRowItem } from "@/types";
 import { SnackbarActions } from "@/types/snackbar";
 import { AxiosResponse } from "axios";
 
@@ -154,7 +154,8 @@ export default class Verify extends Vue {
     this.pushNewNotification({ color: color, message: messages });
   }
 
-  forceFileDownload(response: AxiosResponse<any>, item: VerifyRowItem) {
+  // TODO: function to call to download file object
+  forceFileDownload(response: AxiosResponse, item: VerifyRowItem) {
     const url = window.URL.createObjectURL(new Blob([response.data]));
     const link = document.createElement("a");
     link.href = url;
@@ -163,8 +164,8 @@ export default class Verify extends Vue {
     link.click();
   }
 
+  // TODO: download function axios to retrive file
   download(item: VerifyRowItem) {
-    // TODO: ...
     this.$http({
       method: "get",
       url: "",

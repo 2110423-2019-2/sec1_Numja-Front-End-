@@ -1,11 +1,6 @@
 import Vue from "vue";
 import { StoreOptions } from "vuex";
-import {
-  VerifyState,
-  VerifyActions,
-  VerifyMutations,
-  VerifyTutorPayload,
-} from "@/types";
+import { VerifyState, VerifyActions, VerifyMutations } from "@/types";
 
 const store: StoreOptions<VerifyState> = {
   state: {

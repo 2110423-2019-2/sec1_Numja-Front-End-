@@ -80,7 +80,7 @@ const store: StoreOptions<LoginState> = {
       commit(LoginMutations.setToken, null);
       router.push("/");
     },
-    [LoginActions.redirect]: async ({ commit, state }) => {
+    [LoginActions.redirect]: async ({ commit }) => {
       const response = await Vue.axios.get<User>("/user/me");
       if (response.status === 200) {
         commit(LoginMutations.setUser, response.data);

@@ -7,10 +7,6 @@ export interface VerifyState {
   tutors: Array<User>;
 }
 
-export interface VerifyTutorPayload {
-  id: string;
-}
-
 export enum VerifyActions {
   fetchTutors = "fetchAllTutor",
   verify = "verify",
