@@ -2,7 +2,7 @@
   <v-app>
     <Navbar />
     <v-content>
-      <v-container fill-height fluid>
+      <v-container fill-height fluid id="app-container">
         <SnackbarNotification />
         <router-view />
       </v-container>
@@ -26,3 +26,10 @@ import SnackbarNotification from "@/components/SnackbarNotification.vue";
 })
 export default class App extends Vue {}
 </script>
+
+<style lang="scss" scoped>
+#app-container {
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+</style>

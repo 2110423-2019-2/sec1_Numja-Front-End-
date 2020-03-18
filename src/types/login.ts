@@ -17,7 +17,7 @@ export interface SignUpCredentials {
 }
 
 export interface LoginState {
-  fetching: boolean;
+  fetchingLogin: boolean;
   error: boolean;
   token: string | null;
   user: User | null;
@@ -59,13 +59,13 @@ export enum UserGender {
 
 export enum LoginGetters {
   isLogin = "isLogin",
-  isFetching = "isFetching",
-  getUser = "getUser"
+  isFetchingLogin = "isFetchingLogin",
+  user = "user"
 }
 
 export enum LoginMutations {
   setToken = "setToken",
-  setFetching = "setFetching",
+  setFetchingLogin = "setFetchingLogin",
   setError = "setError",
   setUser = "setUser"
 }
