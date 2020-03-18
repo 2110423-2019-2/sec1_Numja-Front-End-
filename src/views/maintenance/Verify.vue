@@ -9,7 +9,7 @@
   >
     <template v-slot:top>
       <v-toolbar flat color="white">
-        <v-toolbar-title> <h2> Verify Teacher </h2></v-toolbar-title>
+        <v-toolbar-title> <h2>Verify Teacher</h2></v-toolbar-title>
         <v-divider class="mx-4" inset vertical></v-divider>
         <v-spacer></v-spacer>
       </v-toolbar>
@@ -167,7 +167,6 @@ export default {
   },
   async mounted() {
     this.loading = true;
-    // Vue.axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
     const response = await Vue.axios.get("/admin/allTutor");
     this.teachers = response.data;
     this.loading = false;
