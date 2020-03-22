@@ -32,7 +32,7 @@ export interface User {
   status: UserStatus;
   verified: boolean;
   gender: UserGender;
-  birthDate: Date;
+  birthDate: string;
   credit: number;
   email: string;
   address: string;
@@ -42,38 +42,39 @@ export interface User {
 }
 
 export enum UserRole {
-  Student = "student",
-  Tutor = "tutor",
-  Admin = "admin"
+  Student = 'student',
+  Tutor = 'tutor',
+  Admin = 'admin'
 }
 
 export enum UserStatus {
-  Active = "active",
-  Suspended = "suspended"
+  Active = 'active',
+  Suspended = 'suspended'
 }
 
 export enum UserGender {
-  Male = "male",
-  Female = "female"
+  Male = 'male',
+  Female = 'female'
 }
 
 export enum LoginGetters {
-  isLogin = "isLogin",
-  isFetching = "isFetching",
-  getUser = "getUser"
+  isLogin = 'isLogin',
+  isFetching = 'isFetching',
+  getUser = 'getUser'
 }
 
 export enum LoginMutations {
-  setToken = "setToken",
-  setFetching = "setFetching",
-  setError = "setError",
-  setUser = "setUser"
+  setToken = 'setToken',
+  setFetching = 'setFetching',
+  setError = 'setError',
+  setUser = 'setUser'
 }
 
 export enum LoginActions {
-  login = "login",
-  logout = "logout",
-  signUp = "signUp",
-  redirect = "redirect",
-  protectedRedirect = "protectedRedirect"
+  login = 'login',
+  logout = 'logout',
+  signUp = 'signUp',
+  redirect = 'redirect',
+  protectedRedirect = 'protectedRedirect',
+  setAxiosHeader = 'setAxiosHeader'
 }

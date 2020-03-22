@@ -15,6 +15,8 @@
 import { Vue, Component } from "vue-property-decorator";
 import ReportSystemButton from "@/components/ReportSystemButton.vue";
 import SnackbarNotification from "@/components/SnackbarNotification.vue";
+import { Action } from "vuex-class";
+import { LoginGetters, LoginActions } from "./types";
 
 @Component({
   components: {
@@ -24,5 +26,11 @@ import SnackbarNotification from "@/components/SnackbarNotification.vue";
     SnackbarNotification
   }
 })
-export default class App extends Vue {}
+export default class App extends Vue {
+  @Action(LoginActions.setAxiosHeader) private setAxiosHeader!: () => void;
+
+  mounted() {
+    this.setAxiosHeader();
+  }
+}
 </script>

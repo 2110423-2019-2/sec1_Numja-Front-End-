@@ -136,7 +136,6 @@ export default class SignUp extends Vue {
         role: this.role
       });
     } else {
-      console.log("invalid");
       this.$vuetify.goTo(0, {
         duration: 500,
         offset: 0,

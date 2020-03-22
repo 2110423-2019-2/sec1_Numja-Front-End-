@@ -1,13 +1,204 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
-  </div>
+  <v-row justify="center" align="center">
+    <v-col cols="12" sm="9" md="5">
+      <v-dialog v-model="dialog" width="600">
+        <template v-slot:activator="{ on }">
+          <v-card>
+            <v-card-title v-if="!searchMode">
+              Tutors List
+              <v-spacer></v-spacer>
+              <v-icon class="mr-3" @click="setSearchMode(true)">mdi-magnify</v-icon>
+              <v-icon @click="fetchTutors">mdi-refresh</v-icon>
+            </v-card-title>
+            <v-card-title v-else>
+              <v-text-field
+                v-model="search"
+                label="Search"
+                single-line
+                hide-details
+                append-icon="mdi-close-circle"
+                @click:append="setSearchMode(false)"
+              ></v-text-field>
+            </v-card-title>
+            <v-data-table
+              :headers="headers"
+              :items="tutors"
+              :items-per-page="10"
+              class="elevation-1"
+            >
+              <template v-slot:item.verified="{ item }">
+                <v-icon color="primary" v-if="item.verified">mdi-check-circle</v-icon>
+              </template>
+              <template
+                v-if="myUser.role !== 'tutor' && myUser.role !== 'admin'"
+                v-slot:item.actions="{ item }"
+              >
+                <v-hover v-slot:default="{ hover }">
+                  <v-btn
+                    class="ma-2"
+                    color="primary"
+                    :outlined="!hover"
+                    @click="selectItem(item)"
+                    v-on="on"
+                  >
+                    <v-icon left>mdi-plus-circle</v-icon>Reserve
+                  </v-btn>
+                </v-hover>
+              </template>
+            </v-data-table>
+          </v-card>
+        </template>
+        <v-card elevation="8">
+          <v-banner
+            sticky
+            color="primary"
+            dark
+            class="pa-2"
+            elevation="6"
+          >{{ `create appointment : ${selectedUserName}` }}</v-banner>
+
+          <v-form @submit.prevent="submit" v-model="formIsValid" ref="form">
+            <v-card-text class="px-6">
+              <v-label class="mt-0">Date</v-label>
+              <v-row align="center" justify="center" class="ma-1 mb-5">
+                <v-date-picker v-model="date"></v-date-picker>
+              </v-row>
+              <v-label class="mt-0">Start Time</v-label>
+              <v-row align="center" justify="center" class="ma-1 mb-5">
+                <v-time-picker v-model="startTime" class="mt-2" landscape format="ampm"></v-time-picker>
+              </v-row>
+              <v-label class="mt-0">End Time</v-label>
+              <v-row align="center" justify="center" class="ma-1 mb-5">
+                <v-time-picker v-model="endTime" class="mt-2" landscape format="ampm"></v-time-picker>
+              </v-row>
+              <v-text-field
+                v-model="address"
+                type="text"
+                label="Address"
+                prepend-icon="mdi-home"
+                :rules="[rules.required]"
+                required
+              />
+              <v-text-field
+                v-model="price"
+                type="number"
+                label="Price"
+                prepend-icon="mdi-cash"
+                :rules="[rules.notNegative]"
+                suffix="baht"
+                required
+              />
+            </v-card-text>
+
+            <v-card-actions class="pa-6 pt-0">
+              <v-spacer />
+              <v-btn text @click="dialog=false">cancel</v-btn>
+              <v-btn color="primary" type="submit">create</v-btn>
+            </v-card-actions>
+          </v-form>
+        </v-card>
+      </v-dialog>
+    </v-col>
+  </v-row>
 </template>
 
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
+import { Action, Getter } from "vuex-class";
+import { appointmentRules as rules } from "../rules";
+import {
+  LoginActions,
+  LoginGetters,
+  AppointmentGetters,
+  AppointmentActions,
+  User
+} from "../types";
 
 @Component
-export default class Home extends Vue {}
+export default class Home extends Vue {
+  @Action(LoginActions.protectedRedirect)
+  private protectedRedirect!: () => void;
+
+  @Action(AppointmentActions.fetchTutors)
+  private fetchTutors!: () => void;
+
+  @Getter(AppointmentGetters.getTutors) private tutors!: User[];
+
+  @Getter(LoginGetters.getUser) private myUser!: User;
+
+  private headers = [
+    {
+      text: "first name",
+      align: "start",
+      value: "firstName"
+    },
+    {
+      text: "last name",
+      value: "lastName"
+    },
+    {
+      text: "gender",
+      value: "gender"
+    },
+    {
+      text: "verified",
+      value: "verified"
+    },
+    { text: "", value: "actions", sortable: false }
+  ];
+
+  private formIsValid: boolean = true;
+  private searchMode: boolean = false;
+  private dialog: boolean = false;
+  private selectedUserId: string = "";
+  private selectedUserName: string = "";
+  private rules = rules;
+
+  private date: string = new Date().toISOString().substr(0, 10);
+  private startTime: string = "00:00";
+  private endTime: string = "00:00";
+  private address: string = "";
+  private price: number = 0;
+
+  mounted() {
+    this.protectedRedirect();
+    this.fetchTutors();
+  }
+
+  setSearchMode(searchMode: boolean) {
+    this.searchMode = searchMode;
+  }
+
+  selectItem(item: User) {
+    this.selectedUserName = `${item.firstName} ${item.lastName}`;
+    this.selectedUserId = `${item._id}`;
+  }
+
+  private combineDateAndTime(date: string, time: string) {
+    const generatedDate = new Date(date);
+    const [hours, minutes] = time.split(":");
+    generatedDate.setHours(parseInt(hours), parseInt(minutes), 0, 0);
+    return generatedDate.toUTCString();
+  }
+
+  async submit() {
+    this.validate();
+    if (this.formIsValid) {
+      const obj = {
+        startTime: this.combineDateAndTime(this.date, this.startTime),
+        endTime: this.combineDateAndTime(this.date, this.endTime),
+        location: this.address,
+        price: this.price,
+        tutorId: this.selectedUserId
+      };
+      console.log(obj);
+      const response = await Vue.axios.post("/appointment/create", obj);
+      console.log(response);
+    }
+  }
+
+  validate() {
+    (this.$refs.form as Vue & { validate: () => boolean }).validate();
+  }
+}
 </script>
