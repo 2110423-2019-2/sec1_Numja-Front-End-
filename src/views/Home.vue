@@ -84,7 +84,7 @@
                 type="number"
                 label="Price"
                 prepend-icon="mdi-cash"
-                :rules="[rules.notNegative]"
+                :rules="[rules.notNegative, rules.required]"
                 suffix="baht"
                 required
               />
@@ -92,7 +92,7 @@
 
             <v-card-actions class="pa-6 pt-0">
               <v-spacer />
-              <v-btn text @click="dialog=false">cancel</v-btn>
+              <v-btn text @click="closeModal">cancel</v-btn>
               <v-btn color="primary" type="submit">create</v-btn>
             </v-card-actions>
           </v-form>
@@ -158,7 +158,7 @@ export default class Home extends Vue {
   private startTime: string = "00:00";
   private endTime: string = "00:00";
   private address: string = "";
-  private price: number = 0;
+  private price!: number;
 
   mounted() {
     this.protectedRedirect();
@@ -181,24 +181,35 @@ export default class Home extends Vue {
     return generatedDate.toUTCString();
   }
 
+  closeModal() {
+    this.dialog = false;
+    this.resetForm();
+  }
+
   async submit() {
     this.validate();
     if (this.formIsValid) {
-      const obj = {
-        startTime: this.combineDateAndTime(this.date, this.startTime),
-        endTime: this.combineDateAndTime(this.date, this.endTime),
-        location: this.address,
-        price: this.price,
-        tutorId: this.selectedUserId
-      };
-      console.log(obj);
-      const response = await Vue.axios.post("/appointment/create", obj);
-      console.log(response);
+      try {
+        const response = await Vue.axios.post("/appointment/create", {
+          startTime: this.combineDateAndTime(this.date, this.startTime),
+          endTime: this.combineDateAndTime(this.date, this.endTime),
+          location: this.address,
+          price: this.price,
+          tutorId: this.selectedUserId
+        });
+        this.closeModal();
+      } catch (error) {
+        alert(error);
+      }
     }
   }
 
   validate() {
     (this.$refs.form as Vue & { validate: () => boolean }).validate();
+  }
+
+  resetForm() {
+    (this.$refs.form as Vue & { reset: () => void }).reset();
   }
 }
 </script>
