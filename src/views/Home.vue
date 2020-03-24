@@ -98,6 +98,15 @@
           </v-form>
         </v-card>
       </v-dialog>
+      <v-dialog v-model="timeErrorDialog" max-width="500px">
+        <v-card>
+          <v-card-title>Error</v-card-title>
+          <v-card-text>{{ timeErrorMessage }}</v-card-text>
+          <v-card-actions>
+            <v-btn color="primary" text @click="timeErrorDialog = false">Close</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
     </v-col>
   </v-row>
 </template>
@@ -150,11 +159,15 @@ export default class Home extends Vue {
   private formIsValid: boolean = true;
   private searchMode: boolean = false;
   private dialog: boolean = false;
+  private timeErrorDialog: boolean = false;
+  private timeErrorMessage: string = "";
   private selectedUserId: string = "";
   private selectedUserName: string = "";
   private rules = rules;
 
-  private date: string = new Date().toISOString().substr(0, 10);
+  private date: string = this.todayDate()
+    .toISOString()
+    .substr(0, 10);
   private startTime: string = "00:00";
   private endTime: string = "00:00";
   private address: string = "";
@@ -188,7 +201,7 @@ export default class Home extends Vue {
 
   async submit() {
     this.validate();
-    if (this.formIsValid) {
+    if (this.formIsValid && this.validateTime()) {
       try {
         const response = await Vue.axios.post("/appointment/create", {
           startTime: this.combineDateAndTime(this.date, this.startTime),
@@ -204,12 +217,35 @@ export default class Home extends Vue {
     }
   }
 
+  validateTime() {
+    if (new Date(this.date) < this.todayDate()) {
+      this.timeErrorDialog = true;
+      this.timeErrorMessage = "cannot make appointment on selected date";
+      return false;
+    } else if (this.endTime <= this.startTime) {
+      this.timeErrorDialog = true;
+      this.timeErrorMessage = "end time must be after start time";
+      return false;
+    } else {
+      return true;
+    }
+  }
+
   validate() {
     (this.$refs.form as Vue & { validate: () => boolean }).validate();
   }
 
   resetForm() {
     (this.$refs.form as Vue & { reset: () => void }).reset();
+    this.startTime = "00:00";
+    this.endTime = "00:00";
+    this.date = this.todayDate()
+      .toISOString()
+      .substring(0, 10);
+  }
+
+  todayDate() {
+    return new Date();
   }
 }
 </script>
