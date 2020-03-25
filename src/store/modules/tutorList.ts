@@ -1,26 +1,25 @@
 import Vue from 'vue';
 import { StoreOptions } from 'vuex';
 import {
-  AppointmentPageState,
-  AppointmentActions,
-  AppointmentMutations,
-  AppointmentGetters,
+  tutorListPageState,
+  tutorListActions,
+  tutorListMutations,
+  tutorListGetters,
   User,
-  UserRole,
-  Appointment
+  UserRole
 } from '@/types';
 
-const store: StoreOptions<AppointmentPageState> = {
+const store: StoreOptions<tutorListState> = {
   state: {
     isSuccess: false,
     isFetching: false,
     isError: false,
-    tutors: [],
-    appointments: []
+    tutors: []
   },
 
   getters: {
-    [AppointmentGetters.getTutors]: state => {
+    [tutorListGetters.getTutors]: state => {
+      console.log('getters', state.tutors);
       return state.tutors;
     }
   },
@@ -32,7 +31,7 @@ const store: StoreOptions<AppointmentPageState> = {
   },
 
   actions: {
-    [AppointmentActions.fetchTutors]: async ({ commit }) => {
+    [tutorListActions.fetchTutors]: async ({ commit }) => {
       commit(AppointmentMutations.fetching);
       try {
         const response = await Vue.axios.get('/user');
@@ -41,15 +40,6 @@ const store: StoreOptions<AppointmentPageState> = {
           AppointmentMutations.setTutors,
           responseData.filter(user => user.role === UserRole.Tutor)
         );
-      } catch (error) {
-        //
-      }
-    },
-    [AppointmentActions.fetchAppointments]: async ({ commit }) => {
-      commit(AppointmentMutations.fetching);
-      try {
-        const response = await Vue.axios.get('/appointment/me');
-        commit(AppointmentMutations.setAppointments, response.data);
       } catch (error) {
         //
       }

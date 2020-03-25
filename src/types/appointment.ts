@@ -5,24 +5,40 @@ export interface AppointmentPageState {
   isFetching: boolean;
   isError: boolean;
   tutors: User[] | null;
-  selectedTutorIndex: number;
-  isShowingPopUp: boolean;
+  appointments: Appointment[] | null;
+}
+
+export enum AppointmentState {
+  pending = 'pending'
+}
+
+export interface Appointment {
+  status: AppointmentState;
+  _id: string;
+  startTime: string;
+  endTime: string;
+  location: string;
+  price: number;
+  student: string;
+  tutor: string;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
 }
 
 export enum AppointmentGetters {
-  getTutors = 'getTutors'
+  getTutors = 'getTutors',
+  getAppointments = 'getAppointments'
 }
 
 export enum AppointmentActions {
   fetchTutors = 'fetchTutors',
-  showTutorPopUp = 'showTutorPopUp',
-  hideTutorPopUp = 'hideTutorPopUp'
+  fetchAppointments = 'fetchAppointments'
 }
 
 export enum AppointmentMutations {
   setTutors = 'setTutors',
-  setSelectedIndex = 'setSelectedIndex',
-  setShowPopUp = 'setShowPopUp',
+  setAppointments = 'setAppointments',
   fetching = 'fetching',
   success = 'success',
   error = 'error'
