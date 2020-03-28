@@ -55,7 +55,10 @@
             />
             <v-label class="mt-0">Birthdate</v-label>
             <v-row align="center" justify="center" class="ma-1 mb-5">
-              <v-date-picker v-model="userInfo.birthDate" :disabled="!editMode"></v-date-picker>
+              <v-date-picker
+                v-model="userInfo.birthDate"
+                :disabled="!editMode"
+              ></v-date-picker>
             </v-row>
             <v-text-field
               v-model="userInfo.address"
@@ -89,17 +92,17 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Model } from "vue-property-decorator";
-import { Action, Getter } from "vuex-class";
+import { Vue, Component, Model } from 'vue-property-decorator';
+import { Action, Getter } from 'vuex-class';
 import {
   LoginActions,
   SignUpCredentials,
   UserGender,
   UserRole,
   LoginGetters
-} from "../types";
-import { loginRules as rules, Rule } from "../rules";
-import vuetify from "../plugins/vuetify";
+} from '../types';
+import { loginRules as rules, Rule } from '../rules';
+import vuetify from '../plugins/vuetify';
 
 const todayDate = new Date().toISOString().substr(0, 10);
 
@@ -108,13 +111,13 @@ export default class SignUp extends Vue {
   private isValid = true;
   private editMode = false;
   private userInfo = {
-    username: "",
-    email: "",
-    firstName: "",
-    lastName: "",
+    username: '',
+    email: '',
+    firstName: '',
+    lastName: '',
     birthDate: todayDate,
-    address: "",
-    ssin: "",
+    address: '',
+    ssin: '',
     gender: UserGender.Male
   };
   private rules: {} = rules;
@@ -137,7 +140,7 @@ export default class SignUp extends Vue {
   }
 
   cancelEditMode() {
-    console.log("cancel");
+    console.log('cancel');
     this.renderUser();
     this.toggleEditMode();
   }

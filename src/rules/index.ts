@@ -1,4 +1,4 @@
 export * from './login';
-export * from './appointment';
+export { appointmentRules } from './appointment';
 
 export type Rule = { (data: string): boolean | string };

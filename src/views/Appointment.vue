@@ -1,0 +1,181 @@
+<template>
+  <v-row justify="center" align="center">
+    <v-col>
+      <v-container fluid style="width: 75%">
+        <v-sheet height="64">
+          <v-toolbar flat color="white">
+            <v-btn outlined class="mr-4" color="grey darken-2" @click="setToday">Today</v-btn>
+            <v-btn fab text small color="grey darken-2" @click="prev">
+              <v-icon small>mdi-chevron-left</v-icon>
+            </v-btn>
+            <v-btn fab text small color="grey darken-2" @click="next">
+              <v-icon small>mdi-chevron-right</v-icon>
+            </v-btn>
+            <v-toolbar-title>{{ title }}</v-toolbar-title>
+            <v-spacer></v-spacer>
+            <v-icon @click="fetchAppointments">mdi-refresh</v-icon>
+          </v-toolbar>
+        </v-sheet>
+        <v-sheet height="600">
+          <v-calendar
+            ref="calendar"
+            v-model="focus"
+            color="primary"
+            :events="events"
+            :event-color="getEventColor"
+            :now="today"
+            type="month"
+            @click:event="showEvent"
+            @click:more="viewDay"
+            @click:date="viewDay"
+            @change="updateRange"
+          ></v-calendar>
+          <v-menu
+            v-model="selectedOpen"
+            :close-on-content-click="false"
+            :activator="selectedElement"
+            offset-x
+          >
+            <v-card color="grey lighten-4" min-width="350px" flat>
+              <v-toolbar :color="selectedEvent.color" dark>
+                <v-btn icon>
+                  <v-icon>mdi-pencil</v-icon>
+                </v-btn>
+                <v-toolbar-title v-html="selectedEvent.name"></v-toolbar-title>
+                <v-spacer></v-spacer>
+                <v-btn icon>
+                  <v-icon>mdi-heart</v-icon>
+                </v-btn>
+                <v-btn icon>
+                  <v-icon>mdi-dots-vertical</v-icon>
+                </v-btn>
+              </v-toolbar>
+              <v-card-text>
+                <span v-html="selectedEvent.details"></span>
+              </v-card-text>
+              <v-card-actions>
+                <v-btn text color="secondary" @click="selectedOpen = false">Cancel</v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-menu>
+        </v-sheet>
+      </v-container>
+      <v-dialog v-model="showAppointmentDetails" max-width="600px">
+        <v-card>
+          <v-card-title>Appointment Details</v-card-title>
+        </v-card>
+      </v-dialog>
+    </v-col>
+  </v-row>
+</template>
+
+<script lang="ts">
+import { Vue, Component } from "vue-property-decorator";
+import { Action, Getter } from "vuex-class";
+import {
+  LoginActions,
+  LoginGetters,
+  AppointmentGetters,
+  AppointmentActions,
+  User,
+  Appointment,
+  CalendarReference,
+  Event
+} from "../types";
+
+@Component
+export default class AppointmentPage extends Vue {
+  @Action(LoginActions.protectedRedirect)
+  private protectedRedirect!: () => void;
+
+  @Action(AppointmentActions.fetchAppointments)
+  private fetchAppointments!: () => void;
+  @Action(AppointmentActions.fetchTutors)
+  private fetchTutors!: () => void;
+
+  @Getter(AppointmentGetters.getTutors) private tutors!: User[];
+  @Getter(AppointmentGetters.getAppointments)
+  private appointments!: Appointment[];
+  private get events(): Event[] {
+    return this.appointments.map(item => {
+      return {
+        ...item,
+        name: item.status,
+        start: item.startTime.substr(0, 10),
+        end: item.startTime.substr(0, 10)
+      };
+    });
+  }
+
+  private showAppointmentDetails: boolean = true;
+
+  @Getter(LoginGetters.getUser) private myUser!: User;
+
+  mounted() {
+    this.protectedRedirect();
+    this.fetchAppointments();
+    this.fetchTutors();
+  }
+
+  private today: string = this.formattedTodayDate;
+  private focus: string = this.formattedTodayDate;
+  private start: CalendarReference | null = null;
+  private end: CalendarReference | null = null;
+  private selectedEvent: any = {};
+  private selectedElement: any = null;
+  private selectedOpen: boolean = false;
+  private get calendarInstance(): Vue & {
+    prev: () => void;
+    next: () => void;
+    getFormatter: (format: any) => any;
+  } {
+    return this.$refs.calendar as Vue & {
+      prev: () => void;
+      next: () => void;
+      getFormatter: (format: any) => any;
+    };
+  }
+
+  private get formattedTodayDate() {
+    return new Date().toISOString().substr(0, 10);
+  }
+
+  private get title() {
+    const { start, end } = this;
+    if (!start || !end) return "";
+    const startMonth: any = this.monthFormatter(start);
+    const startYear: any = start.year;
+    return `${startMonth} ${startYear}`;
+  }
+
+  private get monthFormatter() {
+    return this.calendarInstance.getFormatter({
+      timeZone: "UTC",
+      month: "long"
+    });
+  }
+
+  private prev() {
+    this.calendarInstance.prev();
+  }
+
+  private next() {
+    this.calendarInstance.next();
+  }
+
+  updateRange({
+    start,
+    end
+  }: {
+    start: CalendarReference;
+    end: CalendarReference;
+  }) {
+    this.start = start;
+    this.end = end;
+  }
+
+  showEvent(x: any) {
+    console.log(x);
+  }
+}
+</script>

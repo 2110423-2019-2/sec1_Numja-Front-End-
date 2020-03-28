@@ -6,8 +6,7 @@ import {
   AppointmentMutations,
   AppointmentGetters,
   User,
-  UserRole,
-  Appointment
+  UserRole
 } from '@/types';
 
 const store: StoreOptions<AppointmentPageState> = {
@@ -22,12 +21,18 @@ const store: StoreOptions<AppointmentPageState> = {
   getters: {
     [AppointmentGetters.getTutors]: state => {
       return state.tutors;
+    },
+    [AppointmentGetters.getAppointments]: state => {
+      return state.appointments;
     }
   },
 
   mutations: {
     [AppointmentMutations.setTutors]: (state, tutors) => {
       state.tutors = tutors;
+    },
+    [AppointmentMutations.setAppointments]: (state, appointments) => {
+      state.appointments = appointments;
     }
   },
 

@@ -49,13 +49,11 @@
           </v-card>
         </template>
         <v-card elevation="8">
-          <v-banner
-            sticky
-            color="primary"
-            dark
-            class="pa-2"
-            elevation="6"
-          >{{ `create appointment : ${selectedUserName}` }}</v-banner>
+          <v-banner sticky color="primary" dark class="pa-2" elevation="6">
+            {{
+            `create appointment : ${selectedUserName}`
+            }}
+          </v-banner>
 
           <v-form @submit.prevent="submit" v-model="formIsValid" ref="form">
             <v-card-text class="px-6">

@@ -5,6 +5,7 @@ import login from '@/store/modules/login';
 import snackbar from '@/store/modules/snackbar';
 import suspendUser from '@/store/modules/maintenance/suspend';
 import appointment from '@/store/modules/appointment';
+import users from '@/store/modules/users';
 import { State, LoginState } from '@/types';
 
 Vue.use(Vuex);
@@ -14,12 +15,15 @@ const vuexLocal = new VuexPersistence<LoginState>({
   modules: ['login']
 });
 
-export default new Vuex.Store<any>({
+const store = new Vuex.Store<any>({
   modules: {
     login,
     snackbar,
     suspendUser,
-    appointment
+    appointment,
+    users
   },
   plugins: [vuexLocal.plugin]
 });
+
+export default store;

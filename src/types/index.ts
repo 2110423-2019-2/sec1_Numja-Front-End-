@@ -1,3 +1,4 @@
+export * from './users';
 export * from './login';
 export * from './store';
 export * from './maintenance/suspend';

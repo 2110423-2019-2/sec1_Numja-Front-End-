@@ -12,6 +12,28 @@ export enum AppointmentState {
   pending = 'pending'
 }
 
+export interface CalendarReference {
+  date: string;
+  time: string;
+  year: number;
+  month: number;
+  day: number;
+  weekday: number;
+  hour: number;
+  minute: number;
+  hasDay: boolean;
+  hasTime: boolean;
+  past: boolean;
+  preset: boolean;
+  future: boolean;
+}
+
+export interface Event extends Appointment {
+  name: string;
+  start: string;
+  end: string;
+}
+
 export interface Appointment {
   status: AppointmentState;
   _id: string;
