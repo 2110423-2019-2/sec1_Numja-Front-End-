@@ -30,34 +30,6 @@
             @click:date="viewDay"
             @change="updateRange"
           ></v-calendar>
-          <v-menu
-            v-model="selectedOpen"
-            :close-on-content-click="false"
-            :activator="selectedElement"
-            offset-x
-          >
-            <v-card color="grey lighten-4" min-width="350px" flat>
-              <v-toolbar :color="selectedEvent.color" dark>
-                <v-btn icon>
-                  <v-icon>mdi-pencil</v-icon>
-                </v-btn>
-                <v-toolbar-title v-html="selectedEvent.name"></v-toolbar-title>
-                <v-spacer></v-spacer>
-                <v-btn icon>
-                  <v-icon>mdi-heart</v-icon>
-                </v-btn>
-                <v-btn icon>
-                  <v-icon>mdi-dots-vertical</v-icon>
-                </v-btn>
-              </v-toolbar>
-              <v-card-text>
-                <span v-html="selectedEvent.details"></span>
-              </v-card-text>
-              <v-card-actions>
-                <v-btn text color="secondary" @click="selectedOpen = false">Cancel</v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-menu>
         </v-sheet>
       </v-container>
       <v-dialog v-model="showAppointmentDetails" max-width="600px">
@@ -77,9 +49,12 @@ import {
   LoginGetters,
   AppointmentGetters,
   AppointmentActions,
+  UsersActions,
+  UsersGetters,
   User,
   Appointment,
   CalendarReference,
+  CalendarEventReference,
   Event
 } from "../types";
 
@@ -90,10 +65,9 @@ export default class AppointmentPage extends Vue {
 
   @Action(AppointmentActions.fetchAppointments)
   private fetchAppointments!: () => void;
-  @Action(AppointmentActions.fetchTutors)
-  private fetchTutors!: () => void;
+  @Action(UsersActions.fetchUsers)
+  private fetchUsers!: () => void;
 
-  @Getter(AppointmentGetters.getTutors) private tutors!: User[];
   @Getter(AppointmentGetters.getAppointments)
   private appointments!: Appointment[];
   private get events(): Event[] {
@@ -107,6 +81,8 @@ export default class AppointmentPage extends Vue {
     });
   }
 
+  @Getter(UsersGetters.getUserById) private getUserById!: (id: string) => User;
+
   private showAppointmentDetails: boolean = true;
 
   @Getter(LoginGetters.getUser) private myUser!: User;
@@ -114,14 +90,14 @@ export default class AppointmentPage extends Vue {
   mounted() {
     this.protectedRedirect();
     this.fetchAppointments();
-    this.fetchTutors();
+    this.fetchUsers();
   }
 
   private today: string = this.formattedTodayDate;
   private focus: string = this.formattedTodayDate;
   private start: CalendarReference | null = null;
   private end: CalendarReference | null = null;
-  private selectedEvent: any = {};
+  private selectedEvent!: Event;
   private selectedElement: any = null;
   private selectedOpen: boolean = false;
   private get calendarInstance(): Vue & {
@@ -174,8 +150,12 @@ export default class AppointmentPage extends Vue {
     this.end = end;
   }
 
-  showEvent(x: any) {
-    console.log(x);
+  showEvent(event: CalendarEventReference) {
+    console.log(this.getUserById(event.event.student));
+  }
+
+  getEventColor(event: Event) {
+    return "primary";
   }
 }
 </script>

@@ -1,10 +1,7 @@
-import { User } from '@/types';
-
 export interface AppointmentPageState {
   isSuccess: boolean;
   isFetching: boolean;
   isError: boolean;
-  tutors: User[] | null;
   appointments: Appointment[] | null;
 }
 
@@ -34,6 +31,16 @@ export interface Event extends Appointment {
   end: string;
 }
 
+export interface CalendarEventReference {
+  event: Event;
+  day: any;
+  outside: boolean;
+  start: boolean;
+  end: boolean;
+  timed: boolean;
+  nativeElement: any;
+}
+
 export interface Appointment {
   status: AppointmentState;
   _id: string;
@@ -49,17 +56,14 @@ export interface Appointment {
 }
 
 export enum AppointmentGetters {
-  getTutors = 'getTutors',
   getAppointments = 'getAppointments'
 }
 
 export enum AppointmentActions {
-  fetchTutors = 'fetchTutors',
   fetchAppointments = 'fetchAppointments'
 }
 
 export enum AppointmentMutations {
-  setTutors = 'setTutors',
   setAppointments = 'setAppointments',
   fetching = 'fetching',
   success = 'success',

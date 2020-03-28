@@ -17,8 +17,10 @@ const store: StoreOptions<UsersState> = {
 
   getters: {
     [UsersGetters.getUsers]: state => state.users,
-    [UsersGetters.getTutors]: state =>
-      state.users.filter(user => user.role === UserRole.Tutor),
+    [UsersGetters.getTutors]: state => {
+      console.log(state.users.filter(user => user.role == UserRole.Tutor));
+      return state.users.filter(user => user.role === UserRole.Tutor);
+    },
     [UsersGetters.getOtherUsers]: state => {
       return state.users.filter(
         user => user._id !== vueStore.getters.getUser._id

@@ -8,7 +8,7 @@
               Tutors List
               <v-spacer></v-spacer>
               <v-icon class="mr-3" @click="setSearchMode(true)">mdi-magnify</v-icon>
-              <v-icon @click="fetchTutors">mdi-refresh</v-icon>
+              <v-icon @click="fetchUsers">mdi-refresh</v-icon>
             </v-card-title>
             <v-card-title v-else>
               <v-text-field
@@ -118,6 +118,8 @@ import {
   LoginGetters,
   AppointmentGetters,
   AppointmentActions,
+  UsersGetters,
+  UsersActions,
   User
 } from "../types";
 
@@ -126,10 +128,10 @@ export default class Home extends Vue {
   @Action(LoginActions.protectedRedirect)
   private protectedRedirect!: () => void;
 
-  @Action(AppointmentActions.fetchTutors)
-  private fetchTutors!: () => void;
+  @Action(UsersActions.fetchUsers)
+  private fetchUsers!: () => void;
 
-  @Getter(AppointmentGetters.getTutors) private tutors!: User[];
+  @Getter(UsersGetters.getTutors) private tutors!: User[];
 
   @Getter(LoginGetters.getUser) private myUser!: User;
 
@@ -173,7 +175,7 @@ export default class Home extends Vue {
 
   mounted() {
     this.protectedRedirect();
-    this.fetchTutors();
+    this.fetchUsers();
   }
 
   setSearchMode(searchMode: boolean) {
