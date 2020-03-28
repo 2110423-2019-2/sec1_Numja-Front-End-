@@ -29,6 +29,12 @@ const routes = [
       import(/* webpackChunkName: "profile" */ '@/views/Profile.vue')
   },
   {
+    path: '/profile/:id',
+    name: 'Profile',
+    component: () =>
+      import(/* webpackChunkName: "profile-by-id" */ '@/views/ProfileById.vue')
+  },
+  {
     path: '/appointment',
     name: 'Appointment',
     component: () =>
