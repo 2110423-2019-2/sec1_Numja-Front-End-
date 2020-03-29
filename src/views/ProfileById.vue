@@ -97,7 +97,7 @@ import router from "../router";
 const todayDate = new Date().toISOString().substr(0, 10);
 
 @Component
-export default class SignUp extends Vue {
+export default class Profile extends Vue {
   @Getter(UsersGetters.getUserById) private getUserById!: (id: string) => User;
 
   @Getter(LoginGetters.getUser) private myUser!: User;

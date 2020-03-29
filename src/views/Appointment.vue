@@ -75,8 +75,8 @@ export default class AppointmentPage extends Vue {
       return {
         ...item,
         name: item.status,
-        start: item.startTime.substr(0, 10),
-        end: item.startTime.substr(0, 10)
+        start: this.makeISOStringWithLocalOffset(item.startTime).substr(0, 10),
+        end: this.makeISOStringWithLocalOffset(item.startTime).substr(0, 10)
       };
     });
   }
@@ -112,8 +112,18 @@ export default class AppointmentPage extends Vue {
     };
   }
 
+  private makeISOStringWithLocalOffset(datestring: string) {
+    const timeZoneOffset = new Date().getTimezoneOffset() * 60000;
+    return new Date(
+      new Date(datestring).getTime() - timeZoneOffset
+    ).toISOString();
+  }
+
   private get formattedTodayDate() {
-    return new Date().toISOString().substr(0, 10);
+    return this.makeISOStringWithLocalOffset(new Date().toISOString()).substr(
+      0,
+      10
+    );
   }
 
   private get title() {
@@ -151,7 +161,7 @@ export default class AppointmentPage extends Vue {
   }
 
   showEvent(event: CalendarEventReference) {
-    console.log(this.getUserById(event.event.student));
+    console.log(event);
   }
 
   getEventColor(event: Event) {
