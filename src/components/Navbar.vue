@@ -15,7 +15,6 @@
     <v-navigation-drawer id="drawer" v-model="drawer" absolute temporary>
       <v-list nav dense>
         <v-list-item-group
-          v-model="group"
           active-class="primary--text text--accent-4"
         >
           <v-list-item
@@ -44,7 +43,7 @@ import { Getter, Action } from "vuex-class";
 export default class Navbar extends Vue {
   @Getter(LoginGetters.isLogin) private isLogin!: () => boolean;
   @Action(LoginActions.logout) private logout!: () => void;
-  @Model() private drawer = false;
+  private drawer = false;
   private menus = [
     {
       icon: "mdi-home",
