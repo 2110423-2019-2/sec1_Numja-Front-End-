@@ -45,8 +45,8 @@ import { LoginActions, LoginCredentials } from "../types";
 
 @Component
 export default class Login extends Vue {
-  private username!: string;
-  private password!: string;
+  @Model() private username!: string;
+  @Model() private password!: string;
   @Action(LoginActions.login) private login!: (
     credentials: LoginCredentials
   ) => void;
