@@ -92,6 +92,11 @@ const store: StoreOptions<LoginState> = {
       if (!state.token) {
         router.push("/login");
       }
+    },
+    [LoginActions.setAxiosHeader]: ({ state }) => {
+      Vue.axios.defaults.headers.common[
+        "Authorization"
+      ] = `Bearer ${state.token}`;
     }
   }
 };
