@@ -13,8 +13,10 @@
 
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
+import { Action } from "vuex-class";
 import ReportSystemButton from "@/components/ReportSystemButton.vue";
 import SnackbarNotification from "@/components/SnackbarNotification.vue";
+import { LoginActions } from "@/types";
 
 @Component({
   components: {
@@ -24,7 +26,12 @@ import SnackbarNotification from "@/components/SnackbarNotification.vue";
     SnackbarNotification
   }
 })
-export default class App extends Vue {}
+export default class App extends Vue {
+  @Action(LoginActions.setAxiosHeader) setAxiosHeader!: Function;
+  mounted() {
+    this.setAxiosHeader();
+  }
+}
 </script>
 
 <style lang="scss" scoped>

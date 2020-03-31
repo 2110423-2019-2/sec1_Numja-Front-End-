@@ -45,11 +45,12 @@ import { LoginActions, LoginCredentials } from "../types";
 
 @Component
 export default class Login extends Vue {
-  @Model() private username!: string;
-  @Model() private password!: string;
   @Action(LoginActions.login) private login!: (
     credentials: LoginCredentials
   ) => void;
+
+  private username = "";
+  private password = "";
 
   submit() {
     this.login({
