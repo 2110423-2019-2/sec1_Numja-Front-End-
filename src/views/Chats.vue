@@ -29,9 +29,7 @@ import { ChatAction, ChatUsers, ChatGetters, Message } from "@/types";
   }
 })
 export default class Chat extends Vue {
-  @Model() private text?: string;
   @Getter(ChatGetters.messages) private messages!: Message[];
-  // @Getter(LoginGetters.user) private user!: User;
   @Action(ChatAction.subscribe) private subscribe!: (
     payload: ChatUsers
   ) => Promise<void>;
@@ -39,6 +37,8 @@ export default class Chat extends Vue {
     payload: Message
   ) => void;
   @Action(ChatAction.unsubscribe) private unsubscribe!: () => void;
+
+  private text = "";
   private user = { _id: "test1" };
   private senderId = this.user._id;
 
