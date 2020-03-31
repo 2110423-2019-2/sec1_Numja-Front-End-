@@ -40,7 +40,7 @@
             />
             <v-label class="mt-0">Birthdate</v-label>
             <v-row align="center" justify="center" class="ma-1 mb-5">
-              <v-date-picker v-model="userInfo.birthDate" readonly></v-date-picker>
+              <v-date-picker :value="userInfo.birthDate.substr(0, 10)" readonly></v-date-picker>
             </v-row>
             <v-text-field
               v-model="userInfo.address"

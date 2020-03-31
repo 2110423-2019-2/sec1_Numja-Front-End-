@@ -6,7 +6,10 @@ export interface AppointmentPageState {
 }
 
 export enum AppointmentState {
-  pending = 'pending'
+  pending = 'pending',
+  canceled = 'canceled',
+  finished = 'finished',
+  approved = 'approved'
 }
 
 export interface CalendarReference {
