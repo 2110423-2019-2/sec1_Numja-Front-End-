@@ -4,7 +4,7 @@ import {
   SnackbarActions,
   SnackbarMutations,
   SnackbarPayload
-} from "@/types/snackbar";
+} from "@/types";
 
 const store: StoreOptions<SnackbarState> = {
   state: {
