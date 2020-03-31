@@ -3,8 +3,8 @@
     <h1>Activate/Suspend User</h1>
     <div class="d-flex my-2 justify-space-around">
       <div
-        v-for="(iconInfo,i) in iconDescription"
-        :key="'icon_'+i"
+        v-for="(iconInfo, i) in iconDescription"
+        :key="'icon_' + i"
         :style="{ color: iconInfo.color }"
       >
         <v-icon :color="iconInfo.color">{{ iconInfo.icon }}</v-icon>
