@@ -29,7 +29,7 @@ const store: StoreOptions<SuspendState> = {
     [SuspendMutations.fetching]: (state) => {
       state.isFetching = true;
       state.isSuccess = false;
-      state.isError;
+      state.isError = false;
     },
     [SuspendMutations.success]: (state) => {
       state.isSuccess = true;
