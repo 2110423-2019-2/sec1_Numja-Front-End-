@@ -32,11 +32,14 @@ export enum UserGender {
   Female = "female"
 }
 
-export interface UsersState {
+export interface UserState {
+  isFetching: boolean;
+  isSuccess: boolean;
+  isError: boolean;
   users: User[] | [];
 }
 
-export enum UsersGetters {
+export enum UserGetters {
   getUsers = "getUsers",
   getOtherUsers = "getOtherUsers",
   getUserById = "getUserById",
@@ -44,11 +47,18 @@ export enum UsersGetters {
   getNonAdminUsers = "getNonAdminUsers"
 }
 
-export enum UsersMutations {
-  setUsers = "setUsers"
+export enum UserMutations {
+  setUsers = "setUsers",
+  fetching = "fetching",
+  success = "success",
+  error = "error"
 }
 
-export enum UsersActions {
+export enum UserActions {
   fetchUsers = "fetchUsers",
-  test = "test"
+  test = "test",
+  setFetching = "setFetching",
+  setSuccess = "setSuccess",
+  setError = "setError",
+  uploadPortfolio = "uploadPortfolio"
 }
