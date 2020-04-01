@@ -20,7 +20,7 @@ const store: StoreOptions<VerifyState> = {
     [VerifyActions.fetchTutors]: async ({ commit }) => {
       commit(VerifyMutations.fetching);
       try {
-        const response = await Vue.axios.get("/admin/allTutor");
+        const response = await Vue.axios.get("/admin/findTutors");
         commit(VerifyMutations.setTutors, response.data);
         commit(VerifyMutations.success);
       } catch {

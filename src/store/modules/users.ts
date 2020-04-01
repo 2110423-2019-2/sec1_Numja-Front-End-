@@ -7,7 +7,8 @@ import {
   UsersMutations,
   UsersGetters,
   User,
-  UserRole
+  UserRole,
+  SnackbarActions
 } from "@/types";
 
 const store: StoreOptions<UsersState> = {
@@ -51,7 +52,10 @@ const store: StoreOptions<UsersState> = {
         console.log(error);
       }
     },
-    [UsersActions.uploadPortfolio]: async ({ commit, getters }, payload) => {
+    [UsersActions.uploadPortfolio]: async (
+      { commit, getters, dispatch },
+      payload
+    ) => {
       const user = getters.getUser;
       try {
         const response = await Vue.axios.post(
@@ -63,8 +67,15 @@ const store: StoreOptions<UsersState> = {
             }
           }
         );
-      } catch (error) {
-        console.log(error);
+        dispatch(SnackbarActions.push, {
+          color: "success",
+          message: "Portfolio uploaded"
+        });
+      } catch {
+        dispatch(SnackbarActions.push, {
+          color: "error",
+          message: "Upload failed"
+        });
       }
     }
   }
