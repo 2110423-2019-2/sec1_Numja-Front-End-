@@ -35,7 +35,7 @@ const store: StoreOptions<SuspendState> = {
           color: "success",
           message: `User ${user.username} is suspended`
         });
-      } catch (e) {
+      } catch {
         dispatch(SnackbarActions.push, {
           color: "error",
           message: `Suspend failed`

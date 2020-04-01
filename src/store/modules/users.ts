@@ -43,13 +43,16 @@ const store: StoreOptions<UsersState> = {
   },
 
   actions: {
-    [UsersActions.fetchUsers]: async ({ commit }) => {
+    [UsersActions.fetchUsers]: async ({ commit, dispatch }) => {
       try {
         const response = await Vue.axios.get("/user");
         const responseData: User[] = response.data;
         commit(UsersMutations.setUsers, responseData);
-      } catch (error) {
-        console.log(error);
+      } catch {
+        dispatch(SnackbarActions.push, {
+          color: 'error',
+          message: 'Users fetching failed'
+        });
       }
     },
     [UsersActions.uploadPortfolio]: async (
