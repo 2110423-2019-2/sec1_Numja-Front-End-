@@ -22,7 +22,9 @@ const store = new Vuex.Store<any>({
     chat,
     login,
     snackbar,
-    suspendUser
+    suspendUser,
+    appointment,
+    users
   },
   plugins: [vuexLocal.plugin]
 });

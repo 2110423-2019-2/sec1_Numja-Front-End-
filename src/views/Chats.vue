@@ -20,7 +20,14 @@
 <script lang="ts">
 import { Vue, Component, Model, Watch } from "vue-property-decorator";
 import { Action, Getter } from "vuex-class";
-import { ChatAction, ChatUsers, ChatGetters, Message } from "@/types";
+import {
+  ChatAction,
+  ChatUsers,
+  ChatGetters,
+  Message,
+  LoginGetters,
+  User
+} from "@/types";
 
 @Component({
   components: {
