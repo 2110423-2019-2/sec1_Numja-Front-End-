@@ -27,9 +27,9 @@ import { LoginGetters, LoginActions } from "./types";
   }
 })
 export default class App extends Vue {
-  @Action(LoginActions.setAxiosHeader) private setAxiosHeader!: () => void;
+  @Action(LoginActions.setAxiosHeader) private setAxiosHeader!: Function;
 
-  mounted() {
+  beforeMount() {
     this.setAxiosHeader();
   }
 }

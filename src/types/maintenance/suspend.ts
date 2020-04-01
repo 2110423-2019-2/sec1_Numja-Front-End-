@@ -11,9 +11,7 @@ export interface SuspendUserPayload {
   id: string;
 }
 
-export enum SuspendGetters {
-  getUsers = "getUsers"
-}
+export enum SuspendGetters {}
 
 export enum SuspendActions {
   fetchUsers = "fetchAllUsers",

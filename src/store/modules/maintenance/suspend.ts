@@ -1,4 +1,5 @@
 import Vue from "vue";
+import vueStore from "../../index";
 import { StoreOptions } from "vuex";
 import {
   SuspendActions,
@@ -6,7 +7,8 @@ import {
   SuspendMutations,
   SuspendState,
   SuspendUserPayload,
-  UserRole
+  UserRole,
+  UsersActions
 } from "@/types";
 
 const store: StoreOptions<SuspendState> = {
@@ -17,10 +19,7 @@ const store: StoreOptions<SuspendState> = {
     users: []
   },
 
-  getters: {
-    [SuspendGetters.getUsers]: state =>
-      state.users.filter(user => user.role !== UserRole.Admin)
-  },
+  getters: {},
 
   mutations: {
     [SuspendMutations.setUsers]: (state, users) => {
@@ -60,7 +59,7 @@ const store: StoreOptions<SuspendState> = {
     ) => {
       try {
         await Vue.axios.patch("/admin/suspend", { userId: id });
-        dispatch(SuspendActions.fetchUsers);
+        dispatch(UsersActions.fetchUsers);
       } catch {
         commit(SuspendMutations.error);
       }
@@ -71,7 +70,7 @@ const store: StoreOptions<SuspendState> = {
     ) => {
       try {
         await Vue.axios.patch("/admin/activate", { userId: id });
-        dispatch(SuspendActions.fetchUsers);
+        dispatch(UsersActions.fetchUsers);
       } catch {
         commit(SuspendMutations.error);
       }
