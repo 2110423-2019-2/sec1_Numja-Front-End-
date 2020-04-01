@@ -26,6 +26,7 @@ const store = new Vuex.Store<any>({
     snackbar,
     suspendUser,
     appointment,
+    verify,
     users
   },
   plugins: [vuexLocal.plugin]
