@@ -6,7 +6,7 @@
       <v-toolbar-title>Indemand</v-toolbar-title>
       <v-spacer />
       <v-btn v-if="!isLogin" to="/login" outlined>Login / Sign Up</v-btn>
-      <v-btn v-if="isLogin" icon to="/profile">
+      <v-btn v-if="isLogin" icon to="/profile/me">
         <v-icon large>mdi-account-circle</v-icon>
       </v-btn>
       <v-btn v-if="isLogin" @click="logout" outlined>Log Out</v-btn>
@@ -63,6 +63,11 @@ export default class Navbar extends Vue {
       icon: "mdi-wrench",
       title: "Activate/Suspend",
       link: "/maintenance/suspend"
+    },
+    {
+      icon: "mdi-file-document-edit",
+      title: "Verify",
+      link: "/maintenance/verify"
     }
   ];
 

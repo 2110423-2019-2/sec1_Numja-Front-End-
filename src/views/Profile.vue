@@ -5,12 +5,13 @@
         <v-toolbar color="primary" dark>
           <v-row class="px-5" justify="space-between" align="center">
             <v-toolbar-title class="px-2">Profile</v-toolbar-title>
-            <div v-if="editMode">
+            <v-row class="justify-end" v-if="editMode">
               <v-btn class="mr-3" @click="cancelEditMode">Cancel</v-btn>
-              <v-btn @click="patchUser">Submit</v-btn>
-            </div>
+              <Uploadportfolio v-if="user.role === UserRole.Tutor" />
+              <v-btn class="ml-3" @click="patchUser">Submit</v-btn>
+            </v-row>
             <div v-else>
-              <v-btn color="secondary" @click="toggleEditMode">Edit</v-btn>
+              <v-btn @click="toggleEditMode">Edit</v-btn>
             </div>
           </v-row>
         </v-toolbar>
@@ -92,22 +93,26 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Model } from "vue-property-decorator";
+import { Vue, Component } from "vue-property-decorator";
 import { Action, Getter } from "vuex-class";
 import {
   LoginActions,
   SignUpCredentials,
   UserGender,
-  UserRole,
-  LoginGetters
-} from "../types";
+  LoginGetters,
+  UserRole
+} from "@/types";
 import { loginRules as rules, Rule } from "../rules";
-import vuetify from "../plugins/vuetify";
+import UploadPortfolio from "@/views/UploadPortfolio.vue";
 
 const todayDate = new Date().toISOString().substr(0, 10);
 
-@Component
+
+@Component({
+  components: { UploadPortfolio }
+})
 export default class Profile extends Vue {
+  private UserRole = UserRole;
   private isValid = true;
   private editMode = false;
   private userInfo = {
@@ -125,9 +130,6 @@ export default class Profile extends Vue {
   @Getter(LoginGetters.getUser) private user!: any;
   @Action(LoginActions.signUp)
   private signUp!: (credentials: SignUpCredentials) => void;
-
-  @Action(LoginActions.protectedRedirect)
-  private protectedRedirect!: () => void;
 
   validate() {
     (this.$refs.form as Vue & { validate: () => boolean }).validate();
@@ -172,7 +174,6 @@ export default class Profile extends Vue {
   }
 
   mounted() {
-    this.protectedRedirect();
     this.resetValidation();
     this.renderUser();
   }

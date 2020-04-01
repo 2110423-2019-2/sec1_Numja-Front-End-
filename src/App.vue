@@ -16,7 +16,7 @@ import { Vue, Component } from "vue-property-decorator";
 import { Action } from "vuex-class";
 import ReportSystemButton from "@/components/ReportSystemButton.vue";
 import SnackbarNotification from "@/components/SnackbarNotification.vue";
-import { LoginGetters, LoginActions } from "./types";
+import { LoginActions } from "./types";
 
 @Component({
   components: {

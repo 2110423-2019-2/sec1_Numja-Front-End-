@@ -213,6 +213,7 @@ import {
 
 @Component
 export default class AppointmentPage extends Vue {
+
   @Action(LoginActions.protectedRedirect)
   private protectedRedirect!: () => void;
 
@@ -226,6 +227,7 @@ export default class AppointmentPage extends Vue {
   private cancelAppointment!: () => void;
   @Action(AppointmentActions.finishAppointment)
   private finishAppointment!: () => void;
+
   @Action(AppointmentActions.fetchAppointments)
   private fetchAppointments!: () => void;
   @Action(UsersActions.fetchUsers)
@@ -254,7 +256,6 @@ export default class AppointmentPage extends Vue {
   private selectedEventStudent: User = this.myUser;
 
   mounted() {
-    this.protectedRedirect();
     this.fetchAppointments();
     this.fetchUsers();
   }

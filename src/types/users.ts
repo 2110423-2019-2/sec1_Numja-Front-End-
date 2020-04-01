@@ -33,6 +33,9 @@ export enum UserGender {
 }
 
 export interface UsersState {
+  isFetching: boolean;
+  isSuccess: boolean;
+  isError: boolean;
   users: User[] | [];
 }
 
@@ -45,10 +48,17 @@ export enum UsersGetters {
 }
 
 export enum UsersMutations {
-  setUsers = "setUsers"
+  setUsers = "setUsers",
+  fetching = "fetching",
+  success = "success",
+  error = "error"
 }
 
 export enum UsersActions {
   fetchUsers = "fetchUsers",
-  test = "test"
+  test = "test",
+  setFetching = "setFetching",
+  setSuccess = "setSuccess",
+  setError = "setError",
+  uploadPortfolio = "uploadPortfolio"
 }
