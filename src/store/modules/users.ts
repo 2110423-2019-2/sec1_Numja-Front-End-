@@ -12,7 +12,10 @@ import {
 
 const store: StoreOptions<UsersState> = {
   state: {
-    users: []
+    users: [],
+    isError: false,
+    isFetching: false,
+    isSuccess: false
   },
 
   getters: {
