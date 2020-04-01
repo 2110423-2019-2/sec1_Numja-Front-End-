@@ -62,7 +62,7 @@ const store: StoreOptions<UsersState> = {
       const user = getters.getUser;
       try {
         const response = await Vue.axios.post(
-          `user/${user.id}/portfolio/upload`,
+          `user/${user._id}/portfolio/upload`,
           payload,
           {
             headers: {
