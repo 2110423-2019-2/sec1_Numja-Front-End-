@@ -3,5 +3,6 @@ export * from "./login";
 export * from "./chat";
 export * from "./chats";
 export * from "./maintenance/suspend";
+export * from "./maintenance/verify";
 export * from "./appointment";
 export * from "./snackbar";

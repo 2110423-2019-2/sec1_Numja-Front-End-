@@ -63,6 +63,11 @@ export default class Navbar extends Vue {
       icon: "mdi-wrench",
       title: "Activate/Suspend",
       link: "/maintenance/suspend"
+    },
+    {
+      icon: "mdi-file-document-edit",
+      title: "Verify",
+      link: "/maintenance/verify"
     }
   ];
 
