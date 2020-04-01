@@ -2,7 +2,7 @@
   <div id="container">
     <template v-if="roomKey">
       <v-layout id="chat-container">
-        <Messages :senderId="user._id" />
+        <Messages />
       </v-layout>
       <v-form @submit.prevent="submit" id="message-input">
         <v-text-field
