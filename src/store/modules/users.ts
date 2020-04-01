@@ -27,7 +27,9 @@ const store: StoreOptions<UsersState> = {
     },
     [UsersGetters.getUserById]: state => (id: string) => {
       return state.users.find(user => user._id === id);
-    }
+    },
+    [UsersGetters.getNonAdminUsers]: state =>
+      state.users.filter(user => user.role !== UserRole.Admin)
   },
 
   mutations: {

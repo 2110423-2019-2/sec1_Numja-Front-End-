@@ -40,7 +40,8 @@ export enum UsersGetters {
   getUsers = "getUsers",
   getOtherUsers = "getOtherUsers",
   getUserById = "getUserById",
-  getTutors = "getTutors"
+  getTutors = "getTutors",
+  getNonAdminUsers = "getNonAdminUsers"
 }
 
 export enum UsersMutations {
