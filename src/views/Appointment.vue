@@ -213,7 +213,6 @@ import {
 
 @Component
 export default class AppointmentPage extends Vue {
-
   @Action(LoginActions.protectedRedirect)
   private protectedRedirect!: () => void;
 
