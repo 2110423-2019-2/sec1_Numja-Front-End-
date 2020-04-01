@@ -10,9 +10,7 @@
           <v-list-item-title class="font-weight-bold">{{
             message.sender
           }}</v-list-item-title>
-          <v-list-item-subtitle>{{
-            message.date
-          }}</v-list-item-subtitle>
+          <v-list-item-subtitle>{{ message.date }}</v-list-item-subtitle>
           <p class="my-2">{{ message.text }}</p>
         </v-list-item-content>
       </v-list-item>
@@ -37,10 +35,10 @@ export default class Messages extends Vue {
       return {
         ...message,
         sender: this.getUserById(message.senderId).username,
-        avatar: 'https://picsum.photos/200',
+        avatar: "https://picsum.photos/200",
         date: this.getDateString(message.timestamp!)
-      }
-    })
+      };
+    });
   }
 
   private getDateString(timestamp: firebase.firestore.Timestamp) {
