@@ -91,7 +91,6 @@ const store: StoreOptions<LoginState> = {
     },
     [LoginActions.setAxiosHeader]: ({ state }) => {
       if (state.token) {
-        console.log("set");
         Vue.axios.defaults.headers.common[
           "Authorization"
         ] = `Bearer ${state.token}`;

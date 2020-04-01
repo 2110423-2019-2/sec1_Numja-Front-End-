@@ -312,7 +312,6 @@ export default class AppointmentPage extends Vue {
   }
 
   viewDay(ref: CalendarReference) {
-    console.log(ref);
     this.focus = ref.date;
     this.type = "day";
   }

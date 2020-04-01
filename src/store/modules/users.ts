@@ -18,7 +18,6 @@ const store: StoreOptions<UsersState> = {
   getters: {
     [UsersGetters.getUsers]: state => state.users,
     [UsersGetters.getTutors]: state => {
-      console.log(state.users.filter(user => user.role == UserRole.Tutor));
       return state.users.filter(user => user.role === UserRole.Tutor);
     },
     [UsersGetters.getOtherUsers]: state => {
@@ -46,10 +45,6 @@ const store: StoreOptions<UsersState> = {
       } catch (error) {
         //
       }
-    },
-    [UsersActions.test]: ({ commit }) => {
-      console.log("test user action");
-      console.log(vueStore.getters.getUser);
     }
   }
 };

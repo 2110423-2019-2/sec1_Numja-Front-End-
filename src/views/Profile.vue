@@ -140,7 +140,6 @@ export default class SignUp extends Vue {
   }
 
   cancelEditMode() {
-    console.log("cancel");
     this.renderUser();
     this.toggleEditMode();
   }
