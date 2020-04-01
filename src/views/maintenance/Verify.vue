@@ -183,5 +183,5 @@ export default class Verify extends Vue {
 <style lang="scss" scoped>
 .container.fill-height {
   align-items: baseline;
-}</style
->>
+}
+</style>
