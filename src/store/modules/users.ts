@@ -7,7 +7,8 @@ import {
   UsersMutations,
   UsersGetters,
   User,
-  UserRole
+  UserRole,
+  SnackbarActions
 } from "@/types";
 
 const store: StoreOptions<UsersState> = {
@@ -42,16 +43,22 @@ const store: StoreOptions<UsersState> = {
   },
 
   actions: {
-    [UsersActions.fetchUsers]: async ({ commit }) => {
+    [UsersActions.fetchUsers]: async ({ commit, dispatch }) => {
       try {
         const response = await Vue.axios.get("/user");
         const responseData: User[] = response.data;
         commit(UsersMutations.setUsers, responseData);
-      } catch (error) {
-        console.log(error);
+      } catch {
+        dispatch(SnackbarActions.push, {
+          color: 'error',
+          message: 'Users fetching failed'
+        });
       }
     },
-    [UsersActions.uploadPortfolio]: async ({ commit, getters }, payload) => {
+    [UsersActions.uploadPortfolio]: async (
+      { commit, getters, dispatch },
+      payload
+    ) => {
       const user = getters.getUser;
       try {
         const response = await Vue.axios.post(
@@ -63,8 +70,15 @@ const store: StoreOptions<UsersState> = {
             }
           }
         );
-      } catch (error) {
-        console.log(error);
+        dispatch(SnackbarActions.push, {
+          color: "success",
+          message: "Portfolio uploaded"
+        });
+      } catch {
+        dispatch(SnackbarActions.push, {
+          color: "error",
+          message: "Upload failed"
+        });
       }
     }
   }

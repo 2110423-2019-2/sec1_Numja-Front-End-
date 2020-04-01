@@ -40,7 +40,7 @@
             color="#E64A19"
             outlined
             class="v-chip--clickable"
-            @click="suspend(item._id)"
+            @click="suspend(item)"
           >
             <div class="ma-1">Suspend</div>
             <v-icon>mdi-close-thick</v-icon>
@@ -50,7 +50,7 @@
             color="#42A5F5"
             outlined
             class="v-chip--clickable"
-            @click="activate(item._id)"
+            @click="activate(item)"
           >
             <div class="ma-1">Activate</div>
             <v-icon>mdi-check-bold</v-icon>
@@ -58,7 +58,6 @@
         </template>
       </v-data-table>
     </template>
-    <v-btn @click="fetchUsers" class="ma-2">fetch</v-btn>
     <UploadPortfolio />
   </v-col>
 </template>
@@ -110,12 +109,12 @@ export default class AdminSuspendUser extends Vue {
     this.fetchUsers();
   }
 
-  suspend(id: string) {
-    this.suspendAction({ id });
+  suspend(user: User) {
+    this.suspendAction(user);
   }
 
-  activate(id: string) {
-    this.activateAction({ id });
+  activate(user: User) {
+    this.activateAction(user);
   }
 }
 </script>
