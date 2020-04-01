@@ -17,19 +17,19 @@ export interface User {
 }
 
 export enum UserRole {
-  Student = 'student',
-  Tutor = 'tutor',
-  Admin = 'admin'
+  Student = "student",
+  Tutor = "tutor",
+  Admin = "admin"
 }
 
 export enum UserStatus {
-  Active = 'active',
-  Suspended = 'suspended'
+  Active = "active",
+  Suspended = "suspended"
 }
 
 export enum UserGender {
-  Male = 'male',
-  Female = 'female'
+  Male = "male",
+  Female = "female"
 }
 
 export interface UsersState {
@@ -37,17 +37,17 @@ export interface UsersState {
 }
 
 export enum UsersGetters {
-  getUsers = 'getUsers',
-  getOtherUsers = 'getOtherUsers',
-  getUserById = 'getUserById',
-  getTutors = 'getTutors'
+  getUsers = "getUsers",
+  getOtherUsers = "getOtherUsers",
+  getUserById = "getUserById",
+  getTutors = "getTutors"
 }
 
 export enum UsersMutations {
-  setUsers = 'setUsers'
+  setUsers = "setUsers"
 }
 
 export enum UsersActions {
-  fetchUsers = 'fetchUsers',
-  test = 'test'
+  fetchUsers = "fetchUsers",
+  test = "test"
 }

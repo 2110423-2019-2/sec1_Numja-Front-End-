@@ -6,10 +6,10 @@ export interface AppointmentPageState {
 }
 
 export enum AppointmentState {
-  pending = 'pending',
-  canceled = 'canceled',
-  finished = 'finished',
-  approved = 'approved'
+  pending = "pending",
+  canceled = "canceled",
+  finished = "finished",
+  approved = "approved"
 }
 
 export interface CalendarReference {
@@ -59,16 +59,16 @@ export interface Appointment {
 }
 
 export enum AppointmentGetters {
-  getAppointments = 'getAppointments'
+  getAppointments = "getAppointments"
 }
 
 export enum AppointmentActions {
-  fetchAppointments = 'fetchAppointments'
+  fetchAppointments = "fetchAppointments"
 }
 
 export enum AppointmentMutations {
-  setAppointments = 'setAppointments',
-  fetching = 'fetching',
-  success = 'success',
-  error = 'error'
+  setAppointments = "setAppointments",
+  fetching = "fetching",
+  success = "success",
+  error = "error"
 }

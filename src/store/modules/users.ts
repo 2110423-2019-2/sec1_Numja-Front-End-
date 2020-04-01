@@ -1,6 +1,6 @@
-import Vue from 'vue';
-import vueStore from '../index';
-import { StoreOptions } from 'vuex';
+import Vue from "vue";
+import vueStore from "../index";
+import { StoreOptions } from "vuex";
 import {
   UsersState,
   UsersActions,
@@ -8,7 +8,7 @@ import {
   UsersGetters,
   User,
   UserRole
-} from '@/types';
+} from "@/types";
 
 const store: StoreOptions<UsersState> = {
   state: {
@@ -40,7 +40,7 @@ const store: StoreOptions<UsersState> = {
   actions: {
     [UsersActions.fetchUsers]: async ({ commit }) => {
       try {
-        const response = await Vue.axios.get('/user');
+        const response = await Vue.axios.get("/user");
         const responseData: User[] = response.data;
         commit(UsersMutations.setUsers, responseData);
       } catch (error) {
@@ -48,7 +48,7 @@ const store: StoreOptions<UsersState> = {
       }
     },
     [UsersActions.test]: ({ commit }) => {
-      console.log('test user action');
+      console.log("test user action");
       console.log(vueStore.getters.getUser);
     }
   }

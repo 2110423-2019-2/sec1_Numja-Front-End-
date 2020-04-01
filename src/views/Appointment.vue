@@ -12,15 +12,27 @@
             </v-btn>
             <v-toolbar-title>{{ title }}</v-toolbar-title>
             <v-spacer></v-spacer>
-            <v-btn class="mr-6" v-if="type==='day'" @click="() => {this.type='month';}" prepend>
+            <v-btn
+              class="mr-6"
+              v-if="type === 'day'"
+              @click="
+                () => {
+                  this.type = 'month';
+                }
+              "
+              prepend
+            >
               <v-icon>mdi-keyboard-backspace</v-icon>back
             </v-btn>
             <v-icon
-              @click="() => {
-                fetchAppointments();
-                fetchUsers();
-              }"
-            >mdi-refresh</v-icon>
+              @click="
+                () => {
+                  fetchAppointments();
+                  fetchUsers();
+                }
+              "
+              >mdi-refresh</v-icon
+            >
           </v-toolbar>
         </v-sheet>
         <v-sheet height="600">
@@ -41,15 +53,29 @@
       </v-container>
       <v-dialog v-model="showAppointmentDetails" max-width="600px">
         <v-card>
-          <v-banner sticky single-line color="primary" dark class="pa-2" elevation="6">
+          <v-banner
+            sticky
+            single-line
+            color="primary"
+            dark
+            class="pa-2"
+            elevation="6"
+          >
             Appointment Details
             <template v-slot:actions>
-              <template v-if="myUser.role === 'tutor' && selectedEvent.status === 'pending'">
+              <template
+                v-if="
+                  myUser.role === 'tutor' && selectedEvent.status === 'pending'
+                "
+              >
                 <v-btn>accept</v-btn>
                 <v-btn color="grey">reject</v-btn>
               </template>
               <template
-                v-else-if="selectedEvent.status === 'pending' || selectedEvent.status === 'approved'"
+                v-else-if="
+                  selectedEvent.status === 'pending' ||
+                    selectedEvent.status === 'approved'
+                "
               >
                 <v-btn>terminate</v-btn>
                 <v-btn color="grey">change</v-btn>
@@ -66,31 +92,51 @@
             <v-text-field
               label="student"
               prepend-icon="mdi-human-handsdown"
-              :value="selectedEventStudent ? `${selectedEventStudent.firstName} ${selectedEventStudent.lastName}` : ''"
+              :value="
+                selectedEventStudent
+                  ? `${selectedEventStudent.firstName} ${selectedEventStudent.lastName}`
+                  : ''
+              "
               readonly
             >
               <template v-slot:append-outer>
                 <v-btn
-                  :to="`/profile/${selectedEventStudent ? selectedEventStudent._id : ''}`"
-                >view profile</v-btn>
+                  :to="
+                    `/profile/${
+                      selectedEventStudent ? selectedEventStudent._id : ''
+                    }`
+                  "
+                  >view profile</v-btn
+                >
               </template>
             </v-text-field>
             <v-text-field
               label="tutor"
               prepend-icon="mdi-human-handsdown"
-              :value="selectedEventTutor ? `${selectedEventTutor.firstName} ${selectedEventTutor.lastName}` : ''"
+              :value="
+                selectedEventTutor
+                  ? `${selectedEventTutor.firstName} ${selectedEventTutor.lastName}`
+                  : ''
+              "
               readonly
             >
               <template v-slot:append-outer>
                 <v-btn
-                  :to="`/profile/${selectedEventTutor ? selectedEventTutor._id : ''}`"
-                >view profile</v-btn>
+                  :to="
+                    `/profile/${
+                      selectedEventTutor ? selectedEventTutor._id : ''
+                    }`
+                  "
+                  >view profile</v-btn
+                >
               </template>
             </v-text-field>
             <v-text-field
               label="start time"
               prepend-icon="mdi-timer-outline"
-              :value="selectedEvent ? makeLocalTime(selectedEvent.startTime) : ''"
+              :value="
+                selectedEvent ? makeLocalTime(selectedEvent.startTime) : ''
+              "
               readonly
             ></v-text-field>
             <v-text-field
@@ -166,7 +212,7 @@ export default class AppointmentPage extends Vue {
 
   @Getter(LoginGetters.getUser) private myUser!: User;
 
-  private showAppointmentDetails: boolean = false;
+  private showAppointmentDetails = false;
   private selectedEvent!: Event;
   private selectedEventTutor: User = this.myUser;
   private selectedEventStudent: User = this.myUser;
@@ -177,7 +223,7 @@ export default class AppointmentPage extends Vue {
     this.fetchUsers();
   }
 
-  private type: string = "month";
+  private type = "month";
   private today: string = this.formattedTodayDate;
   private focus: string = this.formattedTodayDate;
   private start: CalendarReference | null = null;

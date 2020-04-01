@@ -1,5 +1,5 @@
-import Vue from 'vue';
-import { StoreOptions } from 'vuex';
+import Vue from "vue";
+import { StoreOptions } from "vuex";
 import {
   AppointmentPageState,
   AppointmentActions,
@@ -7,7 +7,7 @@ import {
   AppointmentGetters,
   User,
   UserRole
-} from '@/types';
+} from "@/types";
 
 const store: StoreOptions<AppointmentPageState> = {
   state: {
@@ -33,7 +33,7 @@ const store: StoreOptions<AppointmentPageState> = {
     [AppointmentActions.fetchAppointments]: async ({ commit }) => {
       commit(AppointmentMutations.fetching);
       try {
-        const response = await Vue.axios.get('/appointment/me');
+        const response = await Vue.axios.get("/appointment/me");
         commit(AppointmentMutations.setAppointments, response.data);
       } catch (error) {
         //
