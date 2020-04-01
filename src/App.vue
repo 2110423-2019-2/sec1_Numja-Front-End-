@@ -12,18 +12,16 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component } from "vue-property-decorator";
-import { Action } from "vuex-class";
-import ReportSystemButton from "@/components/ReportSystemButton.vue";
-import SnackbarNotification from "@/components/SnackbarNotification.vue";
-import { Action } from "vuex-class";
-import { LoginGetters, LoginActions } from "./types";
-
+import { Vue, Component } from 'vue-property-decorator';
+import { Action } from 'vuex-class';
+import ReportSystemButton from '@/components/ReportSystemButton.vue';
+import SnackbarNotification from '@/components/SnackbarNotification.vue';
+import { LoginGetters, LoginActions } from './types';
 
 @Component({
   components: {
     Navbar: () =>
-      import(/* webpackChunkName: "navbar" */ "@/components/Navbar.vue"),
+      import(/* webpackChunkName: "navbar" */ '@/components/Navbar.vue'),
     ReportSystemButton,
     SnackbarNotification
   }

@@ -1,4 +1,4 @@
-import { User, UserRole, UserGender } from "./index";
+import { User, UserRole, UserGender } from './index';
 
 export interface LoginCredentials {
   username: string;
@@ -26,23 +26,23 @@ export interface LoginState {
 }
 
 export enum LoginGetters {
-  isLogin = "isLogin",
-  isFetchingLogin = "isFetchingLogin",
-  user = "user"
+  isLogin = 'isLogin',
+  isFetchingLogin = 'isFetchingLogin',
+  getUser = 'getUser'
 }
 
 export enum LoginMutations {
-  setToken = "setToken",
-  setFetchingLogin = "setFetchingLogin",
-  setError = "setError",
-  setUser = "setUser"
+  setToken = 'setToken',
+  setFetchingLogin = 'setFetchingLogin',
+  setError = 'setError',
+  setUser = 'setUser'
 }
 
 export enum LoginActions {
-  login = "login",
-  logout = "logout",
-  signUp = "signUp",
-  redirect = "redirect",
-  protectedRedirect = "protectedRedirect",
-  setAxiosHeader = "setAxiosHeader"
+  login = 'login',
+  logout = 'logout',
+  signUp = 'signUp',
+  redirect = 'redirect',
+  protectedRedirect = 'protectedRedirect',
+  setAxiosHeader = 'setAxiosHeader'
 }

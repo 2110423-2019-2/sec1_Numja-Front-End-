@@ -18,8 +18,8 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Model, Watch } from "vue-property-decorator";
-import { Action, Getter } from "vuex-class";
+import { Vue, Component, Model, Watch } from 'vue-property-decorator';
+import { Action, Getter } from 'vuex-class';
 import {
   ChatAction,
   ChatUsers,
@@ -27,12 +27,12 @@ import {
   Message,
   LoginGetters,
   User
-} from "@/types";
+} from '@/types';
 
 @Component({
   components: {
     Messages: () =>
-      import(/* webpackChunkName: "messages" */ "@/components/Messages.vue")
+      import(/* webpackChunkName: "messages" */ '@/components/Messages.vue')
   }
 })
 export default class Chat extends Vue {
@@ -45,12 +45,12 @@ export default class Chat extends Vue {
   ) => void;
   @Action(ChatAction.unsubscribe) private unsubscribe!: () => void;
 
-  private text = "";
-  private user = { _id: "test1" };
+  private text: string | undefined = '';
+  private user = { _id: 'test1' };
   private senderId = this.user._id;
 
   private mounted() {
-    this.subscribe({ senderId: this.senderId, receiverId: "test2" });
+    this.subscribe({ senderId: this.senderId, receiverId: 'test2' });
   }
 
   private destroyed() {
@@ -60,16 +60,16 @@ export default class Chat extends Vue {
   private submit() {
     this.sendMessage({
       senderId: this.senderId,
-      receiverId: "test3",
+      receiverId: 'test3',
       text: this.text!
     });
     this.text = undefined;
   }
 
-  @Watch("messages")
+  @Watch('messages')
   scrollToEnd() {
     this.$nextTick(() => {
-      const container = this.$el.querySelector("#chat-container");
+      const container = this.$el.querySelector('#chat-container');
       container!.scrollTop = container!.scrollHeight;
     });
   }

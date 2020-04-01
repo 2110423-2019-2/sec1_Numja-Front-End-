@@ -124,9 +124,9 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component } from "vue-property-decorator";
-import { Action, Getter } from "vuex-class";
-import { appointmentRules as rules } from "../rules";
+import { Vue, Component } from 'vue-property-decorator';
+import { Action, Getter } from 'vuex-class';
+import { appointmentRules as rules } from '../rules';
 import {
   LoginActions,
   LoginGetters,
@@ -135,7 +135,7 @@ import {
   UsersGetters,
   UsersActions,
   User
-} from "../types";
+} from '../types';
 
 @Component
 export default class Home extends Vue {
@@ -151,41 +151,41 @@ export default class Home extends Vue {
 
   private headers = [
     {
-      text: "first name",
-      align: "start",
-      value: "firstName"
+      text: 'first name',
+      align: 'start',
+      value: 'firstName'
     },
     {
-      text: "last name",
-      value: "lastName"
+      text: 'last name',
+      value: 'lastName'
     },
     {
-      text: "gender",
-      value: "gender"
+      text: 'gender',
+      value: 'gender'
     },
     {
-      text: "verified",
-      value: "verified"
+      text: 'verified',
+      value: 'verified'
     },
-    { text: "", value: "actions", sortable: false }
+    { text: '', value: 'actions', sortable: false }
   ];
 
   private formIsValid = true;
   private searchMode = false;
   private dialog = false;
   private timeErrorDialog = false;
-  private timeErrorMessage = "";
-  private selectedUserId = "";
-  private selectedUserName = "";
+  private timeErrorMessage = '';
+  private selectedUserId = '';
+  private selectedUserName = '';
   private rules = rules;
 
   private date: string = this.todayDate()
     .toISOString()
     .substr(0, 10);
-  private startTime = "00:00";
-  private endTime = "00:00";
-  private address = "";
-  private price!: number;
+  private startTime = '00:00';
+  private endTime = '00:00';
+  private address = '';
+  private price: number = 0;
 
   mounted() {
     this.protectedRedirect();
@@ -203,7 +203,7 @@ export default class Home extends Vue {
 
   private combineDateAndTime(date: string, time: string) {
     const generatedDate = new Date(date);
-    const [hours, minutes] = time.split(":");
+    const [hours, minutes] = time.split(':');
     generatedDate.setHours(parseInt(hours), parseInt(minutes), 0, 0);
     return generatedDate.toUTCString();
   }
@@ -217,7 +217,7 @@ export default class Home extends Vue {
     this.validate();
     if (this.formIsValid && this.validateTime()) {
       try {
-        const response = await Vue.axios.post("/appointment/create", {
+        const response = await Vue.axios.post('/appointment/create', {
           startTime: this.combineDateAndTime(this.date, this.startTime),
           endTime: this.combineDateAndTime(this.date, this.endTime),
           location: this.address,
@@ -234,11 +234,11 @@ export default class Home extends Vue {
   validateTime() {
     if (new Date(this.date) < this.todayDate()) {
       this.timeErrorDialog = true;
-      this.timeErrorMessage = "cannot make appointment on selected date";
+      this.timeErrorMessage = 'cannot make appointment on selected date';
       return false;
     } else if (this.endTime <= this.startTime) {
       this.timeErrorDialog = true;
-      this.timeErrorMessage = "end time must be after start time";
+      this.timeErrorMessage = 'end time must be after start time';
       return false;
     } else {
       return true;
@@ -251,8 +251,8 @@ export default class Home extends Vue {
 
   resetForm() {
     (this.$refs.form as Vue & { reset: () => void }).reset();
-    this.startTime = "00:00";
-    this.endTime = "00:00";
+    this.startTime = '00:00';
+    this.endTime = '00:00';
     this.date = this.todayDate()
       .toISOString()
       .substring(0, 10);
