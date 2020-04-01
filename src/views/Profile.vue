@@ -7,7 +7,7 @@
             <v-toolbar-title class="px-2">Profile</v-toolbar-title>
             <v-row class="justify-end" v-if="editMode">
               <v-btn class="mr-3" @click="cancelEditMode">Cancel</v-btn>
-              <UploadPortfolio/>
+              <UploadPortfolio />
               <v-btn class="ml-3" @click="toggleEditMode">Submit</v-btn>
             </v-row>
             <div v-else>
