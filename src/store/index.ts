@@ -7,8 +7,8 @@ import login from "@/store/modules/login";
 import snackbar from "@/store/modules/snackbar";
 import suspendUser from "@/store/modules/maintenance/suspend";
 import appointment from "@/store/modules/appointment";
-import users from "@/store/modules/users";
 import verify from "@/store/modules/maintenance/verify";
+import users from "@/store/modules/users";
 import { LoginState } from "@/types";
 
 Vue.use(Vuex);
