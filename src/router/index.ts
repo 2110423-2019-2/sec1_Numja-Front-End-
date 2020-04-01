@@ -25,13 +25,25 @@ const routes = [
     path: "/sign-up",
     name: "SignUp",
     component: () =>
-      import(/* webpackChunkName: "login" */ "@/views/SignUp.vue")
+      import(/* webpackChunkName: "sign-up" */ "@/views/SignUp.vue")
   },
   {
     path: "/profile",
     name: "Profile",
     component: () =>
-      import(/* webpackChunkName: "login" */ "@/views/Profile.vue")
+      import(/* webpackChunkName: "profile" */ "@/views/Profile.vue")
+  },
+  {
+    path: "/profile/:id",
+    name: "Profile",
+    component: () =>
+      import(/* webpackChunkName: "profile-by-id" */ "@/views/ProfileById.vue")
+  },
+  {
+    path: "/appointment",
+    name: "Appointment",
+    component: () =>
+      import(/* webpackChunkName: "appointment" */ "@/views/Appointment.vue")
   },
   maintenanceRouter
 ];

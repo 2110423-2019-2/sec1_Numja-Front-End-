@@ -5,14 +5,20 @@
         <v-toolbar color="primary" dark>
           <v-row class="px-5" justify="space-between" align="center">
             <v-toolbar-title class="px-2">Profile</v-toolbar-title>
-            <v-btn color="secondary" @click="toggleEditMode">Edit</v-btn>
+            <div v-if="editMode">
+              <v-btn class="mr-3" @click="cancelEditMode">Cancel</v-btn>
+              <v-btn @click="toggleEditMode">Submit</v-btn>
+            </div>
+            <div v-else>
+              <v-btn color="secondary" @click="toggleEditMode">Edit</v-btn>
+            </div>
           </v-row>
         </v-toolbar>
 
         <v-form @submit.prevent="submit" ref="form" v-model="isValid">
           <v-card-text class="px-6">
             <v-text-field
-              v-model="username"
+              v-model="userInfo.username"
               type="text"
               label="Username"
               :rules="[rules.required]"
@@ -21,7 +27,7 @@
               required
             />
             <v-text-field
-              v-model="email"
+              v-model="userInfo.email"
               type="email"
               label="Email"
               prepend-icon="mdi-email"
@@ -30,7 +36,7 @@
               required
             />
             <v-text-field
-              v-model="firstName"
+              v-model="userInfo.firstName"
               type="text"
               label="First Name"
               prepend-icon="mdi-account"
@@ -39,7 +45,7 @@
               required
             />
             <v-text-field
-              v-model="lastName"
+              v-model="userInfo.lastName"
               type="text"
               label="Last Name"
               prepend-icon="mdi-account"
@@ -50,12 +56,12 @@
             <v-label class="mt-0">Birthdate</v-label>
             <v-row align="center" justify="center" class="ma-1 mb-5">
               <v-date-picker
-                v-model="birthDate"
+                v-model="userInfo.birthDate"
                 :disabled="!editMode"
               ></v-date-picker>
             </v-row>
             <v-text-field
-              v-model="address"
+              v-model="userInfo.address"
               type="text"
               label="Address"
               prepend-icon="mdi-home"
@@ -64,7 +70,7 @@
               required
             />
             <v-text-field
-              v-model="ssin"
+              v-model="userInfo.ssin"
               type="text"
               label="Ssn"
               prepend-icon="mdi-card-account-details"
@@ -74,7 +80,7 @@
               required
             />
             <v-label>Gender</v-label>
-            <v-radio-group v-model="gender" :disabled="!editMode" row>
+            <v-radio-group v-model="userInfo.gender" :disabled="!editMode" row>
               <v-radio label="Male" value="male"></v-radio>
               <v-radio label="Female" value="female"></v-radio>
             </v-radio-group>
@@ -104,14 +110,16 @@ const todayDate = new Date().toISOString().substr(0, 10);
 export default class SignUp extends Vue {
   private isValid = true;
   private editMode = false;
-  private username = "";
-  private email = "";
-  private firstName = "";
-  private lastName = "";
-  private birthDate: string = todayDate;
-  private address = "";
-  private ssin = "";
-  private gender: UserGender = UserGender.Male;
+  private userInfo = {
+    username: "",
+    email: "",
+    firstName: "",
+    lastName: "",
+    birthDate: todayDate,
+    address: "",
+    ssin: "",
+    gender: UserGender.Male
+  };
   private rules: {} = rules;
 
   @Getter(LoginGetters.user) private user!: any;
@@ -131,6 +139,11 @@ export default class SignUp extends Vue {
     }).resetValidation();
   }
 
+  cancelEditMode() {
+    this.renderUser();
+    this.toggleEditMode();
+  }
+
   toggleEditMode() {
     if (this.editMode) this.resetValidation();
     else this.validate();
@@ -139,14 +152,14 @@ export default class SignUp extends Vue {
   }
 
   renderUser() {
-    this.username = this.user.username;
-    this.email = this.user.email;
-    this.firstName = this.user.firstName;
-    this.lastName = this.user.lastName;
-    this.address = this.user.address;
-    this.birthDate = this.user.birthDate.substr(0, 10);
-    this.ssin = this.user.ssin;
-    this.gender = this.user.gender;
+    this.userInfo.username = this.user.username;
+    this.userInfo.email = this.user.email;
+    this.userInfo.firstName = this.user.firstName;
+    this.userInfo.lastName = this.user.lastName;
+    this.userInfo.address = this.user.address;
+    this.userInfo.birthDate = this.user.birthDate.substr(0, 10);
+    this.userInfo.ssin = this.user.ssin;
+    this.userInfo.gender = this.user.gender;
   }
 
   mounted() {
