@@ -21,7 +21,7 @@ const store: StoreOptions<LoginState> = {
   getters: {
     [LoginGetters.isLogin]: state => !!state.token,
     [LoginGetters.isFetchingLogin]: state => state.fetchingLogin,
-    [LoginGetters.user]: state => state.user
+    [LoginGetters.getUser]: state => state.user
   },
   mutations: {
     [LoginMutations.setToken]: (state, payload: string) => {
@@ -45,10 +45,8 @@ const store: StoreOptions<LoginState> = {
       commit(LoginMutations.setFetchingLogin, true);
       const response = await Vue.axios.post<string>("/auth/login", payload);
       if (response.status === 201) {
-        Vue.axios.defaults.headers.common[
-          "Authorization"
-        ] = `Bearer ${response.data}`;
         commit(LoginMutations.setToken, response.data);
+        dispatch(LoginActions.setAxiosHeader);
         commit(LoginMutations.setError, false);
         dispatch(LoginActions.redirect);
       } else {
@@ -64,10 +62,8 @@ const store: StoreOptions<LoginState> = {
       const response = await Vue.axios.post<string>("/auth/register", payload);
 
       if (response.status === 201) {
-        Vue.axios.defaults.headers.common[
-          "Authorization"
-        ] = `Bearer ${response.data}`;
         commit(LoginMutations.setToken, response.data);
+        dispatch(LoginActions.setAxiosHeader);
         commit(LoginMutations.setError, false);
         dispatch(LoginActions.redirect);
       } else {
@@ -78,7 +74,7 @@ const store: StoreOptions<LoginState> = {
     [LoginActions.logout]: async ({ commit }) => {
       commit(LoginMutations.setUser, null);
       commit(LoginMutations.setToken, null);
-      router.push("/");
+      router.push("/login");
     },
     [LoginActions.redirect]: async ({ commit }) => {
       const response = await Vue.axios.get<User>("/user/me");
@@ -94,9 +90,11 @@ const store: StoreOptions<LoginState> = {
       }
     },
     [LoginActions.setAxiosHeader]: ({ state }) => {
-      Vue.axios.defaults.headers.common[
-        "Authorization"
-      ] = `Bearer ${state.token}`;
+      if (state.token) {
+        Vue.axios.defaults.headers.common[
+          "Authorization"
+        ] = `Bearer ${state.token}`;
+      }
     }
   }
 };

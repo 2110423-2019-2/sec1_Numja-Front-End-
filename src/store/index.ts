@@ -5,8 +5,9 @@ import chat from "@/store/modules/chat";
 import login from "@/store/modules/login";
 import snackbar from "@/store/modules/snackbar";
 import suspendUser from "@/store/modules/maintenance/suspend";
+import appointment from "@/store/modules/appointment";
+import users from "@/store/modules/users";
 import verify from "@/store/modules/maintenance/verify";
-
 import { LoginState } from "@/types";
 
 Vue.use(Vuex);
@@ -16,13 +17,14 @@ const vuexLocal = new VuexPersistence<LoginState>({
   modules: ["login"]
 });
 
-export default new Vuex.Store<any>({
+const store = new Vuex.Store<any>({
   modules: {
     chat,
     login,
     snackbar,
-    suspendUser,
-    verify
+    suspendUser
   },
   plugins: [vuexLocal.plugin]
 });
+
+export default store;

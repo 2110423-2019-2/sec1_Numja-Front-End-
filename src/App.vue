@@ -16,7 +16,7 @@ import { Vue, Component } from "vue-property-decorator";
 import { Action } from "vuex-class";
 import ReportSystemButton from "@/components/ReportSystemButton.vue";
 import SnackbarNotification from "@/components/SnackbarNotification.vue";
-import { LoginActions } from "@/types";
+import { LoginGetters, LoginActions } from "./types";
 
 @Component({
   components: {
@@ -27,8 +27,9 @@ import { LoginActions } from "@/types";
   }
 })
 export default class App extends Vue {
-  @Action(LoginActions.setAxiosHeader) setAxiosHeader!: Function;
-  mounted() {
+  @Action(LoginActions.setAxiosHeader) private setAxiosHeader!: Function;
+
+  beforeMount() {
     this.setAxiosHeader();
   }
 }
