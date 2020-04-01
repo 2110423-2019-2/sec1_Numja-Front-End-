@@ -1,4 +1,8 @@
-export interface AppointmentPageState {
+export interface AppointmentPayload {
+  selectedAppointmentId: string;
+}
+
+export interface AppointmentPageState extends AppointmentPayload {
   isSuccess: boolean;
   isFetching: boolean;
   isError: boolean;
@@ -6,10 +10,11 @@ export interface AppointmentPageState {
 }
 
 export enum AppointmentState {
-  pending = "pending",
-  canceled = "canceled",
-  finished = "finished",
-  approved = "approved"
+  pending = 'pending',
+  cancelled = 'cancelled',
+  finished = 'finished',
+  approved = 'approved',
+  rejected = 'rejected'
 }
 
 export interface CalendarReference {
@@ -59,16 +64,23 @@ export interface Appointment {
 }
 
 export enum AppointmentGetters {
-  getAppointments = "getAppointments"
+  getAppointments = 'getAppointments'
 }
 
 export enum AppointmentActions {
-  fetchAppointments = "fetchAppointments"
+  fetchAppointments = 'fetchAppointments',
+  acceptAppointment = 'acceptAppointment',
+  rejectAppointment = 'rejectAppointment',
+  cancelAppointment = 'cancelAppointment',
+  editAppointment = 'editAppointment',
+  finishAppointment = 'finishAppointment',
+  selectAppointment = 'selectAppointment'
 }
 
 export enum AppointmentMutations {
-  setAppointments = "setAppointments",
-  fetching = "fetching",
-  success = "success",
-  error = "error"
+  setAppointments = 'setAppointments',
+  setSelectedAppointmentId = 'setSelectedAppointmentId',
+  fetching = 'fetching',
+  success = 'success',
+  error = 'error'
 }

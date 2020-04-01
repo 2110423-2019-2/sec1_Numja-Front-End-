@@ -7,7 +7,7 @@
             <v-toolbar-title class="px-2">Profile</v-toolbar-title>
             <div v-if="editMode">
               <v-btn class="mr-3" @click="cancelEditMode">Cancel</v-btn>
-              <v-btn @click="toggleEditMode">Submit</v-btn>
+              <v-btn @click="patchUser">Submit</v-btn>
             </div>
             <div v-else>
               <v-btn color="secondary" @click="toggleEditMode">Edit</v-btn>
@@ -92,32 +92,32 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Model } from "vue-property-decorator";
-import { Action, Getter } from "vuex-class";
+import { Vue, Component, Model } from 'vue-property-decorator';
+import { Action, Getter } from 'vuex-class';
 import {
   LoginActions,
   SignUpCredentials,
   UserGender,
   UserRole,
   LoginGetters
-} from "../types";
-import { loginRules as rules, Rule } from "../rules";
-import vuetify from "../plugins/vuetify";
+} from '../types';
+import { loginRules as rules, Rule } from '../rules';
+import vuetify from '../plugins/vuetify';
 
 const todayDate = new Date().toISOString().substr(0, 10);
 
 @Component
-export default class SignUp extends Vue {
+export default class Profile extends Vue {
   private isValid = true;
   private editMode = false;
   private userInfo = {
-    username: "",
-    email: "",
-    firstName: "",
-    lastName: "",
+    username: '',
+    email: '',
+    firstName: '',
+    lastName: '',
     birthDate: todayDate,
-    address: "",
-    ssin: "",
+    address: '',
+    ssin: '',
     gender: UserGender.Male
   };
   private rules: {} = rules;
@@ -149,6 +149,15 @@ export default class SignUp extends Vue {
     else this.validate();
 
     this.editMode = !this.editMode;
+  }
+
+  patchUser() {
+    this.validate();
+    if (this.isValid) {
+      console.log('api');
+      if (true) {
+      }
+    }
   }
 
   renderUser() {
