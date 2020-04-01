@@ -68,18 +68,44 @@
                   myUser.role === 'tutor' && selectedEvent.status === 'pending'
                 "
               >
-                <v-btn>accept</v-btn>
-                <v-btn color="grey">reject</v-btn>
+                <v-btn
+                  @click="appointmentAction(acceptAppointment)"
+                  color="green"
+                  >accept</v-btn
+                >
+                <v-btn
+                  @click="appointmentAction(rejectAppointment)"
+                  color="black"
+                  >reject</v-btn
+                >
               </template>
-              <template
-                v-else-if="
-                  selectedEvent.status === 'pending' ||
-                    selectedEvent.status === 'approved'
+              <v-btn
+                @click="appointmentAction(cancelAppointment)"
+                color="pink"
+                v-if="
+                  selectedEvent.status === 'approved' ||
+                    (selectedEvent.status === 'pending' &&
+                      myUser.role === 'student')
                 "
+                >terminate</v-btn
               >
-                <v-btn>terminate</v-btn>
-                <v-btn color="grey">change</v-btn>
-              </template>
+              <v-btn
+                @click="appointmentAction(finishAppointment)"
+                color="green"
+                v-if="
+                  selectedEvent.status === 'approved' &&
+                    myUser.role === 'student'
+                "
+                >finish</v-btn
+              >
+              <v-btn
+                color="grey"
+                v-if="
+                  myUser.role === 'student' &&
+                    selectedEvent.status === 'pending'
+                "
+                >change</v-btn
+              >
             </template>
           </v-banner>
           <v-card-text class="pa-6">
@@ -187,6 +213,21 @@ import {
 
 @Component
 export default class AppointmentPage extends Vue {
+
+  @Action(LoginActions.protectedRedirect)
+  private protectedRedirect!: () => void;
+
+  @Action(AppointmentActions.selectAppointment)
+  private selectAppointment!: (id: string) => void;
+  @Action(AppointmentActions.acceptAppointment)
+  private acceptAppointment!: () => void;
+  @Action(AppointmentActions.rejectAppointment)
+  private rejectAppointment!: () => void;
+  @Action(AppointmentActions.cancelAppointment)
+  private cancelAppointment!: () => void;
+  @Action(AppointmentActions.finishAppointment)
+  private finishAppointment!: () => void;
+
   @Action(AppointmentActions.fetchAppointments)
   private fetchAppointments!: () => void;
   @Action(UsersActions.fetchUsers)
@@ -280,6 +321,7 @@ export default class AppointmentPage extends Vue {
 
   showEvent(eventRef: CalendarEventReference) {
     this.selectedEvent = eventRef.event;
+    this.selectAppointment(eventRef.event._id);
     this.selectedEventTutor = this.getUserById(eventRef.event.tutor);
     this.selectedEventStudent = this.getUserById(eventRef.event.student);
     this.showAppointmentDetails = true;
@@ -289,12 +331,14 @@ export default class AppointmentPage extends Vue {
     switch (event.status) {
       case AppointmentState.pending:
         return "pink";
-      case AppointmentState.canceled:
-        return "secondary";
+      case AppointmentState.cancelled:
+        return "black";
       case AppointmentState.finished:
         return "green";
       case AppointmentState.approved:
         return "primary";
+      case AppointmentState.rejected:
+        return "black";
       default:
         return "primary";
     }
@@ -310,6 +354,11 @@ export default class AppointmentPage extends Vue {
   viewDay(ref: CalendarReference) {
     this.focus = ref.date;
     this.type = "day";
+  }
+
+  async appointmentAction(callback: () => void) {
+    await callback();
+    this.showAppointmentDetails = false;
   }
 }
 </script>

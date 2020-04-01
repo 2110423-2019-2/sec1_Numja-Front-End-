@@ -8,7 +8,7 @@
             <v-row class="justify-end" v-if="editMode">
               <v-btn class="mr-3" @click="cancelEditMode">Cancel</v-btn>
               <Uploadportfolio v-if="user.role === UserRole.Tutor" />
-              <v-btn class="ml-3" @click="toggleEditMode">Submit</v-btn>
+              <v-btn class="ml-3" @click="patchUser">Submit</v-btn>
             </v-row>
             <div v-else>
               <v-btn @click="toggleEditMode">Edit</v-btn>
@@ -107,10 +107,11 @@ import UploadPortfolio from "@/views/UploadPortfolio.vue";
 
 const todayDate = new Date().toISOString().substr(0, 10);
 
+
 @Component({
   components: { UploadPortfolio }
 })
-export default class SignUp extends Vue {
+export default class Profile extends Vue {
   private UserRole = UserRole;
   private isValid = true;
   private editMode = false;
@@ -150,6 +151,15 @@ export default class SignUp extends Vue {
     else this.validate();
 
     this.editMode = !this.editMode;
+  }
+
+  patchUser() {
+    this.validate();
+    if (this.isValid) {
+      console.log("api");
+      if (true) {
+      }
+    }
   }
 
   renderUser() {
