@@ -48,7 +48,23 @@ const store: StoreOptions<UsersState> = {
         const responseData: User[] = response.data;
         commit(UsersMutations.setUsers, responseData);
       } catch (error) {
-        //
+        console.log(error);
+      }
+    },
+    [UsersActions.uploadPortfolio]: async ({ commit, getters }, payload) => {
+      const user = getters.getUser;
+      try {
+        const response = await Vue.axios.post(
+          `user/${user.id}/portfolio/upload`,
+          payload,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data"
+            }
+          }
+        );
+      } catch (error) {
+        console.log(error);
       }
     }
   }
