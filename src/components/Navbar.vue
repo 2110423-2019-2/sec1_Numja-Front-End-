@@ -14,9 +14,7 @@
 
     <v-navigation-drawer id="drawer" v-model="drawer" absolute temporary>
       <v-list nav dense>
-        <v-list-item-group
-          active-class="primary--text text--accent-4"
-        >
+        <v-list-item-group active-class="primary--text text--accent-4">
           <v-list-item
             v-for="(menu, i) of menuList"
             :key="i"
