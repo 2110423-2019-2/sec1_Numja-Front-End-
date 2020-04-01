@@ -2,7 +2,7 @@
   <v-app>
     <Navbar />
     <v-content>
-      <v-container fill-height fluid>
+      <v-container fill-height fluid id="app-container">
         <SnackbarNotification />
         <router-view />
       </v-container>
@@ -13,10 +13,12 @@
 
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
+import { Action } from "vuex-class";
 import ReportSystemButton from "@/components/ReportSystemButton.vue";
 import SnackbarNotification from "@/components/SnackbarNotification.vue";
 import { Action } from "vuex-class";
 import { LoginGetters, LoginActions } from "./types";
+
 
 @Component({
   components: {
@@ -34,3 +36,10 @@ export default class App extends Vue {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+#app-container {
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+</style>

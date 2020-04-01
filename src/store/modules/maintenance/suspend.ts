@@ -1,11 +1,12 @@
 import Vue from "vue";
 import { StoreOptions } from "vuex";
 import {
-  SuspendState,
   SuspendActions,
+  SuspendGetters,
   SuspendMutations,
+  SuspendState,
   SuspendUserPayload,
-  SuspendGetters
+  UserRole
 } from "@/types";
 
 const store: StoreOptions<SuspendState> = {
@@ -18,20 +19,27 @@ const store: StoreOptions<SuspendState> = {
 
   getters: {
     [SuspendGetters.getUsers]: state =>
-      state.users.map(user => {
-        return {
-          id: user._id,
-          username: user.username,
-          firstName: user.firstName,
-          lastName: user.lastName,
-          status: user.status
-        };
-      })
+      state.users.filter(user => user.role !== UserRole.Admin)
   },
 
   mutations: {
     [SuspendMutations.setUsers]: (state, users) => {
       state.users = users;
+    },
+    [SuspendMutations.fetching]: (state) => {
+      state.isFetching = true;
+      state.isSuccess = false;
+      state.isError = false;
+    },
+    [SuspendMutations.success]: (state) => {
+      state.isSuccess = true;
+      state.isFetching = false;
+      state.isError = false;
+    },
+    [SuspendMutations.error]: (state) => {
+      state.isError = true;
+      state.isFetching = false;
+      state.isSuccess = false;
     }
   },
 
@@ -57,7 +65,10 @@ const store: StoreOptions<SuspendState> = {
         commit(SuspendMutations.error);
       }
     },
-    [SuspendActions.activate]: async ({ commit, dispatch }, { id }) => {
+    [SuspendActions.activate]: async (
+      { commit, dispatch },
+      { id }: SuspendUserPayload
+    ) => {
       try {
         await Vue.axios.patch("/admin/activate", { userId: id });
         dispatch(SuspendActions.fetchUsers);
