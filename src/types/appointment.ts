@@ -10,11 +10,11 @@ export interface AppointmentPageState extends AppointmentPayload {
 }
 
 export enum AppointmentState {
-  pending = 'pending',
-  cancelled = 'cancelled',
-  finished = 'finished',
-  approved = 'approved',
-  rejected = 'rejected'
+  pending = "pending",
+  cancelled = "cancelled",
+  finished = "finished",
+  approved = "approved",
+  rejected = "rejected"
 }
 
 export interface CalendarReference {
@@ -64,23 +64,23 @@ export interface Appointment {
 }
 
 export enum AppointmentGetters {
-  getAppointments = 'getAppointments'
+  getAppointments = "getAppointments"
 }
 
 export enum AppointmentActions {
-  fetchAppointments = 'fetchAppointments',
-  acceptAppointment = 'acceptAppointment',
-  rejectAppointment = 'rejectAppointment',
-  cancelAppointment = 'cancelAppointment',
-  editAppointment = 'editAppointment',
-  finishAppointment = 'finishAppointment',
-  selectAppointment = 'selectAppointment'
+  fetchAppointments = "fetchAppointments",
+  acceptAppointment = "acceptAppointment",
+  rejectAppointment = "rejectAppointment",
+  cancelAppointment = "cancelAppointment",
+  editAppointment = "editAppointment",
+  finishAppointment = "finishAppointment",
+  selectAppointment = "selectAppointment"
 }
 
 export enum AppointmentMutations {
-  setAppointments = 'setAppointments',
-  setSelectedAppointmentId = 'setSelectedAppointmentId',
-  fetching = 'fetching',
-  success = 'success',
-  error = 'error'
+  setAppointments = "setAppointments",
+  setSelectedAppointmentId = "setSelectedAppointmentId",
+  fetching = "fetching",
+  success = "success",
+  error = "error"
 }

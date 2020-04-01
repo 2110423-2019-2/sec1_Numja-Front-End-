@@ -31,7 +31,8 @@
                   fetchUsers();
                 }
               "
-            >mdi-refresh</v-icon>
+              >mdi-refresh</v-icon
+            >
           </v-toolbar>
         </v-sheet>
         <v-sheet height="600">
@@ -52,27 +53,59 @@
       </v-container>
       <v-dialog v-model="showAppointmentDetails" max-width="600px">
         <v-card>
-          <v-banner sticky single-line color="primary" dark class="pa-2" elevation="6">
+          <v-banner
+            sticky
+            single-line
+            color="primary"
+            dark
+            class="pa-2"
+            elevation="6"
+          >
             Appointment Details
             <template v-slot:actions>
-              <template v-if="myUser.role === 'tutor' && selectedEvent.status === 'pending'">
-                <v-btn @click="appointmentAction(acceptAppointment)" color="green">accept</v-btn>
-                <v-btn @click="appointmentAction(rejectAppointment)" color="black">reject</v-btn>
+              <template
+                v-if="
+                  myUser.role === 'tutor' && selectedEvent.status === 'pending'
+                "
+              >
+                <v-btn
+                  @click="appointmentAction(acceptAppointment)"
+                  color="green"
+                  >accept</v-btn
+                >
+                <v-btn
+                  @click="appointmentAction(rejectAppointment)"
+                  color="black"
+                  >reject</v-btn
+                >
               </template>
               <v-btn
                 @click="appointmentAction(cancelAppointment)"
                 color="pink"
-                v-if="selectedEvent.status === 'approved' || selectedEvent.status === 'pending' && myUser.role === 'student'"
-              >terminate</v-btn>
+                v-if="
+                  selectedEvent.status === 'approved' ||
+                    (selectedEvent.status === 'pending' &&
+                      myUser.role === 'student')
+                "
+                >terminate</v-btn
+              >
               <v-btn
                 @click="appointmentAction(finishAppointment)"
                 color="green"
-                v-if="selectedEvent.status === 'approved' && myUser.role === 'student'"
-              >finish</v-btn>
+                v-if="
+                  selectedEvent.status === 'approved' &&
+                    myUser.role === 'student'
+                "
+                >finish</v-btn
+              >
               <v-btn
                 color="grey"
-                v-if="myUser.role==='student' && selectedEvent.status === 'pending'"
-              >change</v-btn>
+                v-if="
+                  myUser.role === 'student' &&
+                    selectedEvent.status === 'pending'
+                "
+                >change</v-btn
+              >
             </template>
           </v-banner>
           <v-card-text class="pa-6">
@@ -99,7 +132,8 @@
                       selectedEventStudent ? selectedEventStudent._id : ''
                     }`
                   "
-                >view profile</v-btn>
+                  >view profile</v-btn
+                >
               </template>
             </v-text-field>
             <v-text-field
@@ -119,7 +153,8 @@
                       selectedEventTutor ? selectedEventTutor._id : ''
                     }`
                   "
-                >view profile</v-btn>
+                  >view profile</v-btn
+                >
               </template>
             </v-text-field>
             <v-text-field

@@ -92,17 +92,17 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Model } from 'vue-property-decorator';
-import { Action, Getter } from 'vuex-class';
+import { Vue, Component, Model } from "vue-property-decorator";
+import { Action, Getter } from "vuex-class";
 import {
   LoginActions,
   SignUpCredentials,
   UserGender,
   UserRole,
   LoginGetters
-} from '../types';
-import { loginRules as rules, Rule } from '../rules';
-import vuetify from '../plugins/vuetify';
+} from "../types";
+import { loginRules as rules, Rule } from "../rules";
+import vuetify from "../plugins/vuetify";
 
 const todayDate = new Date().toISOString().substr(0, 10);
 
@@ -111,13 +111,13 @@ export default class Profile extends Vue {
   private isValid = true;
   private editMode = false;
   private userInfo = {
-    username: '',
-    email: '',
-    firstName: '',
-    lastName: '',
+    username: "",
+    email: "",
+    firstName: "",
+    lastName: "",
     birthDate: todayDate,
-    address: '',
-    ssin: '',
+    address: "",
+    ssin: "",
     gender: UserGender.Male
   };
   private rules: {} = rules;
@@ -154,7 +154,7 @@ export default class Profile extends Vue {
   patchUser() {
     this.validate();
     if (this.isValid) {
-      console.log('api');
+      console.log("api");
       if (true) {
       }
     }
