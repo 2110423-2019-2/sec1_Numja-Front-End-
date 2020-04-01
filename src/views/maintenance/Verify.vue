@@ -1,69 +1,75 @@
 <template>
-  <v-data-table
-    :headers="headers"
-    :items="tutors"
-    class="elevation-1"
-    item-key="name"
-    :search="search"
-    dense
-  >
-    <template v-slot:top>
-      <v-toolbar flat color="white">
-        <v-toolbar-title> <h2>Verify Tutor</h2></v-toolbar-title>
-        <v-divider class="mx-4" inset vertical></v-divider>
-        <v-spacer></v-spacer>
-      </v-toolbar>
-      <v-text-field v-model="search" label="Search" class="mx-4"></v-text-field>
-    </template>
-    <template v-slot:item.verified="{ item }">
-      <v-chip
-        v-if="item.verified"
-        class="ma-2"
-        color="primary"
-        dark
-        outlined
-        pill
-      >
-        Verified
-        <v-icon right>mdi-account-outline</v-icon>
-      </v-chip>
-      <v-chip
-        v-if="!item.verified"
-        class="ma-2"
-        color="error accent-4"
-        outlined
-        pill
-      >
-        Unverified
-        <v-icon right>mdi-account-outline</v-icon>
-      </v-chip>
-    </template>
-    <template v-slot:item.action="{ item }">
-      <v-btn
-        v-if="!item.verified"
-        color="primary"
-        small
-        dark
-        @click="verifyTutor(item)"
-        >Verify</v-btn
-      >
-      <v-btn v-else color="secondary" small @click="unverifyTutor(item)"
-        >Unverify</v-btn
-      >
-      <v-btn
-        small
-        :loading="false"
-        :disabled="false"
-        color="blue-grey"
-        class="ma-2 white--text"
-        fab
-        @click="download(item)"
-      >
-        <v-icon dark>mdi-cloud-download</v-icon>
-      </v-btn>
-    </template>
-    <template v-slot:no-data> </template>
-  </v-data-table>
+  <v-col>
+    <v-data-table
+      :headers="headers"
+      :items="tutors"
+      class="elevation-1"
+      item-key="name"
+      :search="search"
+      dense
+    >
+      <template v-slot:top>
+        <v-toolbar flat color="white">
+          <v-toolbar-title> <h2>Verify Tutor</h2></v-toolbar-title>
+          <v-divider class="mx-4" inset vertical></v-divider>
+          <v-spacer></v-spacer>
+        </v-toolbar>
+        <v-text-field
+          v-model="search"
+          label="Search"
+          class="mx-4"
+        ></v-text-field>
+      </template>
+      <template v-slot:item.verified="{ item }">
+        <v-chip
+          v-if="item.verified"
+          class="ma-2"
+          color="primary"
+          dark
+          outlined
+          pill
+        >
+          Verified
+          <v-icon right>mdi-account-outline</v-icon>
+        </v-chip>
+        <v-chip
+          v-if="!item.verified"
+          class="ma-2"
+          color="error accent-4"
+          outlined
+          pill
+        >
+          Unverified
+          <v-icon right>mdi-account-outline</v-icon>
+        </v-chip>
+      </template>
+      <template v-slot:item.action="{ item }">
+        <v-btn
+          v-if="!item.verified"
+          color="primary"
+          small
+          dark
+          @click="verifyTutor(item)"
+          >Verify</v-btn
+        >
+        <v-btn v-else color="secondary" small @click="unverifyTutor(item)"
+          >Unverify</v-btn
+        >
+        <v-btn
+          small
+          :loading="false"
+          :disabled="false"
+          color="blue-grey"
+          class="ma-2 white--text"
+          fab
+          @click="download(item)"
+        >
+          <v-icon dark>mdi-cloud-download</v-icon>
+        </v-btn>
+      </template>
+      <template v-slot:no-data> </template>
+    </v-data-table>
+  </v-col>
 </template>
 
 <script lang="ts">
@@ -174,3 +180,8 @@ export default class Verify extends Vue {
   }
 }
 </script>
+<style lang="scss" scoped>
+.container.fill-height {
+  align-items: baseline;
+}</style
+>>
