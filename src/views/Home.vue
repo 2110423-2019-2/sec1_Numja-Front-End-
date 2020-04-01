@@ -139,9 +139,6 @@ import {
 
 @Component
 export default class Home extends Vue {
-  @Action(LoginActions.protectedRedirect)
-  private protectedRedirect!: () => void;
-
   @Action(UsersActions.fetchUsers)
   private fetchUsers!: () => void;
 
@@ -188,7 +185,6 @@ export default class Home extends Vue {
   private price = 0;
 
   mounted() {
-    this.protectedRedirect();
     this.fetchUsers();
   }
 

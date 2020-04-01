@@ -100,9 +100,8 @@ import {
   UserGender,
   UserRole,
   LoginGetters
-} from "../types";
+} from "@/types";
 import { loginRules as rules, Rule } from "../rules";
-import vuetify from "../plugins/vuetify";
 
 const todayDate = new Date().toISOString().substr(0, 10);
 
@@ -125,9 +124,6 @@ export default class SignUp extends Vue {
   @Getter(LoginGetters.getUser) private user!: any;
   @Action(LoginActions.signUp)
   private signUp!: (credentials: SignUpCredentials) => void;
-
-  @Action(LoginActions.protectedRedirect)
-  private protectedRedirect!: () => void;
 
   validate() {
     (this.$refs.form as Vue & { validate: () => boolean }).validate();
@@ -163,7 +159,6 @@ export default class SignUp extends Vue {
   }
 
   mounted() {
-    this.protectedRedirect();
     this.resetValidation();
     this.renderUser();
   }
