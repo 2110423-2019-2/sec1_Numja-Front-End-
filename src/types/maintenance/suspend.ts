@@ -20,9 +20,5 @@ export enum SuspendActions {
 }
 
 export enum SuspendMutations {
-  setUsers = "setUsersArray",
-  suspend = "suspend",
-  fetching = "fetching",
-  success = "success",
-  error = "error"
+  setUsers = "setUsersArray"
 }
