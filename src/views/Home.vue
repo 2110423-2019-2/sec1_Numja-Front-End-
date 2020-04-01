@@ -132,20 +132,17 @@ import {
   LoginGetters,
   AppointmentGetters,
   AppointmentActions,
-  UserGetters,
-  UserActions,
+  UsersGetters,
+  UsersActions,
   User
 } from "../types";
 
 @Component
 export default class Home extends Vue {
-  @Action(LoginActions.protectedRedirect)
-  private protectedRedirect!: () => void;
-
-  @Action(UserActions.fetchUsers)
+  @Action(UsersActions.fetchUsers)
   private fetchUsers!: () => void;
 
-  @Getter(UserGetters.getTutors) private tutors!: User[];
+  @Getter(UsersGetters.getTutors) private tutors!: User[];
 
   @Getter(LoginGetters.getUser) private myUser!: User;
 
@@ -188,7 +185,6 @@ export default class Home extends Vue {
   private price = 0;
 
   mounted() {
-    this.protectedRedirect();
     this.fetchUsers();
   }
 

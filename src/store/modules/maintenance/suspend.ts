@@ -8,7 +8,7 @@ import {
   SuspendState,
   SuspendUserPayload,
   UserRole,
-  UserActions
+  UsersActions
 } from "@/types";
 
 const store: StoreOptions<SuspendState> = {
@@ -34,7 +34,7 @@ const store: StoreOptions<SuspendState> = {
     ) => {
       try {
         await Vue.axios.patch("/admin/suspend", { userId: id });
-        dispatch(UserActions.fetchUsers);
+        dispatch(UsersActions.fetchUsers);
       } catch (e) {
         console.log(e);
       }
@@ -45,7 +45,7 @@ const store: StoreOptions<SuspendState> = {
     ) => {
       try {
         await Vue.axios.patch("/admin/activate", { userId: id });
-        dispatch(UserActions.fetchUsers);
+        dispatch(UsersActions.fetchUsers);
       } catch (e) {
         console.log(e);
       }

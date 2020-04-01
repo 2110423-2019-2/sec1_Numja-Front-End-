@@ -100,7 +100,7 @@ import {
   SignUpCredentials,
   UserGender,
   LoginGetters
-} from "../types";
+} from "@/types";
 import { loginRules as rules, Rule } from "../rules";
 import UploadPortfolio from "@/views/UploadPortfolio.vue";
 
@@ -127,9 +127,6 @@ export default class SignUp extends Vue {
   @Getter(LoginGetters.getUser) private user!: any;
   @Action(LoginActions.signUp)
   private signUp!: (credentials: SignUpCredentials) => void;
-
-  @Action(LoginActions.protectedRedirect)
-  private protectedRedirect!: () => void;
 
   validate() {
     (this.$refs.form as Vue & { validate: () => boolean }).validate();
@@ -165,7 +162,6 @@ export default class SignUp extends Vue {
   }
 
   mounted() {
-    this.protectedRedirect();
     this.resetValidation();
     this.renderUser();
   }
