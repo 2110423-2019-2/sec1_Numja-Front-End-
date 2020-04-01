@@ -15,7 +15,7 @@
       <v-data-table
         :headers="headers"
         :items="users"
-        :items-per-page="8"
+        :items-per-page="10"
         class="elevation-1"
       >
         <template v-slot:item.role="{ item }">
@@ -59,10 +59,12 @@
       </v-data-table>
     </template>
     <v-btn @click="fetchUsers" class="ma-2">fetch</v-btn>
+    <UploadPortfolio />
   </v-col>
 </template>
 
 <script lang="ts">
+import UploadPortfolio from "@/views/UploadPortfolio.vue";
 import { Vue, Component } from "vue-property-decorator";
 import { Action, Getter, State } from "vuex-class";
 import {
@@ -74,7 +76,9 @@ import {
 } from "@/types";
 import { UserStatus, UserRole } from "@/types";
 
-@Component
+@Component({
+  components: { UploadPortfolio }
+})
 export default class AdminSuspendUser extends Vue {
   @State(state => state.suspendUser.isFetching) isFetching!: boolean;
   @State(state => state.suspendUser.isSuccess) isSuccess!: boolean;

@@ -4,7 +4,6 @@ import {
   ChatGetters,
   ChatMutation,
   ChatAction,
-  ChatUsers,
   Message
 } from "@/types";
 import firebase from "firebase/app";
@@ -15,6 +14,7 @@ let messageCol: firebase.firestore.CollectionReference;
 const store: StoreOptions<ChatState> = {
   state: {
     fetchingChat: false,
+    roomKey: undefined,
     messages: []
   },
   getters: {
@@ -36,21 +36,16 @@ const store: StoreOptions<ChatState> = {
     }
   },
   actions: {
-    [ChatAction.subscribe]: async (
-      { commit },
-      { senderId, receiverId }: ChatUsers
-    ) => {
+    [ChatAction.subscribe]: async ({ commit }, roomKey: string) => {
       if (!messageCol) {
-        const docName =
-          senderId < receiverId
-            ? `${senderId}_${receiverId}`
-            : `${receiverId}_${senderId}`;
         messageCol = firebase
           .firestore()
           .collection("chats")
-          .doc(docName)
+          .doc(roomKey)
           .collection("messages");
       }
+
+      commit(ChatMutation.setMessages, []);
 
       messageCol.onSnapshot(
         querySnapshot => {
@@ -76,9 +71,8 @@ const store: StoreOptions<ChatState> = {
     },
     [ChatAction.unsubscribe]: ({ commit }) => {
       commit(ChatMutation.setMessages, []);
-      const unsub = messageCol.onSnapshot(() => {
-        return {};
-      });
+      /* eslint-disable-next-line @typescript-eslint/no-empty-function */
+      const unsub = messageCol.onSnapshot(() => {});
       unsub();
     }
   }

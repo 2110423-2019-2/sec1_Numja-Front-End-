@@ -109,13 +109,10 @@ export default class Profile extends Vue {
   @Getter(LoginGetters.getUser) private myUser!: User;
   private userInfo: User | null = null;
 
-  @Action(LoginActions.protectedRedirect)
-  private protectedRedirect!: () => void;
   @Action(UsersActions.fetchUsers)
   private fetchUsers!: () => void;
 
   mounted() {
-    this.protectedRedirect();
     this.fetchUsers();
     this.assignUser();
     if (this.userInfo && this.myUser._id === this.userInfo._id)
