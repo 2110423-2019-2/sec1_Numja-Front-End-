@@ -15,7 +15,7 @@
       <v-data-table
         :headers="headers"
         :items="users"
-        :items-per-page="8"
+        :items-per-page="10"
         class="elevation-1"
       >
         <template v-slot:item.role="{ item }">

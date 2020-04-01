@@ -2,7 +2,7 @@
   <div class="text-center">
     <v-dialog v-model="dialog" width="50%">
       <template v-slot:activator="{ on }">
-        <v-btn color="red lighten-2" dark v-on="on">
+        <v-btn v-on="on">
           Upload Portfolio
         </v-btn>
       </template>
