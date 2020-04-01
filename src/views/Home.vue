@@ -132,8 +132,8 @@ import {
   LoginGetters,
   AppointmentGetters,
   AppointmentActions,
-  UsersGetters,
-  UsersActions,
+  UserGetters,
+  UserActions,
   User
 } from "../types";
 
@@ -142,10 +142,10 @@ export default class Home extends Vue {
   @Action(LoginActions.protectedRedirect)
   private protectedRedirect!: () => void;
 
-  @Action(UsersActions.fetchUsers)
+  @Action(UserActions.fetchUsers)
   private fetchUsers!: () => void;
 
-  @Getter(UsersGetters.getTutors) private tutors!: User[];
+  @Getter(UserGetters.getTutors) private tutors!: User[];
 
   @Getter(LoginGetters.getUser) private myUser!: User;
 

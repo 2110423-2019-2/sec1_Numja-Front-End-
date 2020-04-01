@@ -175,8 +175,8 @@ import {
   LoginGetters,
   AppointmentGetters,
   AppointmentActions,
-  UsersActions,
-  UsersGetters,
+  UserActions,
+  UserGetters,
   User,
   Appointment,
   CalendarReference,
@@ -192,7 +192,7 @@ export default class AppointmentPage extends Vue {
 
   @Action(AppointmentActions.fetchAppointments)
   private fetchAppointments!: () => void;
-  @Action(UsersActions.fetchUsers)
+  @Action(UserActions.fetchUsers)
   private fetchUsers!: () => void;
 
   @Getter(AppointmentGetters.getAppointments)
@@ -208,7 +208,7 @@ export default class AppointmentPage extends Vue {
     });
   }
 
-  @Getter(UsersGetters.getUserById) private getUserById!: (id: string) => User;
+  @Getter(UserGetters.getUserById) private getUserById!: (id: string) => User;
 
   @Getter(LoginGetters.getUser) private myUser!: User;
 

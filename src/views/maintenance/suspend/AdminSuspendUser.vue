@@ -59,28 +59,32 @@
       </v-data-table>
     </template>
     <v-btn @click="fetchUsers" class="ma-2">fetch</v-btn>
+    <UploadPortfolio />
   </v-col>
 </template>
 
 <script lang="ts">
+import UploadPortfolio from "@/views/UploadPortfolio.vue";
 import { Vue, Component } from "vue-property-decorator";
 import { Action, Getter, State } from "vuex-class";
 import {
   SuspendActions,
   SuspendGetters,
   User,
-  UsersActions,
-  UsersGetters
+  UserActions,
+  UserGetters
 } from "@/types";
 import { UserStatus, UserRole } from "@/types";
 
-@Component
+@Component({
+  components: { UploadPortfolio }
+})
 export default class AdminSuspendUser extends Vue {
   @State(state => state.suspendUser.isFetching) isFetching!: boolean;
   @State(state => state.suspendUser.isSuccess) isSuccess!: boolean;
   @State(state => state.suspendUser.isError) isError!: boolean;
-  @Getter(UsersGetters.getNonAdminUsers) users!: Partial<User>[];
-  @Action(UsersActions.fetchUsers) fetchUsers!: Function;
+  @Getter(UserGetters.getNonAdminUsers) users!: Partial<User>[];
+  @Action(UserActions.fetchUsers) fetchUsers!: Function;
   @Action(SuspendActions.suspend) suspendAction!: Function;
   @Action(SuspendActions.activate) activateAction!: Function;
 

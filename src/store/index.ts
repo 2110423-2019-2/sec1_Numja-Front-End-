@@ -6,7 +6,7 @@ import login from "@/store/modules/login";
 import snackbar from "@/store/modules/snackbar";
 import suspendUser from "@/store/modules/maintenance/suspend";
 import appointment from "@/store/modules/appointment";
-import users from "@/store/modules/users";
+import user from "@/store/modules/user";
 import { LoginState } from "@/types";
 
 Vue.use(Vuex);
@@ -23,7 +23,7 @@ const store = new Vuex.Store<any>({
     snackbar,
     suspendUser,
     appointment,
-    users
+    user
   },
   plugins: [vuexLocal.plugin]
 });
