@@ -91,8 +91,8 @@ import {
   SignUpCredentials,
   UserGender,
   UserRole,
-  UserGetters,
-  UserActions,
+  UsersGetters,
+  UsersActions,
   LoginGetters,
   User
 } from "../types";
@@ -104,18 +104,15 @@ const todayDate = new Date().toISOString().substr(0, 10);
 
 @Component
 export default class Profile extends Vue {
-  @Getter(UserGetters.getUserById) private getUserById!: (id: string) => User;
+  @Getter(UsersGetters.getUserById) private getUserById!: (id: string) => User;
 
   @Getter(LoginGetters.getUser) private myUser!: User;
   private userInfo: User | null = null;
 
-  @Action(LoginActions.protectedRedirect)
-  private protectedRedirect!: () => void;
-  @Action(UserActions.fetchUsers)
+  @Action(UsersActions.fetchUsers)
   private fetchUsers!: () => void;
 
   mounted() {
-    this.protectedRedirect();
     this.fetchUsers();
     this.assignUser();
     if (this.userInfo && this.myUser._id === this.userInfo._id)

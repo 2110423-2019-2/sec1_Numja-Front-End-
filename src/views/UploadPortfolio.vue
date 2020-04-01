@@ -40,11 +40,11 @@
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
 import { Action } from "vuex-class";
-import { UserActions } from "@/types";
+import { UsersActions } from "@/types";
 
 @Component
 export default class UploadPortfolio extends Vue {
-  @Action(UserActions.uploadPortfolio) uploadPortfolio!: Function;
+  @Action(UsersActions.uploadPortfolio) uploadPortfolio!: Function;
 
   private dialog = false;
   private file: any = null;

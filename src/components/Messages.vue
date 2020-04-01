@@ -1,7 +1,7 @@
 <template>
   <v-list width="100%" ref="list">
     <template v-for="(message, i) of messages">
-      <v-list-item :key="i">
+      <v-list-item :key="'message_' + i">
         <v-list-item-icon>
           <v-icon large>mdi-account-circle</v-icon>
         </v-list-item-icon>
@@ -17,7 +17,7 @@
         </v-list-item-content>
       </v-list-item>
 
-      <v-divider v-if="i < messages.length - 1" :key="i" />
+      <v-divider v-if="i < messages.length - 1" :key="'div_' + i" />
     </template>
   </v-list>
 </template>

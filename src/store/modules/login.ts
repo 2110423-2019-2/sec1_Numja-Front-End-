@@ -84,11 +84,6 @@ const store: StoreOptions<LoginState> = {
       }
       commit(LoginMutations.setFetchingLogin, false);
     },
-    [LoginActions.protectedRedirect]: async ({ state }) => {
-      if (!state.token) {
-        router.push("/login");
-      }
-    },
     [LoginActions.setAxiosHeader]: ({ state }) => {
       if (state.token) {
         Vue.axios.defaults.headers.common[

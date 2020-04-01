@@ -175,8 +175,8 @@ import {
   LoginGetters,
   AppointmentGetters,
   AppointmentActions,
-  UserActions,
-  UserGetters,
+  UsersActions,
+  UsersGetters,
   User,
   Appointment,
   CalendarReference,
@@ -187,12 +187,9 @@ import {
 
 @Component
 export default class AppointmentPage extends Vue {
-  @Action(LoginActions.protectedRedirect)
-  private protectedRedirect!: () => void;
-
   @Action(AppointmentActions.fetchAppointments)
   private fetchAppointments!: () => void;
-  @Action(UserActions.fetchUsers)
+  @Action(UsersActions.fetchUsers)
   private fetchUsers!: () => void;
 
   @Getter(AppointmentGetters.getAppointments)
@@ -208,7 +205,7 @@ export default class AppointmentPage extends Vue {
     });
   }
 
-  @Getter(UserGetters.getUserById) private getUserById!: (id: string) => User;
+  @Getter(UsersGetters.getUserById) private getUserById!: (id: string) => User;
 
   @Getter(LoginGetters.getUser) private myUser!: User;
 
@@ -218,7 +215,6 @@ export default class AppointmentPage extends Vue {
   private selectedEventStudent: User = this.myUser;
 
   mounted() {
-    this.protectedRedirect();
     this.fetchAppointments();
     this.fetchUsers();
   }

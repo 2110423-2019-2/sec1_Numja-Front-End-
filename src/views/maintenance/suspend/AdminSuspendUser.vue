@@ -71,8 +71,8 @@ import {
   SuspendActions,
   SuspendGetters,
   User,
-  UserActions,
-  UserGetters
+  UsersActions,
+  UsersGetters
 } from "@/types";
 import { UserStatus, UserRole } from "@/types";
 
@@ -83,8 +83,8 @@ export default class AdminSuspendUser extends Vue {
   @State(state => state.suspendUser.isFetching) isFetching!: boolean;
   @State(state => state.suspendUser.isSuccess) isSuccess!: boolean;
   @State(state => state.suspendUser.isError) isError!: boolean;
-  @Getter(UserGetters.getNonAdminUsers) users!: Partial<User>[];
-  @Action(UserActions.fetchUsers) fetchUsers!: Function;
+  @Getter(UsersGetters.getNonAdminUsers) users!: Partial<User>[];
+  @Action(UsersActions.fetchUsers) fetchUsers!: Function;
   @Action(SuspendActions.suspend) suspendAction!: Function;
   @Action(SuspendActions.activate) activateAction!: Function;
 
