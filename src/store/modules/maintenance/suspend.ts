@@ -26,17 +26,17 @@ const store: StoreOptions<SuspendState> = {
     [SuspendMutations.setUsers]: (state, users) => {
       state.users = users;
     },
-    [SuspendMutations.fetching]: (state) => {
+    [SuspendMutations.fetching]: state => {
       state.isFetching = true;
       state.isSuccess = false;
       state.isError = false;
     },
-    [SuspendMutations.success]: (state) => {
+    [SuspendMutations.success]: state => {
       state.isSuccess = true;
       state.isFetching = false;
       state.isError = false;
     },
-    [SuspendMutations.error]: (state) => {
+    [SuspendMutations.error]: state => {
       state.isError = true;
       state.isFetching = false;
       state.isSuccess = false;

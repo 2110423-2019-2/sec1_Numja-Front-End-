@@ -45,7 +45,7 @@ export default class Chat extends Vue {
   ) => void;
   @Action(ChatAction.unsubscribe) private unsubscribe!: () => void;
 
-  private text = "";
+  private text: string | undefined = "";
   private user = { _id: "test1" };
   private senderId = this.user._id;
 

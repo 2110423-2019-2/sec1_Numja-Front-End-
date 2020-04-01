@@ -185,7 +185,7 @@ export default class Home extends Vue {
   private startTime = "00:00";
   private endTime = "00:00";
   private address = "";
-  private price!: number;
+  private price = 0;
 
   mounted() {
     this.protectedRedirect();

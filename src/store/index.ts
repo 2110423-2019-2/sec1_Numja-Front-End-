@@ -7,8 +7,7 @@ import snackbar from "@/store/modules/snackbar";
 import suspendUser from "@/store/modules/maintenance/suspend";
 import appointment from "@/store/modules/appointment";
 import users from "@/store/modules/users";
-import { State, LoginState } from "@/types";
-
+import { LoginState } from "@/types";
 
 Vue.use(Vuex);
 

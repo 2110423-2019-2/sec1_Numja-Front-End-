@@ -122,7 +122,7 @@ export default class SignUp extends Vue {
   };
   private rules: {} = rules;
 
-  @Getter(LoginGetters.user) private user!: any;
+  @Getter(LoginGetters.getUser) private user!: any;
   @Action(LoginActions.signUp)
   private signUp!: (credentials: SignUpCredentials) => void;
 

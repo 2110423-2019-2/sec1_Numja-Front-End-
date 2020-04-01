@@ -28,7 +28,7 @@ export interface LoginState {
 export enum LoginGetters {
   isLogin = "isLogin",
   isFetchingLogin = "isFetchingLogin",
-  user = "user"
+  getUser = "getUser"
 }
 
 export enum LoginMutations {

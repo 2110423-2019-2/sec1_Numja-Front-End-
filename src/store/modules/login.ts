@@ -21,7 +21,7 @@ const store: StoreOptions<LoginState> = {
   getters: {
     [LoginGetters.isLogin]: state => !!state.token,
     [LoginGetters.isFetchingLogin]: state => state.fetchingLogin,
-    [LoginGetters.user]: state => state.user
+    [LoginGetters.getUser]: state => state.user
   },
   mutations: {
     [LoginMutations.setToken]: (state, payload: string) => {
