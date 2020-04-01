@@ -5,9 +5,9 @@
         <v-toolbar color="primary" dark>
           <v-row class="px-5" justify="space-between" align="center">
             <v-toolbar-title class="px-2">Profile</v-toolbar-title>
+            <ReportUserButton />
           </v-row>
         </v-toolbar>
-
         <v-form>
           <v-card-text class="px-6">
             <v-text-field
@@ -96,13 +96,14 @@ import {
   LoginGetters,
   User
 } from "../types";
-import { loginRules as rules, Rule } from "../rules";
-import vuetify from "../plugins/vuetify";
+import ReportUserButton from "@/components/ReportUserButton.vue";
 import router from "../router";
 
 const todayDate = new Date().toISOString().substr(0, 10);
 
-@Component
+@Component({
+  components: { ReportUserButton }
+})
 export default class Profile extends Vue {
   @Getter(UsersGetters.getUserById) private getUserById!: (id: string) => User;
 
@@ -116,7 +117,7 @@ export default class Profile extends Vue {
     this.fetchUsers();
     this.assignUser();
     if (this.userInfo && this.myUser._id === this.userInfo._id)
-      router.push("/profile");
+      router.push("/profile/me");
   }
 
   assignUser() {
