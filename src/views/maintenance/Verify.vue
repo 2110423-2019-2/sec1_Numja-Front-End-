@@ -55,6 +55,8 @@
         <v-btn v-else color="secondary" small @click="unverifyTutor(item)"
           >Unverify</v-btn
         >
+    </template>
+          <template v-slot:item.downloadAction="{ item }">
         <v-btn
           small
           :loading="false"
@@ -66,7 +68,7 @@
         >
           <v-icon dark>mdi-cloud-download</v-icon>
         </v-btn>
-      </template>
+    </template>
       <template v-slot:no-data> </template>
     </v-data-table>
   </v-col>
@@ -105,7 +107,7 @@ export default class Verify extends Vue {
     { text: "Firstname", value: "firstName" },
     { text: "Surname", value: "lastName" },
     { text: "TimeStampSent", value: "evidenceSentDate" },
-    { text: "Link", value: "evidenceInfo", align: "center" },
+    { text: "Uploaded File", value: "downloadAction", sortable: false ,align: "center" },
     { text: "Actions", value: "action", align: "center", sortable: false }
   ];
 
