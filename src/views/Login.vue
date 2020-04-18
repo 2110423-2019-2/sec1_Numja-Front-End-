@@ -22,9 +22,6 @@
               prepend-icon="mdi-lock"
               required
             />
-            <p class="text-right primary--text" text>
-              <a href="#">Forgot password?</a>
-            </p>
           </v-card-text>
 
           <v-card-actions class="pa-6 pt-0">
