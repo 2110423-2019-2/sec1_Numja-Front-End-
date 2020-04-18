@@ -7,8 +7,8 @@
             <v-toolbar-title class="px-2">Profile</v-toolbar-title>
             <v-row class="justify-end" v-if="editMode">
               <v-btn class="mr-3" @click="cancelEditMode">Cancel</v-btn>
-              <Uploadportfolio v-if="user.role === UserRole.Tutor" />
-              <v-btn class="ml-3" @click="toggleEditMode">Submit</v-btn>
+              <UploadPortfolio v-if="user.role === UserRole.Tutor" />
+<!--              <v-btn class="ml-3" @click="toggleEditMode">Submit</v-btn>-->
             </v-row>
             <div v-else>
               <v-btn @click="toggleEditMode">Edit</v-btn>

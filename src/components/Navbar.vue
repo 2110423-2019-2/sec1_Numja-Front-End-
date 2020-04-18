@@ -1,3 +1,4 @@
+import {UserRole} from '@/types'; import {UserRole} from '@/types';
 <template>
   <div>
     <v-app-bar color="primary" dark height="60px" app>
@@ -33,12 +34,13 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Model } from "vue-property-decorator";
-import { LoginGetters, LoginActions } from "../types";
-import { Getter, Action } from "vuex-class";
+import { Component, Vue } from "vue-property-decorator";
+import { LoginActions, LoginGetters, User, UserRole } from "../types";
+import { Action, Getter } from "vuex-class";
 
 @Component
 export default class Navbar extends Vue {
+  @Getter(LoginGetters.getUser) private user!: User;
   @Getter(LoginGetters.isLogin) private isLogin!: () => boolean;
   @Action(LoginActions.logout) private logout!: () => void;
   private drawer = false;
@@ -62,17 +64,24 @@ export default class Navbar extends Vue {
     {
       icon: "mdi-wrench",
       title: "Activate/Suspend",
-      link: "/maintenance/suspend"
+      link: "/maintenance/suspend",
+      forAdmin: true
     },
     {
       icon: "mdi-file-document-edit",
       title: "Verify",
-      link: "/maintenance/verify"
+      link: "/maintenance/verify",
+      forAdmin: true
     }
   ];
 
   get menuList() {
-    return this.menus.filter(menu => menu.public || this.isLogin);
+    return this.menus.filter(menu => {
+      if (menu.public) return true;
+      if (!this.isLogin) return false;
+      if (menu.forAdmin && this.user) return this.user.role === UserRole.Admin;
+      return true;
+    });
   }
 }
 </script>

@@ -2,12 +2,11 @@ import Vue from "vue";
 import vueStore from "../../index";
 import { StoreOptions } from "vuex";
 import {
+  SnackbarActions,
   SuspendActions,
-  SuspendGetters,
   SuspendMutations,
   SuspendState,
-  SuspendUserPayload,
-  UserRole,
+  User,
   UsersActions
 } from "@/types";
 
@@ -28,26 +27,34 @@ const store: StoreOptions<SuspendState> = {
   },
 
   actions: {
-    [SuspendActions.suspend]: async (
-      { commit, dispatch },
-      { id }: SuspendUserPayload
-    ) => {
+    [SuspendActions.suspend]: async ({ commit, dispatch }, user: User) => {
       try {
-        await Vue.axios.patch("/admin/suspend", { userId: id });
+        await Vue.axios.patch("/admin/suspend", { userId: user._id });
         dispatch(UsersActions.fetchUsers);
-      } catch (e) {
-        console.log(e);
+        dispatch(SnackbarActions.push, {
+          color: "success",
+          message: `User ${user.username} is suspended`
+        });
+      } catch {
+        dispatch(SnackbarActions.push, {
+          color: "error",
+          message: `Suspend failed`
+        });
       }
     },
-    [SuspendActions.activate]: async (
-      { commit, dispatch },
-      { id }: SuspendUserPayload
-    ) => {
+    [SuspendActions.activate]: async ({ commit, dispatch }, user: User) => {
       try {
-        await Vue.axios.patch("/admin/activate", { userId: id });
+        await Vue.axios.patch("/admin/activate", { userId: user._id });
         dispatch(UsersActions.fetchUsers);
-      } catch (e) {
-        console.log(e);
+        dispatch(SnackbarActions.push, {
+          color: "success",
+          message: `User ${user.username} is activated`
+        });
+      } catch {
+        dispatch(SnackbarActions.push, {
+          color: "error",
+          message: `Activate failed`
+        });
       }
     }
   }
