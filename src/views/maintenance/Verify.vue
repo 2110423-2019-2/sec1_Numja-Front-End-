@@ -91,7 +91,7 @@ export default class Verify extends Vue {
   @State(state => state.verify.fileList) fileList!: string[];
 
   @Action(VerifyActions.fetchTutors) fetchTutors!: Function;
-  @Action(VerifyActions.fetchFileList) fetchFileList! :Function;
+  @Action(VerifyActions.fetchFileList) fetchFileList!: Function;
   @Action(SnackbarActions.push) pushNewNotification!: Function;
 
   private search = "";
@@ -175,14 +175,14 @@ export default class Verify extends Vue {
       );
       const link = document.createElement("a");
       link.href = response.data.signedUrl;
-      link.target="_blank"
+      link.target = "_blank";
       link.setAttribute(
         "download",
         item.firstName + " " + item.lastName + "_port"
       ); //or any other extension
       document.body.appendChild(link);
       this.pushNotification("success", "file load finished");
-      setTimeout(() => (link.click()), 1000)
+      setTimeout(() => link.click(), 1000);
     } catch (e) {
       this.pushNotification("error", "file not exist");
     }

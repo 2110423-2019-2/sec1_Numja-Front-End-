@@ -8,7 +8,7 @@ const store: StoreOptions<VerifyState> = {
     isSuccess: false,
     isError: false,
     tutors: [],
-    fileList: [],
+    fileList: []
   },
 
   mutations: {
@@ -18,20 +18,20 @@ const store: StoreOptions<VerifyState> = {
     [VerifyMutations.setFileList]: (state, fileList) => {
       state.fileList = fileList;
     },
-    [VerifyMutations.fetching]: (state) => {
-      state.isFetching = true
-      state.isError = false
-      state.isSuccess = false
+    [VerifyMutations.fetching]: state => {
+      state.isFetching = true;
+      state.isError = false;
+      state.isSuccess = false;
     },
-    [VerifyMutations.success]: (state) => {
-      state.isFetching = false
-      state.isError = false
-      state.isSuccess = true    
+    [VerifyMutations.success]: state => {
+      state.isFetching = false;
+      state.isError = false;
+      state.isSuccess = true;
     },
-    [VerifyMutations.error]: (state) => {
-      state.isFetching = false
-      state.isError = true
-      state.isSuccess = false    
+    [VerifyMutations.error]: state => {
+      state.isFetching = false;
+      state.isError = true;
+      state.isSuccess = false;
     }
   },
 
