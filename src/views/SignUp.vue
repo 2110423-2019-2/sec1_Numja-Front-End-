@@ -21,7 +21,7 @@
               type="password"
               label="Password"
               prepend-icon="mdi-lock"
-              :rules="[rules.required, rules.length8]"
+              :rules="[rules.required, rules.lengthOver8]"
               required
             />
             <v-text-field
@@ -88,14 +88,31 @@
           </v-card-actions>
         </v-form>
       </v-card>
+      <v-dialog v-model="pageError" max-width="290">
+        <v-card>
+          <v-card-title class="headline">Error</v-card-title>
+          <v-card-text>{{pageErrorMessage}}</v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn text @click="setPageError(false)">OK</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
     </v-col>
   </v-row>
 </template>
 
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
-import { Action } from "vuex-class";
-import { LoginActions, SignUpCredentials, UserGender, UserRole } from "@/types";
+import { Action, Getter, Mutation } from "vuex-class";
+import {
+  LoginActions,
+  SignUpCredentials,
+  UserGender,
+  UserRole,
+  LoginGetters,
+  LoginMutations
+} from "@/types";
 import { loginRules as rules } from "../rules";
 import vuetify from "../plugins/vuetify";
 
@@ -119,6 +136,10 @@ export default class SignUp extends Vue {
   @Action(LoginActions.signUp) private signUp!: (
     credentials: SignUpCredentials
   ) => void;
+
+  @Getter(LoginGetters.getErrorMessage) private pageErrorMessage!: string;
+  @Getter(LoginGetters.getError) private pageError!: boolean;
+  @Mutation(LoginMutations.setError) private setPageError!: () => void;
 
   submit() {
     this.validate();

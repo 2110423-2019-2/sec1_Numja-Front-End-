@@ -23,19 +23,23 @@ export interface LoginState {
   error: boolean;
   token: string | null;
   user: User | null;
+  errorMessage: string;
 }
 
 export enum LoginGetters {
   isLogin = 'isLogin',
   isFetchingLogin = 'isFetchingLogin',
-  getUser = 'getUser'
+  getUser = 'getUser',
+  getError = 'getError',
+  getErrorMessage = 'getErrorMessage',
 }
 
 export enum LoginMutations {
   setToken = 'setToken',
   setFetchingLogin = 'setFetchingLogin',
   setError = 'setError',
-  setUser = 'setUser'
+  setUser = 'setUser',
+  setErrorMessage = 'serErrorMessage',
 }
 
 export enum LoginActions {
@@ -45,5 +49,5 @@ export enum LoginActions {
   redirect = 'redirect',
   setAxiosHeader = 'setAxiosHeader',
   fetchUser = 'fetchUser',
-  protectedRedirect = 'protectedRedirect'
+  protectedRedirect = 'protectedRedirect',
 }
