@@ -83,7 +83,7 @@
 
           <v-card-actions class="pa-6 pt-0">
             <v-spacer />
-            <v-btn color="primary" type="submit">Sign up</v-btn>
+            <v-btn color="primary" type="submit" :loading="loading">Sign up</v-btn>
             <v-btn color="primary" to="/login" text>Login</v-btn>
           </v-card-actions>
         </v-form>
@@ -137,6 +137,7 @@ export default class SignUp extends Vue {
     credentials: SignUpCredentials
   ) => void;
 
+  @Getter(LoginGetters.isFetchingLogin) private loading!: boolean;
   @Getter(LoginGetters.getErrorMessage) private pageErrorMessage!: string;
   @Getter(LoginGetters.getError) private pageError!: boolean;
   @Mutation(LoginMutations.setError) private setPageError!: () => void;
