@@ -130,6 +130,14 @@ const store: StoreOptions<LoginState> = {
         ] = `Bearer ${state.token}`;
       }
     },
+    [LoginActions.protectedRedirect]: async () => {
+      try {
+        const response = await Vue.axios.get<User>('/user/me');
+        if (response.status !== 200) throw new Error();
+      } catch (error) {
+        router.push('/login');
+      }
+    },
   },
 };
 
