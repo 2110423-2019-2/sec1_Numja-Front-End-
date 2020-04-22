@@ -8,7 +8,7 @@ export interface SuspendState {
 }
 
 export interface SuspendUserPayload {
-  id: string;
+  user: User;
 }
 
 export enum SuspendGetters {}

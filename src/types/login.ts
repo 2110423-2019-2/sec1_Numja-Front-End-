@@ -44,5 +44,6 @@ export enum LoginActions {
   signUp = "signUp",
   redirect = "redirect",
   setAxiosHeader = "setAxiosHeader",
-  fetchUser = "fetchUser"
+  fetchUser = "fetchUser",
+  protectedRedirect = "protectedRedirect"
 }
