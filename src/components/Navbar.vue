@@ -55,13 +55,13 @@ export default class Navbar extends Vue {
       icon: "mdi-calendar-month",
       title: "Appointment",
       link: "/appointment",
-      roles: [UserRole.Student,UserRole.Tutor]
+      roles: [UserRole.Student, UserRole.Tutor]
     },
     {
       icon: "mdi-chat",
       title: "Chat",
       link: "/chat",
-      roles: [UserRole.Admin,UserRole.Student,UserRole.Tutor]
+      roles: [UserRole.Admin, UserRole.Student, UserRole.Tutor]
     },
     {
       icon: "mdi-wrench",
