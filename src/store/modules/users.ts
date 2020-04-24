@@ -22,7 +22,9 @@ const store: StoreOptions<UsersState> = {
   getters: {
     [UsersGetters.getUsers]: state => state.users,
     [UsersGetters.getTutors]: state => {
-      return state.users.filter(user => user.role === UserRole.Tutor);
+      return state.users.filter(user => {
+        return user.role === UserRole.Tutor && user.verified == true;
+      });
     },
     [UsersGetters.getOtherUsers]: state => {
       return state.users.filter(

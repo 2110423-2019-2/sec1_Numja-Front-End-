@@ -1,5 +1,5 @@
 <template>
-  <v-row justify="center" align="center">
+  <v-row justify="center" align="center" v-if="myUser.role !== 'admin'">
     <v-col cols="12" sm="9" md="5">
       <v-dialog v-model="dialog" width="600">
         <template v-slot:activator="{ on }">
@@ -34,7 +34,7 @@
                 >
               </template>
               <template
-                v-if="myUser.role !== 'tutor' && myUser.role !== 'admin'"
+                v-if="myUser.role !== 'tutor'"
                 v-slot:item.actions="{ item }"
               >
                 <v-hover v-slot:default="{ hover }">
@@ -128,10 +128,8 @@ import { Vue, Component } from "vue-property-decorator";
 import { Action, Getter } from "vuex-class";
 import { appointmentRules as rules } from "../rules";
 import {
-  LoginActions,
   LoginGetters,
   AppointmentGetters,
-  AppointmentActions,
   UsersGetters,
   UsersActions,
   User

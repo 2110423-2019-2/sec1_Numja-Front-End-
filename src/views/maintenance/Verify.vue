@@ -79,7 +79,6 @@ import { Action, State } from "vuex-class";
 import { VerifyActions, User } from "@/types";
 import { VerifyRowItem } from "@/types";
 import { SnackbarActions } from "@/types/snackbar";
-import { AxiosResponse, AxiosError } from "axios";
 import axios from "axios";
 
 @Component

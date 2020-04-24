@@ -97,7 +97,6 @@ import { Vue, Component } from "vue-property-decorator";
 import { Action } from "vuex-class";
 import { LoginActions, SignUpCredentials, UserGender, UserRole } from "@/types";
 import { loginRules as rules } from "../rules";
-import vuetify from "../plugins/vuetify";
 
 const todayDate = new Date().toISOString().substr(0, 10);
 
