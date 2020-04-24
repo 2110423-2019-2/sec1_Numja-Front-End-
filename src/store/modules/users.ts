@@ -104,10 +104,7 @@ const store: StoreOptions<UsersState> = {
     },
     [UsersActions.updateUser]: async () => {
       const response = await Vue.axios.get<User>('/user/me');
-      console.log(response);
-      console.log(response.status);
       if (response.status === 200) {
-        console.log(200);
         vueStore.commit(LoginMutations.setUser, response.data);
       }
     },

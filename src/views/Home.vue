@@ -217,7 +217,6 @@ export default class Home extends Vue {
   }
 
   validateTime() {
-    console.log(this.startTime, this.endTime);
     if (new Date(this.date) < this.todayDate()) {
       this.timeErrorDialog = true;
       this.timeErrorMessage = "cannot make appointment on selected date";

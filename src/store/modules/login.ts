@@ -93,8 +93,6 @@ const store: StoreOptions<LoginState> = {
           throw new Error();
         }
       } catch (error) {
-        // console.log('response', response);
-        console.log(error);
         commit(LoginMutations.setError, true);
 
         if (error.toString().includes('400')) {
@@ -117,7 +115,6 @@ const store: StoreOptions<LoginState> = {
     },
     [LoginActions.redirect]: async ({ commit }) => {
       const response = await Vue.axios.get<User>('/user/me');
-      console.log('response', response);
       if (response.status === 200) {
         commit(LoginMutations.setUser, response.data);
         router.push('/');
