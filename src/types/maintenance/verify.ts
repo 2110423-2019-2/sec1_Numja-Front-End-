@@ -5,16 +5,19 @@ export interface VerifyState {
   isFetching: boolean;
   isError: boolean;
   tutors: Array<User>;
+  fileList: Array<string>;
 }
 
 export enum VerifyActions {
   fetchTutors = "fetchAllTutor",
   verify = "verify",
-  unverify = "unverify"
+  unverify = "unverify",
+  fetchFileList = "fetchFileList"
 }
 
 export enum VerifyMutations {
   setTutors = "setTutorsArray",
+  setFileList = "setFileList",
   verify = "verify",
   fetching = "fetching",
   success = "success",
