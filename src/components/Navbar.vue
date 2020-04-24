@@ -54,24 +54,26 @@ export default class Navbar extends Vue {
     {
       icon: "mdi-calendar-month",
       title: "Appointment",
-      link: "/appointment"
+      link: "/appointment",
+      roles: [UserRole.Student, UserRole.Tutor]
     },
     {
       icon: "mdi-chat",
       title: "Chat",
-      link: "/chat"
+      link: "/chat",
+      roles: [UserRole.Admin, UserRole.Student, UserRole.Tutor]
     },
     {
       icon: "mdi-wrench",
       title: "Activate/Suspend",
       link: "/maintenance/suspend",
-      forAdmin: true
+      roles: [UserRole.Admin]
     },
     {
       icon: "mdi-file-document-edit",
       title: "Verify",
       link: "/maintenance/verify",
-      forAdmin: true
+      roles: [UserRole.Admin]
     }
   ];
 
@@ -79,8 +81,8 @@ export default class Navbar extends Vue {
     return this.menus.filter(menu => {
       if (menu.public) return true;
       if (!this.isLogin) return false;
-      if (menu.forAdmin && this.user) return this.user.role === UserRole.Admin;
-      return true;
+      if (this.user && menu.roles) return menu.roles.includes(this.user.role);
+      return false;
     });
   }
 }

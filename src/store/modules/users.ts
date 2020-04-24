@@ -50,8 +50,8 @@ const store: StoreOptions<UsersState> = {
         commit(UsersMutations.setUsers, responseData);
       } catch {
         dispatch(SnackbarActions.push, {
-          color: 'error',
-          message: 'Users fetching failed'
+          color: "error",
+          message: "Users fetching failed"
         });
       }
     },
