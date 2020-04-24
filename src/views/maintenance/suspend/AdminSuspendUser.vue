@@ -58,12 +58,10 @@
         </template>
       </v-data-table>
     </template>
-    <UploadPortfolio />
   </v-col>
 </template>
 
 <script lang="ts">
-import UploadPortfolio from "@/views/UploadPortfolio.vue";
 import { Vue, Component } from "vue-property-decorator";
 import { Action, Getter, State } from "vuex-class";
 import {
@@ -75,9 +73,7 @@ import {
 } from "@/types";
 import { UserStatus, UserRole } from "@/types";
 
-@Component({
-  components: { UploadPortfolio }
-})
+@Component
 export default class AdminSuspendUser extends Vue {
   @State(state => state.suspendUser.isFetching) isFetching!: boolean;
   @State(state => state.suspendUser.isSuccess) isSuccess!: boolean;
