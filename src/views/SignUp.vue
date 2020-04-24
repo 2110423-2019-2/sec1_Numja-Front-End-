@@ -57,7 +57,7 @@
               type="text"
               label="Address"
               prepend-icon="mdi-home"
-              :rules="[rules.required]"
+              :rules="[]"
               required
             />
             <v-text-field
