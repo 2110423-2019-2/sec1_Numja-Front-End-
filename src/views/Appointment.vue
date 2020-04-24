@@ -338,7 +338,7 @@ export default class AppointmentPage extends Vue {
       case AppointmentState.approved:
         return "primary";
       case AppointmentState.rejected:
-        return "black";
+        return "red";
       default:
         return "primary";
     }

@@ -1,42 +1,43 @@
 <template>
-  <v-row justify="center" align="center">
+  <v-row justify="center" align="center" v-if="myUser.role !== 'admin'">
     <v-col cols="12" sm="9" md="5">
       <v-dialog v-model="dialog" width="600">
         <template v-slot:activator="{ on }">
           <v-card>
-            <v-card-title v-if="!searchMode">
-              Tutors List
-              <v-spacer></v-spacer>
-              <v-icon class="mr-3" @click="setSearchMode(true)"
-                >mdi-magnify</v-icon
-              >
-              <v-icon @click="fetchUsers">mdi-refresh</v-icon>
-            </v-card-title>
-            <v-card-title v-else>
-              <v-text-field
-                v-model="search"
-                label="Search"
-                single-line
-                hide-details
-                append-icon="mdi-close-circle"
-                @click:append="setSearchMode(false)"
-              ></v-text-field>
-            </v-card-title>
             <v-data-table
               :headers="headers"
               :items="tutors"
               :items-per-page="10"
               class="elevation-1"
+              :search="search"
             >
+              <template v-slot:top>
+                <v-card-title v-if="!searchMode">
+                  Tutors List
+                  <v-spacer></v-spacer>
+                  <v-icon class="mr-3" @click="setSearchMode(true)"
+                    >mdi-magnify</v-icon
+                  >
+                  <v-icon @click="fetchUsers">mdi-refresh</v-icon>
+                </v-card-title>
+                <v-card-title v-else>
+                  <v-text-field
+                    v-model="search"
+                    label="Search"
+                    single-line
+                    hide-details
+                    append-icon="mdi-close-circle"
+                    @click:append="setSearchMode(false)"
+                  ></v-text-field>
+                </v-card-title>
+              </template>
               <template v-slot:item.verified="{ item }">
                 <v-icon color="primary" v-if="item.verified"
                   >mdi-check-circle</v-icon
                 >
               </template>
               <template
-                v-if="
-                  myUser && myUser.role !== 'tutor' && myUser.role !== 'admin'
-                "
+                v-if="myUser && myUser.role !== 'tutor'"
                 v-slot:item.actions="{ item }"
               >
                 <v-hover v-slot:default="{ hover }">
@@ -130,10 +131,9 @@ import { Vue, Component } from "vue-property-decorator";
 import { Action, Getter } from "vuex-class";
 import { appointmentRules as rules } from "../rules";
 import {
-  LoginActions,
   LoginGetters,
+  LoginActions,
   AppointmentGetters,
-  AppointmentActions,
   UsersGetters,
   UsersActions,
   User
@@ -172,6 +172,7 @@ export default class Home extends Vue {
   ];
 
   private formIsValid = true;
+  private search = "";
   private searchMode = false;
   private dialog = false;
   private timeErrorDialog = false;

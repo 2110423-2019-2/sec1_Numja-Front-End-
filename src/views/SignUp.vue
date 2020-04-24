@@ -116,7 +116,6 @@ import {
   LoginMutations
 } from "@/types";
 import { loginRules as rules } from "../rules";
-import vuetify from "../plugins/vuetify";
 
 const todayDate = new Date().toISOString().substr(0, 10);
 
