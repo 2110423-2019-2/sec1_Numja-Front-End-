@@ -2,7 +2,7 @@ import {UserRole} from '@/types'; import {UserRole} from '@/types';
 <template>
   <div>
     <v-app-bar color="primary" dark height="60px" app>
-      <v-app-bar-nav-icon @click="drawer = !drawer" />
+      <v-app-bar-nav-icon @click="clickDrawer" />
 
       <v-toolbar-title>Indemand</v-toolbar-title>
       <v-spacer />
@@ -84,6 +84,12 @@ export default class Navbar extends Vue {
       if (this.user && menu.roles) return menu.roles.includes(this.user.role);
       return false;
     });
+  }
+
+  clickDrawer(){
+    window.scrollTo(0,0);
+    this.drawer = !this.drawer
+
   }
 }
 </script>
