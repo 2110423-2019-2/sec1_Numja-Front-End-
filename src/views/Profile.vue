@@ -5,18 +5,13 @@
         <v-toolbar color="primary" dark>
           <v-row class="px-5" justify="space-between" align="center">
             <v-toolbar-title class="px-2">Profile</v-toolbar-title>
-            <v-row class="justify-end" v-if="editMode">
-              <v-btn class="mr-3" @click="cancelEditMode">Cancel</v-btn>
+            <v-row class="justify-end">
               <UploadPortfolio v-if="user.role === UserRole.Tutor" />
-<!--              <v-btn class="ml-3" @click="toggleEditMode">Submit</v-btn>-->
             </v-row>
-            <div v-else>
-              <v-btn @click="toggleEditMode">Edit</v-btn>
-            </div>
           </v-row>
         </v-toolbar>
 
-        <v-form @submit.prevent="submit" ref="form" v-model="isValid">
+        <v-form @submit.prevent="submit" ref="form">
           <v-card-text class="px-6">
             <v-text-field
               v-model="userInfo.username"
@@ -24,16 +19,28 @@
               label="Username"
               :rules="[rules.required]"
               prepend-icon="mdi-account"
-              :disabled="!editMode"
+              readonly
               required
             />
+            <v-text-field
+              v-model="userInfo.credit"
+              type="number"
+              label="Credit"
+              prepend-icon="mdi-cash"
+              readonly
+              required
+            >
+              <template v-slot:append-outer>
+                <v-btn color="secondary" @click="() => {showCreditWindow=true}">Handle</v-btn>
+              </template>
+            </v-text-field>
             <v-text-field
               v-model="userInfo.email"
               type="email"
               label="Email"
               prepend-icon="mdi-email"
               :rules="[rules.email, rules.required]"
-              :disabled="!editMode"
+              readonly
               required
             />
             <v-text-field
@@ -42,7 +49,7 @@
               label="First Name"
               prepend-icon="mdi-account"
               :rules="[rules.required, rules.name]"
-              :disabled="!editMode"
+              readonly
               required
             />
             <v-text-field
@@ -51,15 +58,12 @@
               label="Last Name"
               prepend-icon="mdi-account"
               :rules="[rules.required, rules.name]"
-              :disabled="!editMode"
+              readonly
               required
             />
             <v-label class="mt-0">Birthdate</v-label>
             <v-row align="center" justify="center" class="ma-1 mb-5">
-              <v-date-picker
-                v-model="userInfo.birthDate"
-                :disabled="!editMode"
-              ></v-date-picker>
+              <v-date-picker v-model="userInfo.birthDate" readonly></v-date-picker>
             </v-row>
             <v-text-field
               v-model="userInfo.address"
@@ -67,7 +71,7 @@
               label="Address"
               prepend-icon="mdi-home"
               :rules="[rules.required]"
-              :disabled="!editMode"
+              readonly
               required
             />
             <v-text-field
@@ -77,17 +81,60 @@
               prepend-icon="mdi-card-account-details"
               :rules="[rules.number, rules.length13]"
               :counter="13"
-              :disabled="!editMode"
+              readonly
               required
             />
             <v-label>Gender</v-label>
-            <v-radio-group v-model="userInfo.gender" :disabled="!editMode" row>
+            <v-radio-group v-model="userInfo.gender" readonly row>
               <v-radio label="Male" value="male"></v-radio>
               <v-radio label="Female" value="female"></v-radio>
             </v-radio-group>
           </v-card-text>
         </v-form>
       </v-card>
+      <v-dialog v-model="showCreditWindow" max-width="600px">
+        <v-card>
+          <v-form @submit.prevent="handleCreditSubmit" ref="credit-form" v-model="creditFormValid">
+            <v-banner class="pa-2" sticky single-line color="primary" dark elevation="6">
+              My Credit
+              <template v-slot:actions>
+                <v-btn
+                  color="secondary"
+                  :loading="userStoreFetching"
+                  type="submit"
+                  :disabled="!creditFormValid"
+                >Submit</v-btn>
+              </template>
+            </v-banner>
+            <v-card-text class="pa-6">
+              <v-row class="d-flex flex-row">
+                <v-col cols="4" class="flex-grow-0 flex-shrink-0">
+                  <v-select
+                    :value="creditHandleMode[0]"
+                    @input="onModeSelect"
+                    :items="creditHandleMode"
+                    outlined
+                  ></v-select>
+                </v-col>
+                <v-col>
+                  <v-text-field
+                    type="number"
+                    v-model="amount"
+                    label="amount"
+                    suffix="baht"
+                    :rules="[creditRules.positiveNumber]"
+                    :error="userInfo.credit + amount * multiplier < 0"
+                    :error-messages="userInfo.credit + amount * multiplier < 0 ? 'new total must be atleast 0 baht' : ''"
+                  />
+                </v-col>
+              </v-row>
+              <v-row
+                class="d-flex flex-row justify-center"
+              >{{ `Your total credit is ${user.credit} baht and new total will be ${user.credit + amount * multiplier} baht` }}</v-row>
+            </v-card-text>
+          </v-form>
+        </v-card>
+      </v-dialog>
     </v-col>
   </v-row>
 </template>
@@ -100,9 +147,11 @@ import {
   SignUpCredentials,
   UserGender,
   LoginGetters,
-  UserRole
+  UserRole,
+  UsersGetters,
+  UsersActions
 } from "@/types";
-import { loginRules as rules, Rule } from "../rules";
+import { loginRules as rules, Rule, creditRules } from "../rules";
 import UploadPortfolio from "@/views/UploadPortfolio.vue";
 
 const todayDate = new Date().toISOString().substr(0, 10);
@@ -112,10 +161,9 @@ const todayDate = new Date().toISOString().substr(0, 10);
 })
 export default class Profile extends Vue {
   private UserRole = UserRole;
-  private isValid = true;
-  private editMode = false;
   private userInfo = {
     username: "",
+    credit: 0,
     email: "",
     firstName: "",
     lastName: "",
@@ -125,35 +173,40 @@ export default class Profile extends Vue {
     gender: UserGender.Male
   };
   private rules: {} = rules;
+  private creditRules: {} = creditRules;
+
+  onModeSelect(mode: string) {
+    this.currentHandleMode = mode;
+    this.multiplier = mode === "withdraw" ? -1 : 1;
+  }
 
   @Getter(LoginGetters.getUser) private user!: any;
-  @Action(LoginActions.signUp)
-  private signUp!: (credentials: SignUpCredentials) => void;
 
-  validate() {
-    (this.$refs.form as Vue & { validate: () => boolean }).validate();
-  }
+  private creditFormValid: boolean = true;
+  private showCreditWindow: boolean = false;
+  private creditHandleMode: string[] = ["top up", "withdraw"];
+  private currentHandleMode: string = this.creditHandleMode[0];
+  private amount: number = 1;
+  private multiplier: number = 1;
+  @Getter(UsersGetters.getFetching) private userStoreFetching!: boolean;
+  @Action(UsersActions.topup) private topup!: (amount: number) => void;
+  @Action(UsersActions.withdraw) private withdraw!: (amount: number) => void;
 
-  resetValidation() {
-    (this.$refs.form as Vue & {
-      resetValidation: () => boolean;
-    }).resetValidation();
-  }
-
-  cancelEditMode() {
-    this.renderUser();
-    this.toggleEditMode();
-  }
-
-  toggleEditMode() {
-    if (this.editMode) this.resetValidation();
-    else this.validate();
-
-    this.editMode = !this.editMode;
+  async handleCreditSubmit() {
+    if (this.userInfo.credit + this.amount * this.multiplier >= 0) {
+      if (this.multiplier < 0) {
+        await this.withdraw(parseInt(this.amount.toString()));
+      } else {
+        await this.topup(parseInt(this.amount.toString()));
+      }
+      this.renderUser();
+      this.showCreditWindow = false;
+    }
   }
 
   renderUser() {
     this.userInfo.username = this.user.username;
+    this.userInfo.credit = this.user.credit;
     this.userInfo.email = this.user.email;
     this.userInfo.firstName = this.user.firstName;
     this.userInfo.lastName = this.user.lastName;
@@ -164,7 +217,6 @@ export default class Profile extends Vue {
   }
 
   mounted() {
-    this.resetValidation();
     this.renderUser();
   }
 }

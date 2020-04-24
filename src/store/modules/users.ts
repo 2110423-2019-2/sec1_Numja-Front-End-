@@ -8,7 +8,8 @@ import {
   UsersGetters,
   User,
   UserRole,
-  SnackbarActions
+  SnackbarActions,
+  LoginMutations,
 } from '@/types';
 
 const store: StoreOptions<UsersState> = {
@@ -16,30 +17,34 @@ const store: StoreOptions<UsersState> = {
     users: [],
     isError: false,
     isFetching: false,
-    isSuccess: false
+    isSuccess: false,
   },
 
   getters: {
-    [UsersGetters.getUsers]: state => state.users,
-    [UsersGetters.getTutors]: state => {
-      return state.users.filter(user => user.role === UserRole.Tutor);
+    [UsersGetters.getUsers]: (state) => state.users,
+    [UsersGetters.getTutors]: (state) => {
+      return state.users.filter((user) => user.role === UserRole.Tutor);
     },
-    [UsersGetters.getOtherUsers]: state => {
+    [UsersGetters.getOtherUsers]: (state) => {
       return state.users.filter(
-        user => user._id !== vueStore.getters.getUser._id
+        (user) => user._id !== vueStore.getters.getUser._id
       );
     },
-    [UsersGetters.getUserById]: state => (id: string) => {
-      return state.users.find(user => user._id === id);
+    [UsersGetters.getUserById]: (state) => (id: string) => {
+      return state.users.find((user) => user._id === id);
     },
-    [UsersGetters.getNonAdminUsers]: state =>
-      state.users.filter(user => user.role !== UserRole.Admin)
+    [UsersGetters.getNonAdminUsers]: (state) =>
+      state.users.filter((user) => user.role !== UserRole.Admin),
+    [UsersGetters.getFetching]: (state) => state.isFetching,
   },
 
   mutations: {
     [UsersMutations.setUsers]: (state: UsersState, users: User[] | []) => {
       state.users = users;
-    }
+    },
+    [UsersMutations.fetching]: (state: UsersState, isFetching: boolean) => {
+      state.isFetching = isFetching;
+    },
   },
 
   actions: {
@@ -51,7 +56,7 @@ const store: StoreOptions<UsersState> = {
       } catch {
         dispatch(SnackbarActions.push, {
           color: 'error',
-          message: 'Users fetching failed'
+          message: 'Users fetching failed',
         });
       }
     },
@@ -66,22 +71,47 @@ const store: StoreOptions<UsersState> = {
           payload,
           {
             headers: {
-              'Content-Type': 'multipart/form-data'
-            }
+              'Content-Type': 'multipart/form-data',
+            },
           }
         );
         dispatch(SnackbarActions.push, {
           color: 'success',
-          message: 'Portfolio uploaded'
+          message: 'Portfolio uploaded',
         });
       } catch {
         dispatch(SnackbarActions.push, {
           color: 'error',
-          message: 'Upload failed'
+          message: 'Upload failed',
         });
       }
-    }
-  }
+    },
+    [UsersActions.topup]: async ({ dispatch }, payload: number) => {
+      dispatch(UsersActions.setFetching, true);
+      try {
+        await Vue.axios.post('transaction/top-up', { amount: payload });
+        await dispatch(UsersActions.updateUser);
+      } catch (error) {}
+      dispatch(UsersActions.setFetching, false);
+    },
+    [UsersActions.withdraw]: async ({ dispatch }, payload: number) => {
+      dispatch(UsersActions.setFetching, true);
+      try {
+        await Vue.axios.post('transaction/withdraw', { amount: payload });
+        await dispatch(UsersActions.updateUser);
+      } catch (error) {}
+      dispatch(UsersActions.setFetching, false);
+    },
+    [UsersActions.updateUser]: async () => {
+      const response = await Vue.axios.get<User>('/user/me');
+      console.log(response);
+      console.log(response.status);
+      if (response.status === 200) {
+        console.log(200);
+        vueStore.commit(LoginMutations.setUser, response.data);
+      }
+    },
+  },
 };
 
 export default store;

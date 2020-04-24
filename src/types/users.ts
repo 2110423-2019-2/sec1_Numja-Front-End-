@@ -17,19 +17,19 @@ export interface User {
 }
 
 export enum UserRole {
-  Student = "student",
-  Tutor = "tutor",
-  Admin = "admin"
+  Student = 'student',
+  Tutor = 'tutor',
+  Admin = 'admin',
 }
 
 export enum UserStatus {
-  Active = "active",
-  Suspended = "suspended"
+  Active = 'active',
+  Suspended = 'suspended',
 }
 
 export enum UserGender {
-  Male = "male",
-  Female = "female"
+  Male = 'male',
+  Female = 'female',
 }
 
 export interface UsersState {
@@ -40,25 +40,29 @@ export interface UsersState {
 }
 
 export enum UsersGetters {
-  getUsers = "getUsers",
-  getOtherUsers = "getOtherUsers",
-  getUserById = "getUserById",
-  getTutors = "getTutors",
-  getNonAdminUsers = "getNonAdminUsers"
+  getUsers = 'getUsers',
+  getOtherUsers = 'getOtherUsers',
+  getUserById = 'getUserById',
+  getTutors = 'getTutors',
+  getNonAdminUsers = 'getNonAdminUsers',
+  getFetching = 'getFetching',
 }
 
 export enum UsersMutations {
-  setUsers = "setUsers",
-  fetching = "fetching",
-  success = "success",
-  error = "error"
+  setUsers = 'setUsers',
+  fetching = 'fetching',
+  success = 'success',
+  error = 'error',
 }
 
 export enum UsersActions {
-  fetchUsers = "fetchUsers",
-  test = "test",
-  setFetching = "setFetching",
-  setSuccess = "setSuccess",
-  setError = "setError",
-  uploadPortfolio = "uploadPortfolio"
+  fetchUsers = 'fetchUsers',
+  test = 'test',
+  setFetching = 'setFetching',
+  setSuccess = 'setSuccess',
+  setError = 'setError',
+  uploadPortfolio = 'uploadPortfolio',
+  topup = 'topup',
+  withdraw = 'withdraw',
+  updateUser = 'updateUser',
 }

@@ -81,11 +81,9 @@ const store: StoreOptions<LoginState> = {
     ) => {
       commit(LoginMutations.setFetchingLogin, true);
 
+      let response;
       try {
-        const response = await Vue.axios.post<string>(
-          '/auth/register',
-          payload
-        );
+        response = await Vue.axios.post<string>('/auth/register', payload);
         if (response.status === 201) {
           commit(LoginMutations.setToken, response.data);
           dispatch(LoginActions.setAxiosHeader);
@@ -95,6 +93,8 @@ const store: StoreOptions<LoginState> = {
           throw new Error();
         }
       } catch (error) {
+        // console.log('response', response);
+        console.log(error);
         commit(LoginMutations.setError, true);
 
         if (error.toString().includes('400')) {
@@ -117,6 +117,7 @@ const store: StoreOptions<LoginState> = {
     },
     [LoginActions.redirect]: async ({ commit }) => {
       const response = await Vue.axios.get<User>('/user/me');
+      console.log('response', response);
       if (response.status === 200) {
         commit(LoginMutations.setUser, response.data);
         router.push('/');
