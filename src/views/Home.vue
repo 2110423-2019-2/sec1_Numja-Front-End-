@@ -9,7 +9,7 @@
               :items="tutors"
               :items-per-page="10"
               class="elevation-1"
-              :search="searcg"
+              :search="search"
             >
               <template v-slot:top>
                 <v-card-title v-if="!searchMode">
