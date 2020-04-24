@@ -7,7 +7,9 @@
             <v-card-title v-if="!searchMode">
               Tutors List
               <v-spacer></v-spacer>
-              <v-icon class="mr-3" @click="setSearchMode(true)">mdi-magnify</v-icon>
+              <v-icon class="mr-3" @click="setSearchMode(true)"
+                >mdi-magnify</v-icon
+              >
               <v-icon @click="fetchUsers">mdi-refresh</v-icon>
             </v-card-title>
             <v-card-title v-else>
@@ -27,10 +29,14 @@
               class="elevation-1"
             >
               <template v-slot:item.verified="{ item }">
-                <v-icon color="primary" v-if="item.verified">mdi-check-circle</v-icon>
+                <v-icon color="primary" v-if="item.verified"
+                  >mdi-check-circle</v-icon
+                >
               </template>
               <template
-                v-if="myUser && myUser.role !== 'tutor' && myUser.role !== 'admin'"
+                v-if="
+                  myUser && myUser.role !== 'tutor' && myUser.role !== 'admin'
+                "
                 v-slot:item.actions="{ item }"
               >
                 <v-hover v-slot:default="{ hover }">
@@ -50,9 +56,7 @@
         </template>
         <v-card elevation="8">
           <v-banner sticky color="primary" dark class="pa-2" elevation="6">
-            {{
-            `create appointment : ${selectedUserName}`
-            }}
+            {{ `create appointment : ${selectedUserName}` }}
           </v-banner>
 
           <v-form @submit.prevent="submit" v-model="formIsValid" ref="form">
@@ -63,11 +67,21 @@
               </v-row>
               <v-label class="mt-0">Start Time</v-label>
               <v-row align="center" justify="center" class="ma-1 mb-5">
-                <v-time-picker v-model="startTime" class="mt-2" landscape format="ampm"></v-time-picker>
+                <v-time-picker
+                  v-model="startTime"
+                  class="mt-2"
+                  landscape
+                  format="ampm"
+                ></v-time-picker>
               </v-row>
               <v-label class="mt-0">End Time</v-label>
               <v-row align="center" justify="center" class="ma-1 mb-5">
-                <v-time-picker v-model="endTime" class="mt-2" landscape format="ampm"></v-time-picker>
+                <v-time-picker
+                  v-model="endTime"
+                  class="mt-2"
+                  landscape
+                  format="ampm"
+                ></v-time-picker>
               </v-row>
               <v-text-field
                 v-model="address"
@@ -101,7 +115,9 @@
           <v-card-title>Error</v-card-title>
           <v-card-text>{{ timeErrorMessage }}</v-card-text>
           <v-card-actions>
-            <v-btn color="primary" text @click="timeErrorDialog = false">Close</v-btn>
+            <v-btn color="primary" text @click="timeErrorDialog = false"
+              >Close</v-btn
+            >
           </v-card-actions>
         </v-card>
       </v-dialog>

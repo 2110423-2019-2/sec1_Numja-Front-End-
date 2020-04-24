@@ -83,7 +83,9 @@
 
           <v-card-actions class="pa-6 pt-0">
             <v-spacer />
-            <v-btn color="primary" type="submit" :loading="loading">Sign up</v-btn>
+            <v-btn color="primary" type="submit" :loading="loading"
+              >Sign up</v-btn
+            >
             <v-btn color="primary" to="/login" text>Login</v-btn>
           </v-card-actions>
         </v-form>
@@ -91,7 +93,7 @@
       <v-dialog v-model="pageError" max-width="290">
         <v-card>
           <v-card-title class="headline">Error</v-card-title>
-          <v-card-text>{{pageErrorMessage}}</v-card-text>
+          <v-card-text>{{ pageErrorMessage }}</v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn text @click="setPageError(false)">OK</v-btn>

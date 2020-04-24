@@ -1,4 +1,4 @@
-import { StoreOptions } from 'vuex';
+import { StoreOptions } from "vuex";
 import {
   LoginState,
   LoginGetters,
@@ -6,10 +6,10 @@ import {
   LoginActions,
   LoginCredentials,
   SignUpCredentials,
-  User,
-} from '@/types';
-import Vue from 'vue';
-import router from '../../router';
+  User
+} from "@/types";
+import Vue from "vue";
+import router from "../../router";
 
 const store: StoreOptions<LoginState> = {
   state: {
@@ -17,14 +17,14 @@ const store: StoreOptions<LoginState> = {
     error: false,
     token: null,
     user: null,
-    errorMessage: '',
+    errorMessage: ""
   },
   getters: {
-    [LoginGetters.isLogin]: (state) => !!state.token,
-    [LoginGetters.isFetchingLogin]: (state) => state.fetchingLogin,
-    [LoginGetters.getUser]: (state) => state.user,
-    [LoginGetters.getError]: (state) => state.error,
-    [LoginGetters.getErrorMessage]: (state) => state.errorMessage,
+    [LoginGetters.isLogin]: state => !!state.token,
+    [LoginGetters.isFetchingLogin]: state => state.fetchingLogin,
+    [LoginGetters.getUser]: state => state.user,
+    [LoginGetters.getError]: state => state.error,
+    [LoginGetters.getErrorMessage]: state => state.errorMessage
   },
   mutations: {
     [LoginMutations.setToken]: (state, payload: string) => {
@@ -41,7 +41,7 @@ const store: StoreOptions<LoginState> = {
     },
     [LoginMutations.setUser]: (state, payload: User) => {
       state.user = payload;
-    },
+    }
   },
   actions: {
     [LoginActions.login]: async (
@@ -50,7 +50,7 @@ const store: StoreOptions<LoginState> = {
     ) => {
       commit(LoginMutations.setFetchingLogin, true);
       try {
-        const response = await Vue.axios.post<string>('/auth/login', payload);
+        const response = await Vue.axios.post<string>("/auth/login", payload);
         if (response.status === 201) {
           commit(LoginMutations.setToken, response.data);
           dispatch(LoginActions.setAxiosHeader);
@@ -61,15 +61,15 @@ const store: StoreOptions<LoginState> = {
         }
       } catch (error) {
         commit(LoginMutations.setError, true);
-        if (error.toString().includes('401')) {
+        if (error.toString().includes("401")) {
           commit(
             LoginMutations.setErrorMessage,
-            'username or password is wrong'
+            "username or password is wrong"
           );
         } else {
           commit(
             LoginMutations.setErrorMessage,
-            'something is wrong with the server'
+            "something is wrong with the server"
           );
         }
       }
@@ -83,7 +83,7 @@ const store: StoreOptions<LoginState> = {
 
       let response;
       try {
-        response = await Vue.axios.post<string>('/auth/register', payload);
+        response = await Vue.axios.post<string>("/auth/register", payload);
         if (response.status === 201) {
           commit(LoginMutations.setToken, response.data);
           dispatch(LoginActions.setAxiosHeader);
@@ -95,14 +95,14 @@ const store: StoreOptions<LoginState> = {
       } catch (error) {
         commit(LoginMutations.setError, true);
 
-        if (error.toString().includes('400')) {
-          commit(LoginMutations.setErrorMessage, 'username is already taken');
-        } else if (error.toString().includes('500')) {
-          commit(LoginMutations.setErrorMessage, 'email is already taken');
+        if (error.toString().includes("400")) {
+          commit(LoginMutations.setErrorMessage, "username is already taken");
+        } else if (error.toString().includes("500")) {
+          commit(LoginMutations.setErrorMessage, "email is already taken");
         } else {
           commit(
             LoginMutations.setErrorMessage,
-            'something is wrong with the server'
+            "something is wrong with the server"
           );
         }
       }
@@ -111,32 +111,32 @@ const store: StoreOptions<LoginState> = {
     [LoginActions.logout]: async ({ commit }) => {
       commit(LoginMutations.setUser, null);
       commit(LoginMutations.setToken, null);
-      router.push('/login');
+      router.push("/login");
     },
     [LoginActions.redirect]: async ({ commit }) => {
-      const response = await Vue.axios.get<User>('/user/me');
+      const response = await Vue.axios.get<User>("/user/me");
       if (response.status === 200) {
         commit(LoginMutations.setUser, response.data);
-        router.push('/');
+        router.push("/");
       }
       commit(LoginMutations.setFetchingLogin, false);
     },
     [LoginActions.setAxiosHeader]: ({ state }) => {
       if (state.token) {
         Vue.axios.defaults.headers.common[
-          'Authorization'
+          "Authorization"
         ] = `Bearer ${state.token}`;
       }
     },
     [LoginActions.protectedRedirect]: async () => {
       try {
-        const response = await Vue.axios.get<User>('/user/me');
+        const response = await Vue.axios.get<User>("/user/me");
         if (response.status !== 200) throw new Error();
       } catch (error) {
-        router.push('/login');
+        router.push("/login");
       }
-    },
-  },
+    }
+  }
 };
 
 export default store;

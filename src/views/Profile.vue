@@ -31,7 +31,15 @@
               required
             >
               <template v-slot:append-outer>
-                <v-btn color="secondary" @click="() => {showCreditWindow=true}">Handle</v-btn>
+                <v-btn
+                  color="secondary"
+                  @click="
+                    () => {
+                      showCreditWindow = true;
+                    }
+                  "
+                  >Handle</v-btn
+                >
               </template>
             </v-text-field>
             <v-text-field
@@ -63,7 +71,10 @@
             />
             <v-label class="mt-0">Birthdate</v-label>
             <v-row align="center" justify="center" class="ma-1 mb-5">
-              <v-date-picker v-model="userInfo.birthDate" readonly></v-date-picker>
+              <v-date-picker
+                v-model="userInfo.birthDate"
+                readonly
+              ></v-date-picker>
             </v-row>
             <v-text-field
               v-model="userInfo.address"
@@ -94,8 +105,19 @@
       </v-card>
       <v-dialog v-model="showCreditWindow" max-width="600px">
         <v-card>
-          <v-form @submit.prevent="handleCreditSubmit" ref="credit-form" v-model="creditFormValid">
-            <v-banner class="pa-2" sticky single-line color="primary" dark elevation="6">
+          <v-form
+            @submit.prevent="handleCreditSubmit"
+            ref="credit-form"
+            v-model="creditFormValid"
+          >
+            <v-banner
+              class="pa-2"
+              sticky
+              single-line
+              color="primary"
+              dark
+              elevation="6"
+            >
               My Credit
               <template v-slot:actions>
                 <v-btn
@@ -103,7 +125,8 @@
                   :loading="userStoreFetching"
                   type="submit"
                   :disabled="!creditFormValid"
-                >Submit</v-btn>
+                  >Submit</v-btn
+                >
               </template>
             </v-banner>
             <v-card-text class="pa-6">
@@ -124,13 +147,20 @@
                     suffix="baht"
                     :rules="[creditRules.positiveNumber]"
                     :error="userInfo.credit + amount * multiplier < 0"
-                    :error-messages="userInfo.credit + amount * multiplier < 0 ? 'new total must be atleast 0 baht' : ''"
+                    :error-messages="
+                      userInfo.credit + amount * multiplier < 0
+                        ? 'new total must be atleast 0 baht'
+                        : ''
+                    "
                   />
                 </v-col>
               </v-row>
-              <v-row
-                class="d-flex flex-row justify-center"
-              >{{ `Your total credit is ${user.credit} baht and new total will be ${user.credit + amount * multiplier} baht` }}</v-row>
+              <v-row class="d-flex flex-row justify-center">{{
+                `Your total credit is ${
+                  user.credit
+                } baht and new total will be ${user.credit +
+                  amount * multiplier} baht`
+              }}</v-row>
             </v-card-text>
           </v-form>
         </v-card>
@@ -182,12 +212,12 @@ export default class Profile extends Vue {
 
   @Getter(LoginGetters.getUser) private user!: any;
 
-  private creditFormValid: boolean = true;
-  private showCreditWindow: boolean = false;
+  private creditFormValid = true;
+  private showCreditWindow = false;
   private creditHandleMode: string[] = ["top up", "withdraw"];
   private currentHandleMode: string = this.creditHandleMode[0];
-  private amount: number = 1;
-  private multiplier: number = 1;
+  private amount = 1;
+  private multiplier = 1;
   @Getter(UsersGetters.getFetching) private userStoreFetching!: boolean;
   @Action(UsersActions.topup) private topup!: (amount: number) => void;
   @Action(UsersActions.withdraw) private withdraw!: (amount: number) => void;

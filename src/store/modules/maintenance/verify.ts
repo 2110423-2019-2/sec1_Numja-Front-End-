@@ -1,6 +1,6 @@
-import Vue from 'vue';
-import { StoreOptions } from 'vuex';
-import { VerifyState, VerifyActions, VerifyMutations } from '@/types';
+import Vue from "vue";
+import { StoreOptions } from "vuex";
+import { VerifyState, VerifyActions, VerifyMutations } from "@/types";
 
 const store: StoreOptions<VerifyState> = {
   state: {
@@ -20,7 +20,7 @@ const store: StoreOptions<VerifyState> = {
     [VerifyActions.fetchTutors]: async ({ commit }) => {
       commit(VerifyMutations.fetching);
       try {
-        const response = await Vue.axios.get('/admin/findTutors');
+        const response = await Vue.axios.get("/admin/findTutors");
         commit(VerifyMutations.setTutors, response.data);
         commit(VerifyMutations.success);
       } catch {
