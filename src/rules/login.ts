@@ -14,6 +14,6 @@ export const loginRules = {
   },
   length13: (value: string) =>
     value.length === 13 || "Must have a length of 13 character.",
-  length8: (value: string) =>
-    value.length === 8 || "Must have a length of 8 character."
+  lengthOver8: (value: string) =>
+    value.length >= 8 || "Must have a length of atleast 8 character."
 };

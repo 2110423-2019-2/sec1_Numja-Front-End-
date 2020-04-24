@@ -16,12 +16,15 @@ const store: StoreOptions<LoginState> = {
     fetchingLogin: false,
     error: false,
     token: null,
-    user: null
+    user: null,
+    errorMessage: ""
   },
   getters: {
     [LoginGetters.isLogin]: state => !!state.token,
     [LoginGetters.isFetchingLogin]: state => state.fetchingLogin,
-    [LoginGetters.getUser]: state => state.user
+    [LoginGetters.getUser]: state => state.user,
+    [LoginGetters.getError]: state => state.error,
+    [LoginGetters.getErrorMessage]: state => state.errorMessage
   },
   mutations: {
     [LoginMutations.setToken]: (state, payload: string) => {
@@ -33,6 +36,9 @@ const store: StoreOptions<LoginState> = {
     [LoginMutations.setError]: (state, payload: boolean) => {
       state.error = payload;
     },
+    [LoginMutations.setErrorMessage]: (state, payload: string) => {
+      state.errorMessage = payload;
+    },
     [LoginMutations.setUser]: (state, payload: User) => {
       state.user = payload;
     }
@@ -43,33 +49,64 @@ const store: StoreOptions<LoginState> = {
       payload: LoginCredentials
     ) => {
       commit(LoginMutations.setFetchingLogin, true);
-      const response = await Vue.axios.post<string>("/auth/login", payload);
-      if (response.status === 201) {
-        commit(LoginMutations.setToken, response.data);
-        dispatch(LoginActions.setAxiosHeader);
-        commit(LoginMutations.setError, false);
-        dispatch(LoginActions.redirect);
-      } else {
+      try {
+        const response = await Vue.axios.post<string>("/auth/login", payload);
+        if (response.status === 201) {
+          commit(LoginMutations.setToken, response.data);
+          dispatch(LoginActions.setAxiosHeader);
+          commit(LoginMutations.setError, false);
+          dispatch(LoginActions.redirect);
+        } else {
+          commit(LoginMutations.setError, true);
+        }
+      } catch (error) {
         commit(LoginMutations.setError, true);
-        commit(LoginMutations.setFetchingLogin, false);
+        if (error.toString().includes("401")) {
+          commit(
+            LoginMutations.setErrorMessage,
+            "username or password is wrong"
+          );
+        } else {
+          commit(
+            LoginMutations.setErrorMessage,
+            "something is wrong with the server"
+          );
+        }
       }
+      commit(LoginMutations.setFetchingLogin, false);
     },
     [LoginActions.signUp]: async (
       { commit, dispatch },
       payload: SignUpCredentials
     ) => {
       commit(LoginMutations.setFetchingLogin, true);
-      const response = await Vue.axios.post<string>("/auth/register", payload);
 
-      if (response.status === 201) {
-        commit(LoginMutations.setToken, response.data);
-        dispatch(LoginActions.setAxiosHeader);
-        commit(LoginMutations.setError, false);
-        dispatch(LoginActions.redirect);
-      } else {
+      let response;
+      try {
+        response = await Vue.axios.post<string>("/auth/register", payload);
+        if (response.status === 201) {
+          commit(LoginMutations.setToken, response.data);
+          dispatch(LoginActions.setAxiosHeader);
+          commit(LoginMutations.setError, false);
+          dispatch(LoginActions.redirect);
+        } else {
+          throw new Error();
+        }
+      } catch (error) {
         commit(LoginMutations.setError, true);
-        commit(LoginMutations.setFetchingLogin, false);
+
+        if (error.toString().includes("400")) {
+          commit(LoginMutations.setErrorMessage, "username is already taken");
+        } else if (error.toString().includes("500")) {
+          commit(LoginMutations.setErrorMessage, "email is already taken");
+        } else {
+          commit(
+            LoginMutations.setErrorMessage,
+            "something is wrong with the server"
+          );
+        }
       }
+      commit(LoginMutations.setFetchingLogin, false);
     },
     [LoginActions.logout]: async ({ commit }) => {
       commit(LoginMutations.setUser, null);
@@ -89,6 +126,14 @@ const store: StoreOptions<LoginState> = {
         Vue.axios.defaults.headers.common[
           "Authorization"
         ] = `Bearer ${state.token}`;
+      }
+    },
+    [LoginActions.protectedRedirect]: async () => {
+      try {
+        const response = await Vue.axios.get<User>("/user/me");
+        if (response.status !== 200) throw new Error();
+      } catch (error) {
+        router.push("/login");
       }
     }
   }

@@ -34,7 +34,9 @@
                 >
               </template>
               <template
-                v-if="myUser.role !== 'tutor'"
+                v-if="
+                  myUser && myUser.role !== 'tutor'
+                "
                 v-slot:item.actions="{ item }"
               >
                 <v-hover v-slot:default="{ hover }">
@@ -53,9 +55,9 @@
           </v-card>
         </template>
         <v-card elevation="8">
-          <v-banner sticky color="primary" dark class="pa-2" elevation="6">{{
-            `create appointment : ${selectedUserName}`
-          }}</v-banner>
+          <v-banner sticky color="primary" dark class="pa-2" elevation="6">
+            {{ `create appointment : ${selectedUserName}` }}
+          </v-banner>
 
           <v-form @submit.prevent="submit" v-model="formIsValid" ref="form">
             <v-card-text class="px-6">
@@ -129,6 +131,7 @@ import { Action, Getter } from "vuex-class";
 import { appointmentRules as rules } from "../rules";
 import {
   LoginGetters,
+  LoginActions,
   AppointmentGetters,
   UsersGetters,
   UsersActions,
@@ -137,6 +140,8 @@ import {
 
 @Component
 export default class Home extends Vue {
+  @Action(LoginActions.protectedRedirect)
+  private protectedRedirect!: () => void;
   @Action(UsersActions.fetchUsers)
   private fetchUsers!: () => void;
 
@@ -183,6 +188,7 @@ export default class Home extends Vue {
   private price = 0;
 
   mounted() {
+    this.protectedRedirect();
     this.fetchUsers();
   }
 
@@ -226,7 +232,6 @@ export default class Home extends Vue {
   }
 
   validateTime() {
-    console.log(this.startTime, this.endTime);
     if (new Date(this.date) < this.todayDate()) {
       this.timeErrorDialog = true;
       this.timeErrorMessage = "cannot make appointment on selected date";

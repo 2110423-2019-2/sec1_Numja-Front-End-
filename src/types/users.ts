@@ -44,7 +44,8 @@ export enum UsersGetters {
   getOtherUsers = "getOtherUsers",
   getUserById = "getUserById",
   getTutors = "getTutors",
-  getNonAdminUsers = "getNonAdminUsers"
+  getNonAdminUsers = "getNonAdminUsers",
+  getFetching = "getFetching"
 }
 
 export enum UsersMutations {
@@ -60,5 +61,8 @@ export enum UsersActions {
   setFetching = "setFetching",
   setSuccess = "setSuccess",
   setError = "setError",
-  uploadPortfolio = "uploadPortfolio"
+  uploadPortfolio = "uploadPortfolio",
+  topup = "topup",
+  withdraw = "withdraw",
+  updateUser = "updateUser"
 }

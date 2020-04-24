@@ -8,7 +8,8 @@ import {
   UsersGetters,
   User,
   UserRole,
-  SnackbarActions
+  SnackbarActions,
+  LoginMutations
 } from "@/types";
 
 const store: StoreOptions<UsersState> = {
@@ -35,12 +36,16 @@ const store: StoreOptions<UsersState> = {
       return state.users.find(user => user._id === id);
     },
     [UsersGetters.getNonAdminUsers]: state =>
-      state.users.filter(user => user.role !== UserRole.Admin)
+      state.users.filter(user => user.role !== UserRole.Admin),
+    [UsersGetters.getFetching]: state => state.isFetching
   },
 
   mutations: {
     [UsersMutations.setUsers]: (state: UsersState, users: User[] | []) => {
       state.users = users;
+    },
+    [UsersMutations.fetching]: (state: UsersState, isFetching: boolean) => {
+      state.isFetching = isFetching;
     }
   },
 
@@ -81,6 +86,28 @@ const store: StoreOptions<UsersState> = {
           color: "error",
           message: "Upload failed"
         });
+      }
+    },
+    [UsersActions.topup]: async ({ dispatch }, payload: number) => {
+      dispatch(UsersActions.setFetching, true);
+      try {
+        await Vue.axios.post("transaction/top-up", { amount: payload });
+        await dispatch(UsersActions.updateUser);
+      } catch (error) {}
+      dispatch(UsersActions.setFetching, false);
+    },
+    [UsersActions.withdraw]: async ({ dispatch }, payload: number) => {
+      dispatch(UsersActions.setFetching, true);
+      try {
+        await Vue.axios.post("transaction/withdraw", { amount: payload });
+        await dispatch(UsersActions.updateUser);
+      } catch (error) {}
+      dispatch(UsersActions.setFetching, false);
+    },
+    [UsersActions.updateUser]: async () => {
+      const response = await Vue.axios.get<User>("/user/me");
+      if (response.status === 200) {
+        vueStore.commit(LoginMutations.setUser, response.data);
       }
     }
   }
