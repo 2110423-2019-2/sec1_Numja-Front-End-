@@ -255,6 +255,7 @@ export default class AppointmentPage extends Vue {
   private selectedEventStudent: User = this.myUser;
 
   mounted() {
+    this.protectedRedirect();
     this.fetchAppointments();
     this.fetchUsers();
   }
