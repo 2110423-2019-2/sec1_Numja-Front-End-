@@ -86,10 +86,9 @@ export default class Navbar extends Vue {
     });
   }
 
-  clickDrawer(){
-    window.scrollTo(0,0);
-    this.drawer = !this.drawer
-
+  clickDrawer() {
+    window.scrollTo(0, 0);
+    this.drawer = !this.drawer;
   }
 }
 </script>

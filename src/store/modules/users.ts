@@ -90,18 +90,14 @@ const store: StoreOptions<UsersState> = {
     },
     [UsersActions.topup]: async ({ dispatch }, payload: number) => {
       dispatch(UsersActions.setFetching, true);
-      try {
-        await Vue.axios.post("transaction/top-up", { amount: payload });
-        await dispatch(UsersActions.updateUser);
-      } catch (error) {}
+      await Vue.axios.post("transaction/top-up", { amount: payload });
+      await dispatch(UsersActions.updateUser);
       dispatch(UsersActions.setFetching, false);
     },
     [UsersActions.withdraw]: async ({ dispatch }, payload: number) => {
       dispatch(UsersActions.setFetching, true);
-      try {
-        await Vue.axios.post("transaction/withdraw", { amount: payload });
-        await dispatch(UsersActions.updateUser);
-      } catch (error) {}
+      await Vue.axios.post("transaction/withdraw", { amount: payload });
+      await dispatch(UsersActions.updateUser);
       dispatch(UsersActions.setFetching, false);
     },
     [UsersActions.updateUser]: async () => {
