@@ -221,7 +221,6 @@ export default class Home extends Vue {
         await this.updateUser();
         this.closeModal();
       } catch (error) {
-        console.log(error);
         this.timeErrorDialog = true;
         if (error.toString().includes("400")) {
           this.timeErrorMessage =
