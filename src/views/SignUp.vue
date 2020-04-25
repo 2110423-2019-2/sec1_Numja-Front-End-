@@ -50,7 +50,10 @@
             />
             <v-label class="mt-0">Birthdate</v-label>
             <v-row align="center" justify="center" class="ma-1 mb-5">
-              <v-date-picker v-model="birthDate" :allowed-dates="allowedDates"></v-date-picker>
+              <v-date-picker
+                v-model="birthDate"
+                :allowed-dates="allowedDates"
+              ></v-date-picker>
             </v-row>
             <v-text-field
               v-model="address"
@@ -83,7 +86,9 @@
 
           <v-card-actions class="pa-6 pt-0">
             <v-spacer />
-            <v-btn color="primary" type="submit" :loading="loading">Sign up</v-btn>
+            <v-btn color="primary" type="submit" :loading="loading"
+              >Sign up</v-btn
+            >
             <v-btn color="primary" to="/login" text>Login</v-btn>
           </v-card-actions>
         </v-form>
