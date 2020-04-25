@@ -1,5 +1,4 @@
 import Vue from "vue";
-import vueStore from "../../index";
 import { StoreOptions } from "vuex";
 import {
   SnackbarActions,

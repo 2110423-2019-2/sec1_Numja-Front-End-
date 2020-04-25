@@ -64,13 +64,7 @@
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
 import { Action, Getter, State } from "vuex-class";
-import {
-  SuspendActions,
-  SuspendGetters,
-  User,
-  UsersActions,
-  UsersGetters
-} from "@/types";
+import { SuspendActions, User, UsersActions, UsersGetters } from "@/types";
 import { UserStatus, UserRole } from "@/types";
 
 @Component

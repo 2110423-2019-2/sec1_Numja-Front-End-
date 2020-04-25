@@ -79,7 +79,6 @@ import { Action, State } from "vuex-class";
 import { VerifyActions, User } from "@/types";
 import { VerifyRowItem } from "@/types";
 import { SnackbarActions } from "@/types/snackbar";
-import { AxiosResponse, AxiosError } from "axios";
 import axios from "axios";
 
 @Component
@@ -167,7 +166,6 @@ export default class Verify extends Vue {
     this.pushNewNotification({ color: color, message: messages });
   }
 
-  // TODO: download function axios to retrive file
   async download(item: VerifyRowItem) {
     try {
       const response = await Vue.axios.get(
@@ -176,13 +174,9 @@ export default class Verify extends Vue {
       const link = document.createElement("a");
       link.href = response.data.signedUrl;
       link.target = "_blank";
-      link.setAttribute(
-        "download",
-        item.firstName + " " + item.lastName + "_port"
-      ); //or any other extension
       document.body.appendChild(link);
       this.pushNotification("success", "file load finished");
-      setTimeout(() => link.click(), 1000);
+      setTimeout(() => link.click(), 300);
     } catch (e) {
       this.pushNotification("error", "file not exist");
     }

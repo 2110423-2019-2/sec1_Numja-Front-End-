@@ -21,9 +21,11 @@ const store: StoreOptions<UsersState> = {
   },
 
   getters: {
-    [UsersGetters.getUsers]: (state) => state.users,
-    [UsersGetters.getTutors]: (state) => {
-      return state.users.filter((user) => user.role === UserRole.Tutor);
+    [UsersGetters.getUsers]: state => state.users,
+    [UsersGetters.getTutors]: state => {
+      return state.users.filter(user => {
+        return user.role === UserRole.Tutor && user.verified == true;
+      });
     },
     [UsersGetters.getOtherUsers]: (state) => {
       return state.users.filter(
@@ -90,18 +92,15 @@ const store: StoreOptions<UsersState> = {
     },
     [UsersActions.topup]: async ({ dispatch }, payload: number) => {
       dispatch(UsersActions.setFetching, true);
-      try {
-        await Vue.axios.post('transaction/top-up', { amount: payload });
-        await dispatch(UsersActions.updateUser);
-      } catch (error) {}
+      await Vue.axios.post("transaction/top-up", { amount: payload });
+      await dispatch(UsersActions.updateUser);
       dispatch(UsersActions.setFetching, false);
     },
     [UsersActions.withdraw]: async ({ dispatch }, payload: number) => {
       dispatch(UsersActions.setFetching, true);
-      try {
-        await Vue.axios.post('transaction/withdraw', { amount: payload });
-        await dispatch(UsersActions.updateUser);
-      } catch (error) {}
+
+      await Vue.axios.post("transaction/withdraw", { amount: payload });
+      await dispatch(UsersActions.updateUser);
       dispatch(UsersActions.setFetching, false);
     },
     [UsersActions.updateUser]: async () => {
