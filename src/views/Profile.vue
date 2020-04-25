@@ -23,6 +23,13 @@
               required
             />
             <v-text-field
+              v-model="userInfo.role"
+              type="text"
+              label="Role"
+              prepend-icon="mdi-account"
+              readonly
+            />
+            <v-text-field
               v-model="userInfo.credit"
               type="number"
               label="Credit"
@@ -38,8 +45,7 @@
                       showCreditWindow = true;
                     }
                   "
-                  >Handle</v-btn
-                >
+                >Handle</v-btn>
               </template>
             </v-text-field>
             <v-text-field
@@ -71,10 +77,7 @@
             />
             <v-label class="mt-0">Birthdate</v-label>
             <v-row align="center" justify="center" class="ma-1 mb-5">
-              <v-date-picker
-                v-model="userInfo.birthDate"
-                readonly
-              ></v-date-picker>
+              <v-date-picker v-model="userInfo.birthDate" readonly></v-date-picker>
             </v-row>
             <v-text-field
               v-model="userInfo.address"
@@ -105,19 +108,8 @@
       </v-card>
       <v-dialog v-model="showCreditWindow" max-width="600px">
         <v-card>
-          <v-form
-            @submit.prevent="handleCreditSubmit"
-            ref="credit-form"
-            v-model="creditFormValid"
-          >
-            <v-banner
-              class="pa-2"
-              sticky
-              single-line
-              color="primary"
-              dark
-              elevation="6"
-            >
+          <v-form @submit.prevent="handleCreditSubmit" ref="credit-form" v-model="creditFormValid">
+            <v-banner class="pa-2" sticky single-line color="primary" dark elevation="6">
               My Credit
               <template v-slot:actions>
                 <v-btn
@@ -125,25 +117,17 @@
                   :loading="userStoreFetching"
                   type="submit"
                   :disabled="!creditFormValid"
-                  >Submit</v-btn
-                >
+                >Submit</v-btn>
               </template>
             </v-banner>
             <v-card-text class="pa-6">
-              <v-row class="d-flex flex-row">
-                <v-col cols="4" class="flex-grow-0 flex-shrink-0">
-                  <v-select
-                    :value="creditHandleMode[0]"
-                    @input="onModeSelect"
-                    :items="creditHandleMode"
-                    outlined
-                  ></v-select>
-                </v-col>
+              <v-row class="d-flex flex-row mx-6">
                 <v-col>
                   <v-text-field
                     type="number"
                     v-model="amount"
                     label="amount"
+                    :prefix="`${currentHandleMode} : `"
                     suffix="baht"
                     :rules="[creditRules.positiveNumber]"
                     :error="userInfo.credit + amount * multiplier < 0"
@@ -155,12 +139,14 @@
                   />
                 </v-col>
               </v-row>
-              <v-row class="d-flex flex-row justify-center">{{
+              <v-row class="d-flex flex-row justify-center">
+                {{
                 `Your total credit is ${
-                  user.credit
+                user.credit
                 } baht and new total will be ${user.credit +
-                  amount * multiplier} baht`
-              }}</v-row>
+                amount * multiplier} baht`
+                }}
+              </v-row>
             </v-card-text>
           </v-form>
         </v-card>
@@ -200,15 +186,11 @@ export default class Profile extends Vue {
     birthDate: todayDate,
     address: "",
     ssin: "",
-    gender: UserGender.Male
+    gender: UserGender.Male,
+    role: ""
   };
   private rules: {} = rules;
   private creditRules: {} = creditRules;
-
-  onModeSelect(mode: string) {
-    this.currentHandleMode = mode;
-    this.multiplier = mode === "withdraw" ? -1 : 1;
-  }
 
   @Getter(LoginGetters.getUser) private user!: any;
 
@@ -216,8 +198,8 @@ export default class Profile extends Vue {
   private showCreditWindow = false;
   private creditHandleMode: string[] = ["top up", "withdraw"];
   private currentHandleMode: string = this.creditHandleMode[0];
-  private amount = 1;
-  private multiplier = 1;
+  private amount: number = 1;
+  private multiplier: number = 1;
   @Getter(UsersGetters.getFetching) private userStoreFetching!: boolean;
   @Action(UsersActions.topup) private topup!: (amount: number) => void;
   @Action(UsersActions.withdraw) private withdraw!: (amount: number) => void;
@@ -244,6 +226,15 @@ export default class Profile extends Vue {
     this.userInfo.birthDate = this.user.birthDate.substr(0, 10);
     this.userInfo.ssin = this.user.ssin;
     this.userInfo.gender = this.user.gender;
+    this.userInfo.role = this.user.role;
+
+    if (this.user.role === "student") {
+      this.multiplier = 1;
+      this.currentHandleMode = this.creditHandleMode[0];
+    } else if (this.user.role === "tutor") {
+      this.multiplier = -1;
+      this.currentHandleMode = this.creditHandleMode[1];
+    }
   }
 
   mounted() {

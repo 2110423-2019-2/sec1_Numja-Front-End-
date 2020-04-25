@@ -18,6 +18,13 @@
               readonly
             />
             <v-text-field
+              v-model="userInfo.role"
+              type="text"
+              label="Role"
+              prepend-icon="mdi-account"
+              readonly
+            />
+            <v-text-field
               v-model="userInfo.email"
               type="email"
               label="Email"
@@ -40,10 +47,7 @@
             />
             <v-label class="mt-0">Birthdate</v-label>
             <v-row align="center" justify="center" class="ma-1 mb-5">
-              <v-date-picker
-                :value="userInfo.birthDate.substr(0, 10)"
-                readonly
-              ></v-date-picker>
+              <v-date-picker :value="userInfo.birthDate.substr(0, 10)" readonly></v-date-picker>
             </v-row>
             <v-text-field
               v-model="userInfo.address"
@@ -74,10 +78,10 @@
             <v-btn @click="assignUser">retry</v-btn>
           </v-row>
         </v-toolbar>
-        <v-card-text
-          >there might be some problems or the user you are looking for might be
-          suspended, removed or not existed</v-card-text
-        >
+        <v-card-text>
+          there might be some problems or the user you are looking for might be
+          suspended, removed or not existed
+        </v-card-text>
       </v-card>
     </v-col>
   </v-row>

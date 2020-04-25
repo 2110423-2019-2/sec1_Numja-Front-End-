@@ -1,6 +1,6 @@
-import Vue from "vue";
-import vueStore from "../index";
-import { StoreOptions } from "vuex";
+import Vue from 'vue';
+import vueStore from '../index';
+import { StoreOptions } from 'vuex';
 import {
   UsersState,
   UsersActions,
@@ -9,15 +9,15 @@ import {
   User,
   UserRole,
   SnackbarActions,
-  LoginMutations
-} from "@/types";
+  LoginMutations,
+} from '@/types';
 
 const store: StoreOptions<UsersState> = {
   state: {
     users: [],
     isError: false,
     isFetching: false,
-    isSuccess: false
+    isSuccess: false,
   },
 
   getters: {
@@ -27,17 +27,17 @@ const store: StoreOptions<UsersState> = {
         return user.role === UserRole.Tutor && user.verified == true;
       });
     },
-    [UsersGetters.getOtherUsers]: state => {
+    [UsersGetters.getOtherUsers]: (state) => {
       return state.users.filter(
-        user => user._id !== vueStore.getters.getUser._id
+        (user) => user._id !== vueStore.getters.getUser._id
       );
     },
-    [UsersGetters.getUserById]: state => (id: string) => {
-      return state.users.find(user => user._id === id);
+    [UsersGetters.getUserById]: (state) => (id: string) => {
+      return state.users.find((user) => user._id === id);
     },
-    [UsersGetters.getNonAdminUsers]: state =>
-      state.users.filter(user => user.role !== UserRole.Admin),
-    [UsersGetters.getFetching]: state => state.isFetching
+    [UsersGetters.getNonAdminUsers]: (state) =>
+      state.users.filter((user) => user.role !== UserRole.Admin),
+    [UsersGetters.getFetching]: (state) => state.isFetching,
   },
 
   mutations: {
@@ -46,20 +46,22 @@ const store: StoreOptions<UsersState> = {
     },
     [UsersMutations.fetching]: (state: UsersState, isFetching: boolean) => {
       state.isFetching = isFetching;
-    }
+    },
   },
 
   actions: {
     [UsersActions.fetchUsers]: async ({ commit, dispatch }) => {
-      try {
-        const response = await Vue.axios.get("/user");
-        const responseData: User[] = response.data;
-        commit(UsersMutations.setUsers, responseData);
-      } catch {
-        dispatch(SnackbarActions.push, {
-          color: "error",
-          message: "Users fetching failed"
-        });
+      if (vueStore.getters.getUser) {
+        try {
+          const response = await Vue.axios.get('/user');
+          const responseData: User[] = response.data;
+          commit(UsersMutations.setUsers, responseData);
+        } catch {
+          dispatch(SnackbarActions.push, {
+            color: 'error',
+            message: 'Users fetching failed',
+          });
+        }
       }
     },
     [UsersActions.uploadPortfolio]: async (
@@ -73,18 +75,18 @@ const store: StoreOptions<UsersState> = {
           payload,
           {
             headers: {
-              "Content-Type": "multipart/form-data"
-            }
+              'Content-Type': 'multipart/form-data',
+            },
           }
         );
         dispatch(SnackbarActions.push, {
-          color: "success",
-          message: "Portfolio uploaded"
+          color: 'success',
+          message: 'Portfolio uploaded',
         });
       } catch {
         dispatch(SnackbarActions.push, {
-          color: "error",
-          message: "Upload failed"
+          color: 'error',
+          message: 'Upload failed',
         });
       }
     },
@@ -96,17 +98,18 @@ const store: StoreOptions<UsersState> = {
     },
     [UsersActions.withdraw]: async ({ dispatch }, payload: number) => {
       dispatch(UsersActions.setFetching, true);
+
       await Vue.axios.post("transaction/withdraw", { amount: payload });
       await dispatch(UsersActions.updateUser);
       dispatch(UsersActions.setFetching, false);
     },
     [UsersActions.updateUser]: async () => {
-      const response = await Vue.axios.get<User>("/user/me");
+      const response = await Vue.axios.get<User>('/user/me');
       if (response.status === 200) {
         vueStore.commit(LoginMutations.setUser, response.data);
       }
-    }
-  }
+    },
+  },
 };
 
 export default store;

@@ -1,13 +1,14 @@
-import Vue from "vue";
-import vueStore from "../index";
-import { StoreOptions } from "vuex";
+import Vue from 'vue';
+import vueStore from '../index';
+import { StoreOptions } from 'vuex';
 import {
   AppointmentPageState,
   AppointmentActions,
   AppointmentMutations,
   AppointmentGetters,
-  AppointmentPayload
-} from "@/types";
+  AppointmentPayload,
+  AppointmentPatchItem,
+} from '@/types';
 
 const store: StoreOptions<AppointmentPageState> = {
   state: {
@@ -15,13 +16,13 @@ const store: StoreOptions<AppointmentPageState> = {
     isFetching: false,
     isError: false,
     appointments: [],
-    selectedAppointmentId: ""
+    selectedAppointmentId: '',
   },
 
   getters: {
-    [AppointmentGetters.getAppointments]: state => {
+    [AppointmentGetters.getAppointments]: (state) => {
       return state.appointments;
-    }
+    },
   },
 
   mutations: {
@@ -30,14 +31,14 @@ const store: StoreOptions<AppointmentPageState> = {
     },
     [AppointmentMutations.setSelectedAppointmentId]: (state, id) => {
       state.selectedAppointmentId = id;
-    }
+    },
   },
 
   actions: {
     [AppointmentActions.fetchAppointments]: async ({ commit }) => {
       commit(AppointmentMutations.fetching);
       try {
-        const response = await Vue.axios.get("/appointment/me");
+        const response = await Vue.axios.get('/appointment/me');
         commit(AppointmentMutations.setAppointments, response.data);
       } catch (error) {
         //
@@ -52,7 +53,7 @@ const store: StoreOptions<AppointmentPageState> = {
     [AppointmentActions.acceptAppointment]: async ({
       commit,
       state,
-      dispatch
+      dispatch,
     }) => {
       try {
         await Vue.axios.patch(
@@ -66,7 +67,7 @@ const store: StoreOptions<AppointmentPageState> = {
     [AppointmentActions.rejectAppointment]: async ({
       commit,
       state,
-      dispatch
+      dispatch,
     }) => {
       try {
         await Vue.axios.patch(
@@ -80,7 +81,7 @@ const store: StoreOptions<AppointmentPageState> = {
     [AppointmentActions.finishAppointment]: async ({
       commit,
       state,
-      dispatch
+      dispatch,
     }) => {
       try {
         await Vue.axios.patch(
@@ -94,7 +95,7 @@ const store: StoreOptions<AppointmentPageState> = {
     [AppointmentActions.cancelAppointment]: async ({
       commit,
       state,
-      dispatch
+      dispatch,
     }) => {
       try {
         await Vue.axios.patch(
@@ -104,8 +105,23 @@ const store: StoreOptions<AppointmentPageState> = {
       } catch {
         commit(AppointmentMutations.error);
       }
-    }
-  }
+    },
+    [AppointmentActions.editAppointment]: async (
+      { commit, dispatch, state },
+      payload: AppointmentPatchItem
+    ) => {
+      console.log('payload', payload);
+      try {
+        await Vue.axios.patch(
+          `/appointment/${state.selectedAppointmentId}/edit`,
+          payload
+        );
+        await dispatch(AppointmentActions.fetchAppointments);
+      } catch {
+        commit(AppointmentMutations.error);
+      }
+    },
+  },
 };
 
 export default store;
