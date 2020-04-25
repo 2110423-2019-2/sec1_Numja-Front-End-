@@ -12,6 +12,7 @@ export interface AppointmentPageState extends AppointmentPayload {
   isSuccess: boolean;
   isFetching: boolean;
   isError: boolean;
+  errorMessage: string;
   appointments: Appointment[] | null;
 }
 
@@ -71,6 +72,8 @@ export interface Appointment {
 
 export enum AppointmentGetters {
   getAppointments = 'getAppointments',
+  getAppointmentError = 'getAppointmentError',
+  getAppointmentErrorMessage = 'getAppointmentErrorMessage',
 }
 
 export enum AppointmentActions {
@@ -88,5 +91,6 @@ export enum AppointmentMutations {
   setSelectedAppointmentId = 'setSelectedAppointmentId',
   fetching = 'fetching',
   success = 'success',
-  error = 'error',
+  setAppointmentError = 'setAppointmentError',
+  setAppointmentErrorMessage = 'setAppointmentErrorMessage',
 }

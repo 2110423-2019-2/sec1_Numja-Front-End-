@@ -140,6 +140,13 @@
                 >view profile</v-btn>
               </template>
             </v-text-field>
+            <v-text-field
+              label="price"
+              prepend-icon="mdi-cash"
+              :value="selectedEvent ? selectedEvent.price : ''"
+              suffix="baht"
+              readonly
+            ></v-text-field>
             <template v-if="!isChangeMode">
               <v-text-field
                 label="start time"
@@ -153,13 +160,6 @@
                 label="end time"
                 prepend-icon="mdi-timer"
                 :value="selectedEvent ? makeLocalTime(selectedEvent.endTime) : ''"
-                readonly
-              ></v-text-field>
-              <v-text-field
-                label="price"
-                prepend-icon="mdi-cash"
-                :value="selectedEvent ? selectedEvent.price : ''"
-                suffix="baht"
                 readonly
               ></v-text-field>
               <v-textarea
@@ -204,13 +204,23 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
+      <v-dialog v-model="appointmentError" max-width="290">
+        <v-card>
+          <v-card-title class="headline">Error</v-card-title>
+          <v-card-text>{{ appointmentErrorMessage }}</v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn text @click="setAppointmentError(false)">OK</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
     </v-col>
   </v-row>
 </template>
 
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
-import { Action, Getter } from "vuex-class";
+import { Action, Getter, Mutation } from "vuex-class";
 import {
   LoginActions,
   LoginGetters,
@@ -224,7 +234,8 @@ import {
   CalendarEventReference,
   Event,
   AppointmentState,
-  AppointmentPatchItem
+  AppointmentPatchItem,
+  AppointmentMutations
 } from "../types";
 import { appointmentRules as rules } from "../rules";
 
@@ -250,6 +261,13 @@ export default class AppointmentPage extends Vue {
   private fetchAppointments!: () => void;
   @Action(UsersActions.fetchUsers)
   private fetchUsers!: () => void;
+
+  @Getter(AppointmentGetters.getAppointmentError)
+  private appointmentError!: boolean;
+  @Getter(AppointmentGetters.getAppointmentErrorMessage)
+  private appointmentErrorMessage!: string;
+  @Mutation(AppointmentMutations.setAppointmentError)
+  private setAppointmentError!: (error: boolean) => void;
 
   @Getter(AppointmentGetters.getAppointments)
   private appointments!: Appointment[];

@@ -8,6 +8,7 @@ import {
   AppointmentGetters,
   AppointmentPayload,
   AppointmentPatchItem,
+  UsersActions,
 } from '@/types';
 
 const store: StoreOptions<AppointmentPageState> = {
@@ -17,12 +18,16 @@ const store: StoreOptions<AppointmentPageState> = {
     isError: false,
     appointments: [],
     selectedAppointmentId: '',
+    errorMessage: '',
   },
 
   getters: {
     [AppointmentGetters.getAppointments]: (state) => {
       return state.appointments;
     },
+    [AppointmentGetters.getAppointmentError]: (state) => state.isError,
+    [AppointmentGetters.getAppointmentErrorMessage]: (state) =>
+      state.errorMessage,
   },
 
   mutations: {
@@ -31,6 +36,15 @@ const store: StoreOptions<AppointmentPageState> = {
     },
     [AppointmentMutations.setSelectedAppointmentId]: (state, id) => {
       state.selectedAppointmentId = id;
+    },
+    [AppointmentMutations.setAppointmentError]: (state, error: boolean) => {
+      state.isError = error;
+    },
+    [AppointmentMutations.setAppointmentErrorMessage]: (
+      state,
+      message: string
+    ) => {
+      state.errorMessage = message;
     },
   },
 
@@ -61,8 +75,13 @@ const store: StoreOptions<AppointmentPageState> = {
         );
         await dispatch(AppointmentActions.fetchAppointments);
       } catch {
-        commit(AppointmentMutations.error);
+        commit(
+          AppointmentMutations.setAppointmentErrorMessage,
+          'something is wrong with the server'
+        );
+        commit(AppointmentMutations.setAppointmentError, true);
       }
+      await vueStore.commit(UsersActions.updateUser);
     },
     [AppointmentActions.rejectAppointment]: async ({
       commit,
@@ -75,8 +94,13 @@ const store: StoreOptions<AppointmentPageState> = {
         );
         await dispatch(AppointmentActions.fetchAppointments);
       } catch {
-        commit(AppointmentMutations.error);
+        commit(
+          AppointmentMutations.setAppointmentErrorMessage,
+          'something is wrong with the server'
+        );
+        commit(AppointmentMutations.setAppointmentError, true);
       }
+      await vueStore.commit(UsersActions.updateUser);
     },
     [AppointmentActions.finishAppointment]: async ({
       commit,
@@ -89,8 +113,13 @@ const store: StoreOptions<AppointmentPageState> = {
         );
         await dispatch(AppointmentActions.fetchAppointments);
       } catch {
-        commit(AppointmentMutations.error);
+        commit(
+          AppointmentMutations.setAppointmentErrorMessage,
+          'something is wrong with the server'
+        );
+        commit(AppointmentMutations.setAppointmentError, true);
       }
+      await vueStore.commit(UsersActions.updateUser);
     },
     [AppointmentActions.cancelAppointment]: async ({
       commit,
@@ -103,14 +132,18 @@ const store: StoreOptions<AppointmentPageState> = {
         );
         await dispatch(AppointmentActions.fetchAppointments);
       } catch {
-        commit(AppointmentMutations.error);
+        commit(
+          AppointmentMutations.setAppointmentErrorMessage,
+          'something is wrong with the server'
+        );
+        commit(AppointmentMutations.setAppointmentError, true);
       }
+      await vueStore.commit(UsersActions.updateUser);
     },
     [AppointmentActions.editAppointment]: async (
       { commit, dispatch, state },
       payload: AppointmentPatchItem
     ) => {
-      console.log('payload', payload);
       try {
         await Vue.axios.patch(
           `/appointment/${state.selectedAppointmentId}/edit`,
@@ -118,8 +151,13 @@ const store: StoreOptions<AppointmentPageState> = {
         );
         await dispatch(AppointmentActions.fetchAppointments);
       } catch {
-        commit(AppointmentMutations.error);
+        commit(
+          AppointmentMutations.setAppointmentErrorMessage,
+          'overlapped appointment or something is wrong with the server'
+        );
+        commit(AppointmentMutations.setAppointmentError, true);
       }
+      await vueStore.commit(UsersActions.updateUser);
     },
   },
 };

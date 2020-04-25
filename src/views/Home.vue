@@ -15,9 +15,7 @@
                 <v-card-title v-if="!searchMode">
                   Tutors List
                   <v-spacer></v-spacer>
-                  <v-icon class="mr-3" @click="setSearchMode(true)"
-                    >mdi-magnify</v-icon
-                  >
+                  <v-icon class="mr-3" @click="setSearchMode(true)">mdi-magnify</v-icon>
                   <v-icon @click="fetchUsers">mdi-refresh</v-icon>
                 </v-card-title>
                 <v-card-title v-else>
@@ -34,10 +32,7 @@
               <template v-slot:item.verified="{ item }">
                 <v-icon color="primary" v-if="item.verified">mdi-check-circle</v-icon>
               </template>
-              <template
-                v-if="myUser && myUser.role !== 'tutor'"
-                v-slot:item.actions="{ item }"
-              >
+              <template v-if="myUser && myUser.role !== 'tutor'" v-slot:item.actions="{ item }">
                 <v-hover v-slot:default="{ hover }">
                   <v-btn
                     class="ma-2"
@@ -66,7 +61,7 @@
             <v-card-text class="px-6">
               <v-label class="mt-0">Date</v-label>
               <v-row align="center" justify="center" class="ma-1 mb-5">
-                <v-date-picker v-model="date"></v-date-picker>
+                <v-date-picker v-model="date" :allowed-dates="allowedDates"></v-date-picker>
               </v-row>
               <v-label class="mt-0">Start Time</v-label>
               <v-row align="center" justify="center" class="ma-1 mb-5">
@@ -89,7 +84,7 @@
                 type="number"
                 label="Price"
                 prepend-icon="mdi-cash"
-                :rules="[rules.notNegative, rules.required]"
+                :rules="[rules.notNegative, rules.required, rules.limit200k]"
                 suffix="baht"
                 required
               />
@@ -135,11 +130,18 @@ export default class Home extends Vue {
   private protectedRedirect!: () => void;
   @Action(UsersActions.fetchUsers)
   private fetchUsers!: () => void;
+  @Action(UsersActions.updateUser)
+  private updateUser!: () => void;
 
   @Getter(UsersGetters.getTutors) private tutors!: User[];
 
   @Getter(LoginGetters.getUser) private myUser!: User;
 
+  private allowedDates = (val: string) => {
+    const todayDate = new Date();
+    const targetDate = new Date(val);
+    return targetDate > todayDate;
+  };
   private headers = [
     {
       text: "first name",
@@ -216,10 +218,12 @@ export default class Home extends Vue {
           price: this.price,
           tutorId: this.selectedUserId
         });
+        await this.updateUser();
         this.closeModal();
       } catch (error) {
+        console.log(error);
         this.timeErrorDialog = true;
-        if (error.includes("400")) {
+        if (error.toString().includes("400")) {
           this.timeErrorMessage =
             "overlapped appointment on your or tutor schedule or insufficient credit";
         } else {
