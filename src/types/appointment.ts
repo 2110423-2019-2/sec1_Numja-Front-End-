@@ -5,7 +5,6 @@ export interface AppointmentPayload {
 export interface AppointmentPatchItem {
   startTime: string;
   endTime: string;
-  price: number;
   location: string;
 }
 

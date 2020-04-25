@@ -182,15 +182,6 @@
                   <v-time-picker v-model="patchItem.endTime" class="mt-2" landscape format="ampm"></v-time-picker>
                 </v-row>
                 <v-text-field
-                  v-model="patchItem.price"
-                  type="number"
-                  label="Price"
-                  prepend-icon="mdi-cash"
-                  :rules="[rules.notNegative, rules.required]"
-                  suffix="baht"
-                  required
-                />
-                <v-text-field
                   v-model="patchItem.location"
                   type="text"
                   label="location"
@@ -287,7 +278,6 @@ export default class AppointmentPage extends Vue {
   private patchItem: AppointmentPatchItem = {
     startTime: "",
     endTime: "",
-    price: 0,
     location: ""
   };
   private timeErrorDialog: boolean = false;
@@ -296,7 +286,6 @@ export default class AppointmentPage extends Vue {
   renderForChangeData() {
     this.patchItem.startTime = this.makeLocalTime(this.selectedEvent.startTime);
     this.patchItem.endTime = this.makeLocalTime(this.selectedEvent.endTime);
-    this.patchItem.price = this.selectedEvent.price;
     this.patchItem.location = this.selectedEvent.location;
   }
   private combineDateAndTime(date: string, time: string) {
@@ -311,7 +300,6 @@ export default class AppointmentPage extends Vue {
       try {
         this.isChangeMode = false;
         await this.editAppointment({
-          price: this.patchItem.price,
           location: this.patchItem.location,
           startTime: this.combineDateAndTime(
             this.selectedEvent.startTime,
