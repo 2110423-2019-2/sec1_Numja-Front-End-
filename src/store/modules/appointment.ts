@@ -81,7 +81,7 @@ const store: StoreOptions<AppointmentPageState> = {
         );
         commit(AppointmentMutations.setAppointmentError, true);
       }
-      await vueStore.commit(UsersActions.updateUser);
+      await vueStore.dispatch(UsersActions.updateUser);
     },
     [AppointmentActions.rejectAppointment]: async ({
       commit,
@@ -100,7 +100,7 @@ const store: StoreOptions<AppointmentPageState> = {
         );
         commit(AppointmentMutations.setAppointmentError, true);
       }
-      await vueStore.commit(UsersActions.updateUser);
+      await vueStore.dispatch(UsersActions.updateUser);
     },
     [AppointmentActions.finishAppointment]: async ({
       commit,
@@ -119,7 +119,7 @@ const store: StoreOptions<AppointmentPageState> = {
         );
         commit(AppointmentMutations.setAppointmentError, true);
       }
-      await vueStore.commit(UsersActions.updateUser);
+      await vueStore.dispatch(UsersActions.updateUser);
     },
     [AppointmentActions.cancelAppointment]: async ({
       commit,
@@ -138,7 +138,7 @@ const store: StoreOptions<AppointmentPageState> = {
         );
         commit(AppointmentMutations.setAppointmentError, true);
       }
-      await vueStore.commit(UsersActions.updateUser);
+      await vueStore.dispatch(UsersActions.updateUser);
     },
     [AppointmentActions.editAppointment]: async (
       { commit, dispatch, state },
@@ -157,7 +157,7 @@ const store: StoreOptions<AppointmentPageState> = {
         );
         commit(AppointmentMutations.setAppointmentError, true);
       }
-      await vueStore.commit(UsersActions.updateUser);
+      await vueStore.dispatch(UsersActions.updateUser);
     },
   },
 };
