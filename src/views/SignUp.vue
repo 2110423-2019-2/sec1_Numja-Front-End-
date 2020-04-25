@@ -50,7 +50,10 @@
             />
             <v-label class="mt-0">Birthdate</v-label>
             <v-row align="center" justify="center" class="ma-1 mb-5">
-              <v-date-picker v-model="birthDate"></v-date-picker>
+              <v-date-picker
+                v-model="birthDate"
+                :allowed-dates="allowedDates"
+              ></v-date-picker>
             </v-row>
             <v-text-field
               v-model="address"
@@ -121,6 +124,12 @@ const todayDate = new Date().toISOString().substr(0, 10);
 
 @Component
 export default class SignUp extends Vue {
+  private allowedDates = (val: string) => {
+    const todayDate = new Date();
+    const targetDate = new Date(val);
+    return targetDate <= todayDate;
+  };
+
   private isValid = true;
   private username = "";
   private password = "";
