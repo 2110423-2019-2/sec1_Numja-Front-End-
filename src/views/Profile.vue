@@ -121,20 +121,13 @@
               </template>
             </v-banner>
             <v-card-text class="pa-6">
-              <v-row class="d-flex flex-row">
-                <v-col cols="4" class="flex-grow-0 flex-shrink-0">
-                  <v-select
-                    :value="creditHandleMode[0]"
-                    @input="onModeSelect"
-                    :items="creditHandleMode"
-                    outlined
-                  ></v-select>
-                </v-col>
+              <v-row class="d-flex flex-row mx-6">
                 <v-col>
                   <v-text-field
                     type="number"
                     v-model="amount"
                     label="amount"
+                    :prefix="`${currentHandleMode} : `"
                     suffix="baht"
                     :rules="[creditRules.positiveNumber]"
                     :error="userInfo.credit + amount * multiplier < 0"
@@ -199,19 +192,14 @@ export default class Profile extends Vue {
   private rules: {} = rules;
   private creditRules: {} = creditRules;
 
-  onModeSelect(mode: string) {
-    this.currentHandleMode = mode;
-    this.multiplier = mode === "withdraw" ? -1 : 1;
-  }
-
   @Getter(LoginGetters.getUser) private user!: any;
 
   private creditFormValid = true;
   private showCreditWindow = false;
   private creditHandleMode: string[] = ["top up", "withdraw"];
   private currentHandleMode: string = this.creditHandleMode[0];
-  private amount = 1;
-  private multiplier = 1;
+  private amount: number = 1;
+  private multiplier: number = 1;
   @Getter(UsersGetters.getFetching) private userStoreFetching!: boolean;
   @Action(UsersActions.topup) private topup!: (amount: number) => void;
   @Action(UsersActions.withdraw) private withdraw!: (amount: number) => void;
@@ -239,6 +227,14 @@ export default class Profile extends Vue {
     this.userInfo.ssin = this.user.ssin;
     this.userInfo.gender = this.user.gender;
     this.userInfo.role = this.user.role;
+
+    if (this.user.role === "student") {
+      this.multiplier = 1;
+      this.currentHandleMode = this.creditHandleMode[0];
+    } else if (this.user.role === "tutor") {
+      this.multiplier = -1;
+      this.currentHandleMode = this.creditHandleMode[1];
+    }
   }
 
   mounted() {
