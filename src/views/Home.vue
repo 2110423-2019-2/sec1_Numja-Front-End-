@@ -7,9 +7,7 @@
             <v-card-title v-if="!searchMode">
               Tutors List
               <v-spacer></v-spacer>
-              <v-icon class="mr-3" @click="setSearchMode(true)"
-                >mdi-magnify</v-icon
-              >
+              <v-icon class="mr-3" @click="setSearchMode(true)">mdi-magnify</v-icon>
               <v-icon @click="fetchUsers">mdi-refresh</v-icon>
             </v-card-title>
             <v-card-title v-else>
@@ -29,9 +27,7 @@
               class="elevation-1"
             >
               <template v-slot:item.verified="{ item }">
-                <v-icon color="primary" v-if="item.verified"
-                  >mdi-check-circle</v-icon
-                >
+                <v-icon color="primary" v-if="item.verified">mdi-check-circle</v-icon>
               </template>
               <template
                 v-if="
@@ -55,9 +51,13 @@
           </v-card>
         </template>
         <v-card elevation="8">
-          <v-banner sticky color="primary" dark class="pa-2" elevation="6">
-            {{ `create appointment : ${selectedUserName}` }}
-          </v-banner>
+          <v-banner
+            sticky
+            color="primary"
+            dark
+            class="pa-2"
+            elevation="6"
+          >{{ `create appointment : ${selectedUserName}` }}</v-banner>
 
           <v-form @submit.prevent="submit" v-model="formIsValid" ref="form">
             <v-card-text class="px-6">
@@ -67,21 +67,11 @@
               </v-row>
               <v-label class="mt-0">Start Time</v-label>
               <v-row align="center" justify="center" class="ma-1 mb-5">
-                <v-time-picker
-                  v-model="startTime"
-                  class="mt-2"
-                  landscape
-                  format="ampm"
-                ></v-time-picker>
+                <v-time-picker v-model="startTime" class="mt-2" landscape format="ampm"></v-time-picker>
               </v-row>
               <v-label class="mt-0">End Time</v-label>
               <v-row align="center" justify="center" class="ma-1 mb-5">
-                <v-time-picker
-                  v-model="endTime"
-                  class="mt-2"
-                  landscape
-                  format="ampm"
-                ></v-time-picker>
+                <v-time-picker v-model="endTime" class="mt-2" landscape format="ampm"></v-time-picker>
               </v-row>
               <v-text-field
                 v-model="address"
@@ -115,9 +105,7 @@
           <v-card-title>Error</v-card-title>
           <v-card-text>{{ timeErrorMessage }}</v-card-text>
           <v-card-actions>
-            <v-btn color="primary" text @click="timeErrorDialog = false"
-              >Close</v-btn
-            >
+            <v-btn color="primary" text @click="timeErrorDialog = false">Close</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -227,7 +215,13 @@ export default class Home extends Vue {
         });
         this.closeModal();
       } catch (error) {
-        alert(error);
+        this.timeErrorDialog = true;
+        if (error.includes("400")) {
+          this.timeErrorMessage =
+            "overlapped appointment on your or tutor schedule or insufficient credit";
+        } else {
+          this.timeErrorMessage = "something is wrong with the server";
+        }
       }
     }
   }
