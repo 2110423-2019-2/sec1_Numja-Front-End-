@@ -219,6 +219,7 @@ export default class Profile extends Vue {
   @Getter(UsersGetters.getFetching) private userStoreFetching!: boolean;
   @Action(UsersActions.topup) private topup!: (amount: number) => void;
   @Action(UsersActions.withdraw) private withdraw!: (amount: number) => void;
+  @Action(UsersActions.updateUser) private updateUser!: () => void;
 
   async handleCreditSubmit() {
     if (this.userInfo.credit + this.amount * this.multiplier >= 0) {
@@ -253,8 +254,13 @@ export default class Profile extends Vue {
     }
   }
 
-  mounted() {
+  async refresh() {
+    await this.updateUser();
     this.renderUser();
+  }
+
+  mounted() {
+    this.refresh();
   }
 }
 </script>
