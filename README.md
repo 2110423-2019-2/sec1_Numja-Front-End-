@@ -6,10 +6,14 @@ yarn install
 ```
 
 ### Compiles and hot-reloads for development
+using local backend
 ```
 yarn serve
 ```
-
+using staging backend
+```
+yarn serve-stg
+```
 ### Compiles and minifies for production
 ```
 yarn build
