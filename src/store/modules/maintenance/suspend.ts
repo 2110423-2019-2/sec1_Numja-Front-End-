@@ -1,11 +1,12 @@
 import Vue from "vue";
 import { StoreOptions } from "vuex";
 import {
-  SuspendState,
+  SnackbarActions,
   SuspendActions,
   SuspendMutations,
-  SuspendUserPayload,
-  SuspendGetters
+  SuspendState,
+  User,
+  UsersActions
 } from "@/types";
 
 const store: StoreOptions<SuspendState> = {
@@ -16,18 +17,7 @@ const store: StoreOptions<SuspendState> = {
     users: []
   },
 
-  getters: {
-    [SuspendGetters.getUsers]: state =>
-      state.users.map(user => {
-        return {
-          id: user._id,
-          username: user.username,
-          firstName: user.firstName,
-          lastName: user.lastName,
-          status: user.status
-        };
-      })
-  },
+  getters: {},
 
   mutations: {
     [SuspendMutations.setUsers]: (state, users) => {
@@ -36,33 +26,34 @@ const store: StoreOptions<SuspendState> = {
   },
 
   actions: {
-    [SuspendActions.fetchUsers]: async ({ commit }) => {
-      commit(SuspendMutations.fetching);
+    [SuspendActions.suspend]: async ({ commit, dispatch }, user: User) => {
       try {
-        const response = await Vue.axios.get("/user");
-        commit(SuspendMutations.setUsers, response.data);
-        commit(SuspendMutations.success);
+        await Vue.axios.patch("/admin/suspend", { userId: user._id });
+        dispatch(UsersActions.fetchUsers);
+        dispatch(SnackbarActions.push, {
+          color: "success",
+          message: `User ${user.username} is suspended`
+        });
       } catch {
-        commit(SuspendMutations.error);
+        dispatch(SnackbarActions.push, {
+          color: "error",
+          message: `Suspend failed`
+        });
       }
     },
-    [SuspendActions.suspend]: async (
-      { commit, dispatch },
-      { id }: SuspendUserPayload
-    ) => {
+    [SuspendActions.activate]: async ({ commit, dispatch }, user: User) => {
       try {
-        await Vue.axios.patch("/admin/suspend", { userId: id });
-        dispatch(SuspendActions.fetchUsers);
+        await Vue.axios.patch("/admin/activate", { userId: user._id });
+        dispatch(UsersActions.fetchUsers);
+        dispatch(SnackbarActions.push, {
+          color: "success",
+          message: `User ${user.username} is activated`
+        });
       } catch {
-        commit(SuspendMutations.error);
-      }
-    },
-    [SuspendActions.activate]: async ({ commit, dispatch }, { id }) => {
-      try {
-        await Vue.axios.patch("/admin/activate", { userId: id });
-        dispatch(SuspendActions.fetchUsers);
-      } catch {
-        commit(SuspendMutations.error);
+        dispatch(SnackbarActions.push, {
+          color: "error",
+          message: `Activate failed`
+        });
       }
     }
   }

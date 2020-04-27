@@ -1,96 +1,91 @@
 <template>
-  <div id="container">
-    <v-layout id="chat-container">
-      <Messages :senderId="senderId" />
-    </v-layout>
-    <v-form @submit.prevent="submit" id="message-input">
-      <v-text-field
-        v-model="text"
-        placeholder="Enter message here"
-        outlined
-        rounded
-        clearable
-        append-icon="mdi-send"
-        @click:append="submit"
-      />
-    </v-form>
-  </div>
+  <v-row>
+    <v-col class="pa-0" cols="3">
+      <v-progress-linear v-if="fetching" indeterminate color="pink" />
+      <v-card v-else class="container" outlined height="100%" tile>
+        <v-card-title>Chats</v-card-title>
+        <v-list>
+          <template v-for="(room, i) of getRooms">
+            <v-divider v-if="i > 0" :key="'div_' + room.roomKey" />
+            <v-list-item
+              :key="room.roomKey"
+              @click="enterChatRoom(room.roomKey)"
+            >
+              <v-list-item-avatar>
+                <v-img :src="room.avatar"></v-img>
+              </v-list-item-avatar>
+
+              <v-list-item-content>
+                <v-list-item-title v-text="room.name"></v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </template>
+          <v-list-item class="mt-3">
+            <v-btn width="100%" color="primary">
+              <v-icon>mdi-plus</v-icon>Add chat
+            </v-btn>
+          </v-list-item>
+        </v-list>
+      </v-card>
+    </v-col>
+
+    <v-col cols="9">
+      <Chat :roomKey="roomKey" />
+    </v-col>
+  </v-row>
 </template>
 
 <script lang="ts">
-import { Vue, Component, Model, Watch } from "vue-property-decorator";
-import { Action, Getter } from "vuex-class";
+import { Component, Vue } from "vue-property-decorator";
+import Chat from "@/components/Chat.vue";
+import { Getter, Action } from "vuex-class";
 import {
-  ChatAction,
-  ChatUsers,
-  ChatGetters,
-  Message,
+  UsersActions,
+  ChatsGetters,
+  ChatRoom,
+  ChatsActions,
+  UsersGetters,
   LoginGetters,
   User
 } from "@/types";
 
 @Component({
   components: {
-    Messages: () =>
-      import(/* webpackChunkName: "messages" */ "@/components/Messages.vue")
+    Chat
   }
 })
-export default class Chat extends Vue {
-  @Model() private text?: string;
-  @Getter(ChatGetters.messages) private messages!: Message[];
-  // @Getter(LoginGetters.user) private user!: User;
-  @Action(ChatAction.subscribe) private subscribe!: (
-    payload: ChatUsers
-  ) => Promise<void>;
-  @Action(ChatAction.sendMessage) private sendMessage!: (
-    payload: Message
-  ) => void;
-  @Action(ChatAction.unsubscribe) private unsubscribe!: () => void;
-  private user = { _id: "test1" };
-  private senderId = this.user._id;
+export default class Chats extends Vue {
+  private roomKey = "";
+  @Getter(ChatsGetters.isFetchingChats) private fetching!: boolean;
+  @Getter(ChatsGetters.rooms) private rooms!: ChatRoom[];
+  @Getter(UsersGetters.getUserById) private getUserById!: Function;
+  @Getter(LoginGetters.getUser) private user!: User;
+  @Action(UsersActions.fetchUsers) private fetchUsers!: Function;
+  @Action(ChatsActions.subscribe) private subscribe!: Function;
+  @Action(ChatsActions.unsubscribe) private unsubscribe!: Function;
 
-  private mounted() {
-    this.subscribe({ senderId: this.senderId, receiverId: "test2" });
+  async mounted() {
+    await this.fetchUsers();
+    await this.subscribe();
   }
 
-  private destroyed() {
+  destroyed() {
     this.unsubscribe();
   }
 
-  private submit() {
-    this.sendMessage({
-      senderId: this.senderId,
-      receiverId: "test3",
-      text: this.text!
+  get getRooms() {
+    return this.rooms.map(room => {
+      const other = room.members.find(member => member !== this.user._id);
+      return {
+        roomKey: room.roomKey,
+        avatar: "https://picsum.photos/200",
+        name: this.getUserById(other).username
+      };
     });
-    this.text = undefined;
   }
 
-  @Watch("messages")
-  scrollToEnd() {
-    this.$nextTick(() => {
-      const container = this.$el.querySelector("#chat-container");
-      container!.scrollTop = container!.scrollHeight;
-    });
+  private enterChatRoom(roomKey: string) {
+    this.roomKey = roomKey;
   }
 }
 </script>
-
-<style lang="scss" scoped>
-#container {
-  width: 100%;
-  height: calc(100vh - 64px);
-  position: relative;
-}
-
-#chat-container {
-  height: calc(100% - 100px);
-  overflow-y: auto;
-}
-
-#message-input {
-  width: 100%;
-  position: absolute;
-  bottom: 0;
-}
-</style>

@@ -8,12 +8,10 @@ export interface SuspendState {
 }
 
 export interface SuspendUserPayload {
-  id: string;
+  user: User;
 }
 
-export enum SuspendGetters {
-  getUsers = "getUsers"
-}
+export enum SuspendGetters {}
 
 export enum SuspendActions {
   fetchUsers = "fetchAllUsers",
@@ -22,9 +20,5 @@ export enum SuspendActions {
 }
 
 export enum SuspendMutations {
-  setUsers = "setUsersArray",
-  suspend = "suspend",
-  fetching = "fetching",
-  success = "success",
-  error = "error"
+  setUsers = "setUsersArray"
 }

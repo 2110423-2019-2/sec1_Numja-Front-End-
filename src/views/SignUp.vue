@@ -21,7 +21,7 @@
               type="password"
               label="Password"
               prepend-icon="mdi-lock"
-              :rules="[rules.required, rules.length8]"
+              :rules="[rules.required, rules.lengthOver8]"
               required
             />
             <v-text-field
@@ -50,14 +50,17 @@
             />
             <v-label class="mt-0">Birthdate</v-label>
             <v-row align="center" justify="center" class="ma-1 mb-5">
-              <v-date-picker v-model="birthDate"></v-date-picker>
+              <v-date-picker
+                v-model="birthDate"
+                :allowed-dates="allowedDates"
+              ></v-date-picker>
             </v-row>
             <v-text-field
               v-model="address"
               type="text"
               label="Address"
               prepend-icon="mdi-home"
-              :rules="[rules.required]"
+              :rules="[]"
               required
             />
             <v-text-field
@@ -83,26 +86,50 @@
 
           <v-card-actions class="pa-6 pt-0">
             <v-spacer />
-            <v-btn color="primary" type="submit">Sign up</v-btn>
+            <v-btn color="primary" type="submit" :loading="loading"
+              >Sign up</v-btn
+            >
             <v-btn color="primary" to="/login" text>Login</v-btn>
           </v-card-actions>
         </v-form>
       </v-card>
+      <v-dialog v-model="pageError" max-width="290">
+        <v-card>
+          <v-card-title class="headline">Error</v-card-title>
+          <v-card-text>{{ pageErrorMessage }}</v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn text @click="setPageError(false)">OK</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
     </v-col>
   </v-row>
 </template>
 
 <script lang="ts">
-import { Vue, Component, Model } from "vue-property-decorator";
-import { Action } from "vuex-class";
-import { LoginActions, SignUpCredentials, UserGender, UserRole } from "@/types";
-import { loginRules as rules, Rule } from "../rules";
-import vuetify from "../plugins/vuetify";
+import { Vue, Component } from "vue-property-decorator";
+import { Action, Getter, Mutation } from "vuex-class";
+import {
+  LoginActions,
+  SignUpCredentials,
+  UserGender,
+  UserRole,
+  LoginGetters,
+  LoginMutations
+} from "@/types";
+import { loginRules as rules } from "../rules";
 
 const todayDate = new Date().toISOString().substr(0, 10);
 
 @Component
 export default class SignUp extends Vue {
+  private allowedDates = (val: string) => {
+    const todayDate = new Date();
+    const targetDate = new Date(val);
+    return targetDate <= todayDate;
+  };
+
   private isValid = true;
   private username = "";
   private password = "";
@@ -120,6 +147,11 @@ export default class SignUp extends Vue {
     credentials: SignUpCredentials
   ) => void;
 
+  @Getter(LoginGetters.isFetchingLogin) private loading!: boolean;
+  @Getter(LoginGetters.getErrorMessage) private pageErrorMessage!: string;
+  @Getter(LoginGetters.getError) private pageError!: boolean;
+  @Mutation(LoginMutations.setError) private setPageError!: () => void;
+
   submit() {
     this.validate();
     if (this.isValid) {
@@ -136,7 +168,6 @@ export default class SignUp extends Vue {
         role: this.role
       });
     } else {
-      console.log("invalid");
       this.$vuetify.goTo(0, {
         duration: 500,
         offset: 0,

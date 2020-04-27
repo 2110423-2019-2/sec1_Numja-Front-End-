@@ -1,14 +1,11 @@
 export interface ChatState {
   fetchingChat: boolean;
+  roomKey?: string;
   messages: Message[];
 }
 
-export interface ChatUsers {
+export interface Message {
   senderId: string;
-  receiverId: string;
-}
-
-export interface Message extends ChatUsers {
   text: string;
   timestamp?: firebase.firestore.Timestamp;
 }

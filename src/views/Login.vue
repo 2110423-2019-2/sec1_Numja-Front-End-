@@ -22,34 +22,54 @@
               prepend-icon="mdi-lock"
               required
             />
-            <p class="text-right primary--text" text>
-              <a href="#">Forgot password?</a>
-            </p>
           </v-card-text>
 
           <v-card-actions class="pa-6 pt-0">
             <v-spacer />
             <v-btn color="primary" to="/sign-up" text>Sign up</v-btn>
-            <v-btn color="primary" type="submit">Login</v-btn>
+            <v-btn color="primary" type="submit" :loading="loading"
+              >Login</v-btn
+            >
           </v-card-actions>
         </v-form>
       </v-card>
+      <v-dialog v-model="pageError" max-width="290">
+        <v-card>
+          <v-card-title class="headline">Error</v-card-title>
+          <v-card-text>{{ pageErrorMessage }}</v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn text @click="setPageError(false)">OK</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
     </v-col>
   </v-row>
 </template>
 
 <script lang="ts">
 import { Vue, Component, Model } from "vue-property-decorator";
-import { Action } from "vuex-class";
-import { LoginActions, LoginCredentials } from "../types";
+import { Action, Getter, Mutation } from "vuex-class";
+import {
+  LoginActions,
+  LoginMutations,
+  LoginGetters,
+  LoginCredentials
+} from "../types";
 
 @Component
 export default class Login extends Vue {
-  @Model() private username!: string;
-  @Model() private password!: string;
   @Action(LoginActions.login) private login!: (
     credentials: LoginCredentials
   ) => void;
+
+  @Getter(LoginGetters.isFetchingLogin) private loading!: boolean;
+  @Getter(LoginGetters.getErrorMessage) private pageErrorMessage!: string;
+  @Getter(LoginGetters.getError) private pageError!: boolean;
+  @Mutation(LoginMutations.setError) private setPageError!: () => void;
+
+  private username = "";
+  private password = "";
 
   submit() {
     this.login({
